@@ -1,0 +1,112 @@
+// 헤더 작업 시작
+header {
+    display:flex; justify-content:center;
+    background:transparent; position:fixed;
+    z-index:99; width:100%;
+    padding:10px 0;
+    .center {
+        width:80%;
+        display:flex; justify-content:space-between; align-items:center;
+        .logo {}
+        .gnb {
+            display:flex; justify-content:space-between;
+            width:500px;
+        }
+    }
+}
+
+// 풋터 작업 시작
+footer {
+    display:flex; justify-content:center;
+    background-color:#333;
+    padding:70px 0;
+    .center {
+        width:80%;
+        li, li a,p {color:#818181;}
+        ul {
+            display:flex;
+        }
+        .footer_gnb {
+            margin-bottom:20px;
+            li {
+                margin-right:50px;
+                a {
+                    font-size:15px;
+                }
+            }
+            li.on {
+                a {color:#aaa; font-weight:bold;}
+            }
+        }
+        .info {
+            font-size:13px; margin-bottom:15px;
+            li {
+                &::after {
+                    content:""; display:inline-block;
+                    width:1px; height:13px; background-color:#818181;
+                    transform:translateY(2px); margin:0 15px;
+                }
+                &:last-child{
+                    &::after {
+                        display:none;
+                    }
+                }
+            }
+        }
+        .address {
+            margin-bottom:15px;
+        }
+        .address,.copyright {
+            p {font-size:13px;}
+        }
+    }
+}
+
+// 메인페이지 작업 시작
+#main_wrap {
+    > div {
+        display:flex; justify-content:center;
+        .center {
+            width:80%;
+        }
+    }
+    .main_banner {
+        width:100vw; height:100vh; overflow:hidden;
+        background:linear-gradient(to right, rgba(163,184,197,1) 0%, rgba(164,185,198,1) 52%, rgba(163,184,197,1) 100%);
+        &::after{
+            content:""; display:block;
+            width:100%; height:100%;
+            position:absolute; top:0; left:0;
+            background:linear-gradient(170deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 17%, rgba(0,0,0,0) 56%, rgba(0,0,0,0) 61%);
+            opacity:0.15;
+        }
+        .center {
+            display:flex; justify-content:space-between; align-items:center;
+            .left_box {
+                width:50%;
+                color:#fff;
+                h2 {
+                    font-size:25px;
+                    span {font-size:185px;}
+                }
+                .years {
+                    font-size:30px;
+                    margin:15px 0 30px;
+                }
+                p {font-size:25px;}
+            }
+            .right_box {
+                width:50%;
+                img {
+                    margin-top:30px;
+                }
+            }
+        }
+    }
+    .main_banner02 {}
+    .doc_wrap {}
+    .brd_wrap {}
+    .event_wrap {}
+    .qna_wrap {}
+    .reservation {}
+}
