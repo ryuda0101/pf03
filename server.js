@@ -66,6 +66,10 @@ app.get("/",(req,res) => {
     res.render("index");
 });
 
+app.get("/admin_login",(req,res) => {
+    res.render("admin/admin_login");
+});
+
 // html과 같은 정적인 파일 보낼때는 app.get.sendFile(__dirname + "/불러들일 html파일 경로")
 // ejs와 같은 동적인 파일 보낼때는 app.get.render("불러들일 ejs파일")
 // 특정 주소로 이동해달라고 요청할때는 res.redirect("/이동할 경로")

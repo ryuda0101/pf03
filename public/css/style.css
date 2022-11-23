@@ -63,6 +63,12 @@ header .center .gnb {
   justify-content: space-between;
   width: 500px;
 }
+header .center .admin_btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: red;
+}
 
 footer {
   display: flex;
@@ -116,15 +122,37 @@ footer .center .address p, footer .center .copyright p {
 }
 
 #main_wrap > div {
+  height: 100vh;
+  align-items: center;
   display: flex;
   justify-content: center;
+  border-bottom: 4px solid red;
 }
 #main_wrap > div .center {
   width: 80%;
 }
+#main_wrap > div .center h2 {
+  line-height: 1.25;
+  font-size: 42px;
+  margin-bottom: 50px;
+}
+#main_wrap > div .center p {
+  line-height: 1.5;
+}
+#main_wrap > div .center h3 {
+  line-height: 1.25;
+}
+#main_wrap > div .center .more_btn {
+  display: block;
+  width: 150px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  border: 1px solid #000;
+  border-radius: 30px;
+  margin: 50px auto;
+}
 #main_wrap .main_banner {
-  width: 100vw;
-  height: 100vh;
   overflow: hidden;
   background: linear-gradient(to right, rgb(163, 184, 197) 0%, rgb(164, 185, 198) 52%, rgb(163, 184, 197) 100%);
 }
@@ -150,6 +178,7 @@ footer .center .address p, footer .center .copyright p {
 }
 #main_wrap .main_banner .center .left_box h2 {
   font-size: 25px;
+  margin-bottom: 0;
 }
 #main_wrap .main_banner .center .left_box h2 span {
   font-size: 185px;
@@ -166,4 +195,281 @@ footer .center .address p, footer .center .copyright p {
 }
 #main_wrap .main_banner .center .right_box img {
   margin-top: 30px;
+}
+#main_wrap .main_banner02 {
+  height: 100vh;
+  position: relative;
+}
+#main_wrap .main_banner02 .center {
+  display: flex;
+  justify-content: space-between;
+}
+#main_wrap .main_banner02 .center .left_box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 30%;
+}
+#main_wrap .main_banner02 .center .left_box h2 {
+  font-size: 42px;
+}
+#main_wrap .main_banner02 .center .left_box p {
+  font-size: 17px;
+  color: #666;
+}
+#main_wrap .main_banner02 .center .right_box {
+  width: 61%;
+  margin: auto 0;
+}
+#main_wrap .main_banner02 .center .right_box .boxs {
+  display: flex;
+  align-items: center;
+  width: 400%;
+}
+#main_wrap .main_banner02 .center .right_box .boxs .box img {
+  margin-bottom: 30px;
+}
+#main_wrap .main_banner02 .center .right_box .boxs .box h3 {
+  margin-bottom: 30px;
+  font-size: 30px;
+}
+#main_wrap .main_banner02 .center .right_box .boxs .box p {
+  margin-bottom: 30px;
+  font-size: 16px;
+  color: #666;
+}
+#main_wrap .doc_wrap .center .doc_boxs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#main_wrap .doc_wrap .center .doc_boxs .left_box {
+  width: 20%;
+}
+#main_wrap .doc_wrap .center .doc_boxs .left_box > div {
+  margin-bottom: 30px;
+}
+#main_wrap .doc_wrap .center .doc_boxs .left_box > div h3 {
+  margin-bottom: 10px;
+  font-size: 28px;
+  transition: all 0.2s;
+}
+#main_wrap .doc_wrap .center .doc_boxs .left_box > div p {
+  margin-bottom: 10px;
+  font-size: 17px;
+}
+#main_wrap .doc_wrap .center .doc_boxs .left_box > div a {
+  font-size: 15px;
+  display: inline-block;
+  border: 1px solid #000;
+  border-radius: 20px;
+  padding: 10px 20px;
+}
+#main_wrap .doc_wrap .center .doc_boxs .left_box > div:hover h3 {
+  color: red;
+}
+#main_wrap .doc_wrap .center .doc_boxs .left_box .on h3 {
+  color: red;
+}
+#main_wrap .doc_wrap .center .doc_boxs .right_box {
+  position: relative;
+  width: 75%;
+  height: 730.73px;
+  overflow: hidden;
+}
+#main_wrap .doc_wrap .center .doc_boxs .right_box .box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+#main_wrap .doc_wrap .center .doc_boxs .right_box .box .text_box {
+  width: 40%;
+}
+#main_wrap .doc_wrap .center .doc_boxs .right_box .box .text_box h3 {
+  font-size: 30px;
+  margin-bottom: 30px;
+}
+#main_wrap .doc_wrap .center .doc_boxs .right_box .box .text_box p {
+  font-size: 17px;
+}
+#main_wrap .doc_wrap .center .doc_boxs .right_box .box .img_box {
+  width: 70%;
+}
+#main_wrap .brd_wrap {
+  width: 100%;
+}
+#main_wrap .brd_wrap .center {
+  overflow: hidden;
+}
+#main_wrap .brd_wrap .center .boxs {
+  display: flex;
+}
+#main_wrap .brd_wrap .center .boxs .box {
+  width: 500px;
+  margin-right: 50px;
+}
+#main_wrap .brd_wrap .center .boxs .box .text_box h3 {
+  font-size: 20px;
+}
+#main_wrap .brd_wrap .center .boxs .box .text_box p {
+  font-size: 16px;
+  color: #666;
+}
+#main_wrap .brd_wrap .center .boxs .box .text_box .doc {
+  font-size: 14px;
+}
+#main_wrap .brd_wrap .center .boxs .box .text_box .context {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+#main_wrap .event_wrap {
+  height: auto;
+}
+#main_wrap .event_wrap .center {
+  margin-top: 100px;
+}
+#main_wrap .event_wrap .center .boxs {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+#main_wrap .event_wrap .center .boxs .box {
+  width: 385px;
+  margin-bottom: 50px;
+}
+#main_wrap .event_wrap .center .boxs .box .img_box img {
+  width: 100%;
+}
+#main_wrap .qna_wrap .center .qna_brd_wrap {
+  border-top: 2px solid #cacaca;
+}
+#main_wrap .qna_wrap .center .qna_brd_wrap .line {
+  border-bottom: 1px solid #eee;
+}
+#main_wrap .qna_wrap .center .qna_brd_wrap .line .top_line {
+  padding: 18px;
+  display: flex;
+  align-items: center;
+}
+#main_wrap .qna_wrap .center .qna_brd_wrap .line .top_line .icon {
+  margin-right: 10px;
+}
+#main_wrap .qna_wrap .center .qna_brd_wrap .line .top_line .on {
+  display: none;
+}
+#main_wrap .qna_wrap .center .qna_brd_wrap .line .answer {
+  padding: 35px;
+  background-color: #f2f2f2;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+#main_wrap .review .center .boxs {
+  display: flex;
+}
+#main_wrap .review .center .boxs .box {
+  margin-right: 50px;
+  width: 280px;
+}
+#main_wrap .review .center .boxs .box .img_box img {
+  transition: all 0.5s;
+}
+#main_wrap .review .center .boxs .box .text_box {
+  text-align: center;
+  position: relative;
+  top: -55px;
+}
+#main_wrap .review .center .boxs .box .text_box h3 {
+  margin: 10px 0;
+  font-size: 20px;
+}
+#main_wrap .review .center .boxs .box .text_box p {
+  color: #666;
+  opacity: 0;
+  transition: all 0.5s;
+}
+#main_wrap .review .center .boxs .box .text_box img {
+  transition: all 0.5s;
+  opacity: 0;
+}
+#main_wrap .review .center .boxs .box:hover .img_box img {
+  transform: translateY(-20px);
+}
+#main_wrap .review .center .boxs .box:hover .text_box img {
+  opacity: 1;
+  transform: translateY(-30px);
+}
+#main_wrap .review .center .boxs .box:hover .text_box p {
+  opacity: 1;
+}
+#main_wrap .reservation .center form .line {
+  width: 100%;
+  margin-bottom: 20px;
+}
+#main_wrap .reservation .center form .line label {
+  display: block;
+  margin-bottom: 10px;
+}
+#main_wrap .reservation .center form .line input, #main_wrap .reservation .center form .line textarea {
+  border: 1px solid #ccc;
+  color: rgba(102, 102, 102, 0.9);
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+#main_wrap .reservation .center form .line input {
+  height: 50px;
+  line-height: 60px;
+  padding: 0 15px;
+}
+#main_wrap .reservation .center form .line textarea {
+  height: 100px;
+  width: 100%;
+  padding: 15px;
+}
+#main_wrap .reservation .center form .line #check_info {
+  border: 1px solid #ccc;
+  white-space: pre-line;
+  height: 130px;
+  overflow-y: auto;
+}
+#main_wrap .reservation .center form .line button {
+  cursor: pointer;
+  height: 60px;
+  padding: 0 50px;
+  line-height: 60px;
+  font-size: 18px;
+  background-color: blue;
+  color: #fff;
+  margin: 0 auto;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+#main_wrap .reservation .center form .check_info_btn {
+  display: flex;
+  align-items: center;
+}
+#main_wrap .reservation .center form .check_info_btn label {
+  margin-bottom: 0;
+}
+#main_wrap .reservation .center form .check_info_btn #check_info_btn {
+  height: auto;
+  line-height: 0;
+  padding: 0;
+  width: auto;
+  transform: translateY(2px);
+  margin-right: 10px;
+}
+
+#admin_login {
+  background-image: url("/img/banner 02.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
 }

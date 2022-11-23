@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>메인페이지</title>
     <link rel="stylesheet" href="/css/style.css">
+    <!-- 슬라이드 관련 링크 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
+    <!-- 아이콘 관련 링크 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
 </head>
 <body>
     <%- include("common/header.ejs") %>
@@ -15,7 +19,7 @@
                 <div class="left_box">
                     <h2>since<br><span>2000</span></h2>
                     <p class="years">23년의 발걸음</p>
-                    <p>눈건강을 위한 디딤돌이 되겠습니다.</p>
+                    <p>눈건강을 위한 리지안이 되겠습니다.</p>
                 </div>
                 <div class="right_box">
                     <img src="/img/banner 01.png">
@@ -27,29 +31,32 @@
             <div class="center">
                 <div class="left_box">
                     <h2>어떤 수술이<br>적합한지<br>의료진이 체크,<br>AI가 또 체크</h2>
-                    <p>23년간의 빅데이터와 개개인의 검사데이터를 비교 분석하여 최적의 수술을 제안합니다. @@만의 맞춤형 시력교정을 경험해보세요.</p>
+                    <p>23년간의 빅데이터와 개개인의 검사데이터를 비교 분석하여 최적의 수술을 제안합니다. 리지안만의 맞춤형 시력교정을 경험해보세요.</p>
                 </div>
-                <div class="right_box">
-                    <div class="box">
-                        <img src="#">
-                        <h3>23년간 쌓아온 50만의 빅데이터</h3>
-                        <p>50만의 통계를 바탕으로 환자 개개인의 데이터 값을 분석하여 수술 가능 여부를 판단합니다.</p>
+                <div class="right_box swiper">
+                    <div class="boxs swiper-wrapper">
+                        <div class="box swiper-slide">
+                            <img src="/img/banner_01.jpg">
+                            <h3>23년간 쌓아온 50만의 빅데이터</h3>
+                            <p>50만의 통계를 바탕으로 환자 개개인의 데이터 값을 분석하여 수술 가능 여부를 판단합니다.</p>
+                        </div>
+                        <div class="box swiper-slide">
+                            <img src="/img/banner_02.jpg">
+                            <h3>내 눈에 맞는 수술 예측</h3>
+                            <p>100가지 이상의 검사 결과 값을 분석하여 최적의 맞춤 시력교정술을 제안합니다.</p>
+                        </div>
+                        <div class="box swiper-slide">
+                            <img src="/img/banner_03.jpg">
+                            <h3>수술 별 예측시력 제공</h3>
+                            <p>60여가지 검사 데이터를 분석하여 수술별로 예측시력을 제공해드립니다.</p>
+                        </div>
+                        <div class="box swiper-slide">
+                            <img src="/img/banner_04.jpg">
+                            <h3>렌즈삽입술 예측 시스템</h3>
+                            <p>개인의 근시, 난시, 각막 두께를 계산해 최적의 렌즈크기와 위치를 계산합니다.</p>
+                        </div>
                     </div>
-                    <div class="box">
-                        <img src="#">
-                        <h3>내 눈에 맞는 수술 예측</h3>
-                        <p>100가지 이상의 검사 결과 값을 분석하여 최적의 맞춤 시력교정술을 제안합니다.</p>
-                    </div>
-                    <div class="box">
-                        <img src="#">
-                        <h3>수술 별 예측시력 제공</h3>
-                        <p>60여가지 검사 데이터를 분석하여 수술별로 예측시력을 제공해드립니다.</p>
-                    </div>
-                    <div class="box">
-                        <img src="#">
-                        <h3>렌즈삽입술 예측 시스템</h3>
-                        <p>개인의 근시, 난시, 각막 두께를 계산해 최적의 렌즈크기와 위치를 계산합니다.</p>
-                    </div>
+                    <div class="swiper-scrollbar"></div>
                 </div>
             </div>
         </div>
@@ -59,34 +66,60 @@
                 <h2>의사 소개</h2>
                 <div class="doc_boxs">
                     <div class="left_box">
-                        <!-- db에서 긁어오기 -->
-                        <!-- db에 의사 이름 / @@전문가 / 학력 및 경력 / 논문 및 학회발표 / 사진 -->
-                        <div class="doc1">
-                            <h2>강은민</h2>
+                        <div class="doc1 on">
+                            <h3>임수정</h3>
                             <p>녹내장 시력교정 전문가</p>
-                            <p>자세히 보기</p>
                         </div>
                         <div class="doc2">
-                            <h2>나성진</h2>
+                            <h3>나성진</h3>
                             <p>백내장 망막 전문가</p>
-                            <p>자세히 보기</p>
                         </div>
                         <div class="doc3">
-                            <h2>백형일</h2>
+                            <h3>강은민</h3>
                             <p>백내장 굴절수술 전문가</p>
-                            <p>자세히 보기</p>
                         </div>
                         <div class="doc4">
-                            <h2>최성호</h2>
-                            <p>백내장 굴절수술 전문가</p>
-                            <p>자세히 보기</p>
+                            <h3>최성호</h3>
+                            <p>백내장 시력교정 전문가</p>
                         </div>
                     </div>
                     <div class="right_box">
-                        <img src="#">
-                        <img src="#">
-                        <img src="#">
-                        <img src="#">
+                        <div class="box">
+                            <div class="text_box">
+                                <h3>최고의 결과와 밝은 세상, 모두를 보여드리겠습니다.</h3>
+                                <p>전문분야: 녹내장, 시력교정, 스마일, 렌즈삽입술, 백내장</p>
+                            </div>
+                            <div class="img_box">
+                                <img class="show" src="/img/doctor01.png">
+                            </div>
+                        </div>
+                        <div class="box">
+                            <div class="text_box">
+                                <h3>건강한 눈을 위한 안전한 치료를 약속드리겠습니다.</h3>
+                                <p>전문분야: 백내장, 망막, 스마일, 시력교정, 신경안과</p>
+                            </div>
+                            <div class="img_box">
+                                <img src="/img/doctor02.png">
+                            </div>
+                        </div>
+                        <div class="box">
+                            <div class="text_box">
+                                <h3>장비가 좋아져도 의료진의 스킬이 가장 중요합니다.</h3>
+                                <p>전문분야: 백내장, 굴절수술, 시력교정, 렌즈삽입술</p>
+                            </div>
+                            <div class="img_box">
+                                <img src="/img/doctor03.png">
+                            </div>
+                        </div>
+                        <div class="box">
+                            <div class="text_box">
+                                <h3>눈의 가치를 알기에 진실된 진료로 다가가겠습니다.</h3>
+                                <p>전문분야: 스마일, 시력교정, 렌즈삽입술, 안성형</p>
+                            </div>
+                            <div class="img_box">
+                                <img src="/img/doctor04.png">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -100,15 +133,34 @@
                     <!-- 제목 / 관련 원장님 / 기사내용 / 사진? -->
                     <div class="box">
                         <div class="img_box">
-                            <img src="#">
+                            <img src="/img/news 01.jpg">
                         </div>
                         <div class="text_box">
-                            <h3>제목</h3>
-                             <p>관련 원장님</p>
-                             <p>기사 내용</p>
+                            <h3>[건강 Q&A] 중증도 근시·난시 환자도 시력교정 가능할까?</h3>
+                                <p class="doc">나성진 원장님</p>
+                                <p class="context">시력교정술이란? 가장 흔히 접할 수 있는 시력교정술은 레이저를 이용해 각막을 절삭, 굴적력을 교정하는 레이저 시력교정술입니다. 널리 알려진 라식과 라섹이 여기에 해당합니다. 라식이란 각막에 절편을 만들어 각막 실질을 깎아낸 후 절편을 다시 덮어 회복합니다.</p>
                         </div>
                     </div>
-
+                    <div class="box">
+                        <div class="img_box">
+                            <img src="/img/news 03.jpg">
+                        </div>
+                        <div class="text_box">
+                            <h3>리지안안과 최성호 원장, 클리어라식 ‘레퍼런스 닥터’로 선정</h3>
+                                <p class="doc">최성호 원장님</p>
+                                <p class="context">퍼스트삼성안과 최성호 원장이 클리어 라식에 대한 다년간의 경험과 성공적 수술 케이스 축적, 공동 연구에 대한 공로를 인정받아 글로벌 스위스 광학기업 짐머로부터 레퍼런스 닥터로 선정됐다.</p>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="img_box">
+                            <img src="/img/news 02.jpg">
+                        </div>
+                        <div class="text_box">
+                            <h3>굴절수술 레이저인 EX500 자문</h3>
+                                <p class="doc">최성호 원장님</p>
+                                <p class="context">글로벌 안과 전문기업인 알콘(Alcon)의 자회사인 Wavelight의 General Manager 외 Global Team이 방문하여 컨트라 라식의 결과 향상과 레이져 장비인 EX500의 성능 개선에 대한 심도있는 의견을 나누었습니다.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -119,40 +171,155 @@
                 <div class="boxs">
                     <!-- db에서 긁어오기 -->
                     <!-- 제목 / 날짜 / 내용 / 사진 -->
-                    <div class="box1">
+                    <div class="box">
                         <div class="img_box">
-                            <img src="#">
+                            <img src="/img/event02.jpg">
                         </div>
                         <div class="text_box">
-                            <h3>제목</h3>
-                            <p>날짜</p>
+                            <h3>하루만에, 안경탈출! 원데이 시력교정</h3>
+                            <p class="date">2022-11-01 ~ 2022-11-30</p>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="img_box">
+                            <img src="/img/event02.jpg">
+                        </div>
+                        <div class="text_box">
+                            <h3>하루만에, 안경탈출! 원데이 시력교정</h3>
+                            <p class="date">2022-11-01 ~ 2022-11-30</p>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="img_box">
+                            <img src="/img/event02.jpg">
+                        </div>
+                        <div class="text_box">
+                            <h3>하루만에, 안경탈출! 원데이 시력교정</h3>
+                            <p class="date">2022-11-01 ~ 2022-11-30</p>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="img_box">
+                            <img src="/img/event02.jpg">
+                        </div>
+                        <div class="text_box">
+                            <h3>하루만에, 안경탈출! 원데이 시력교정</h3>
+                            <p class="date">2022-11-01 ~ 2022-11-30</p>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="img_box">
+                            <img src="/img/event02.jpg">
+                        </div>
+                        <div class="text_box">
+                            <h3>하루만에, 안경탈출! 원데이 시력교정</h3>
+                            <p class="date">2022-11-01 ~ 2022-11-30</p>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="img_box">
+                            <img src="/img/event02.jpg">
+                        </div>
+                        <div class="text_box">
+                            <h3>하루만에, 안경탈출! 원데이 시력교정</h3>
+                            <p class="date">2022-11-01 ~ 2022-11-30</p>
                         </div>
                     </div>
 
                 </div>
+                <a class="more_btn" href="#">더보기</a>
             </div>
         </div>
         <!-- 문의 게시판 -->
         <div class="qna_wrap">
             <div class="center">
-                <h2>온라인 상담</h2>
-                <ul class="qna_brd_wrap">
+                <h2>자주하는 질문</h2>
+                <div class="qna_brd_wrap">
                     <!-- db에서 긁어오기 -->
                     <!-- 제목 / 질문 -->
-                    <li>
-                        <div class="title"><a href="#">질문</a></div>
+                    <div class="line">
+                        <div class="top_line">
+                            <div class="icon">
+                                <img class="off" src="/img/qna_icon.png">
+                                <img class="on" src="/img/qna_icon02.png">
+                            </div>
+                            <div class="title"><a href="#">질문</a></div>
+                        </div>
                         <div class="answer">
                             <p>여기에 답변 넣어주기</p>
                         </div>
-                    </li>
-
-                    <a href="#">더보기</a>
-                </ul>
+                    </div>
+                    <div class="line">
+                        <div class="top_line">
+                            <div class="icon">
+                                <img class="off" src="/img/qna_icon.png">
+                                <img class="on" src="/img/qna_icon02.png">
+                            </div>
+                            <div class="title"><a href="#">질문</a></div>
+                        </div>
+                        <div class="answer">
+                            <p>여기에 답변 넣어주기</p>
+                        </div>
+                    </div>
+                    <div class="line">
+                        <div class="top_line">
+                            <div class="icon">
+                                <img class="off" src="/img/qna_icon.png">
+                                <img class="on" src="/img/qna_icon02.png">
+                            </div>
+                            <div class="title"><a href="#">질문</a></div>
+                        </div>
+                        <div class="answer">
+                            <p>여기에 답변 넣어주기</p>
+                        </div>
+                    </div>
+                    <a class="more_btn" href="#">더보기</a>
+                </div>
+            </div>
+        </div>
+        <!-- 후기 게시판 -->
+        <div class="review">
+            <div class="center">
+                <h2>고객 후기</h2>
+                <!-- 이름 / 후기 / 사진 / db에서 긁어오기 -->
+                <div class="boxs">
+                    <div class="box">
+                        <div class="img_box">
+                            <img src="/img/customer01.png">
+                        </div>
+                        <div class="text_box">
+                            <img src="/img/plus_icon.png">
+                            <h3>김가람 고객님</h3>
+                            <p>렌즈없이 자유롭게 활동할 수 있게 되어서 너무 좋아요!</p>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="img_box">
+                            <img src="/img/customer02.png">
+                        </div>
+                        <div class="text_box">
+                            <img src="/img/plus_icon.png">
+                            <h3>이은영 고객님</h3>
+                            <p>하루종일 렌즈낀 것 처럼 선명해요!</p>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="img_box">
+                            <img src="/img/customer03.png">
+                        </div>
+                        <div class="text_box">
+                            <img src="/img/plus_icon.png">
+                            <h3>하예은 고객님</h3>
+                            <p>일에 더욱 집중하며 최선을 다할 수 있을 것 같아요</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="reservation">
             <div class="center">
-                <!-- <form action="" method="">
+                <h2>온라인 상담</h2>
+                <form action="" method="">
                     <div class="line">
                         <label for="name">환자 성함</label>
                         <input type="text" id="name">
@@ -170,21 +337,70 @@
                         <textarea name="" id="symptom"></textarea>
                     </div>
                     <div class="line">
+                        <label for="check_info">개인정보 취급방침</label>
+                        <p id="check_info">'리지안 안과'는 (이하 '본원'은) 고객님의 개인정보를 중요시하며, "정보통신망 이용촉진 및 정보보호"에 관한 법률을 준수하고 있습니다.
+                            본원은 개인정보취급방침을 통하여 고객님께서 제공하시는 개인정보가 어떠한 용도와 방식으로 이용되고 있으며, 개인정보보호를 위해 어떠한 조치가 취해지고 있는지 알려드립니다.
+                            본원은 개인정보취급방침을 개정하는 경우 웹사이트 공지사항(또는 개별공지)을 통하여 공지할 것입니다.
+
+                            1. 수집하는 개인정보의 항목 및 수집방법
+                            본원은 회원가입 시 서비스 이용을 위해 필요한 최소한의 개인정보만을 수집합니다.
+                            귀하가 본원의 서비스를 이용하기 위해서는 회원가입 시 필수항목과 선택항목이 있는데,
+                            메일수신여부 등과 같은 선택항목은 입력하지 않더라도 서비스 이용에는 제한이 없습니다.
+
+                            [진료정보]
+                            - 수집항목 : 성명, 주민등록번호, 주소, 연락처, 진료기록
+                            ※ 의료법에 의해 고유식별정보 및 진료정보를 의무적으로 보유하여야 함
+                            (별도 동의 불필요)
+
+                            [홈페이지 회원가입 시 수집항목]
+                            - 필수항목 : 성명, 아이디, 비밀번호, 주소, 연락처(전화번호, 휴대폰번호)
+                            - 선택항목 : 이메일, 메일수신여부
+                            - 서비스 이용 과정이나 서비스 제공 업무 처리 과정에서 다음과 같은 정보들이 자동으로 생성되어 수집될 수 있습니다. : 서비스 이용기록, 접속 로그, 쿠키, 접속 IP 정보
+                            [개인정보 수집방법]
+                            - 다음과 같은 방법으로 개인정보를 수집합니다.
+                            홈페이지, 서면양식, 팩스, 전화, 상담 게시판, 이메일
+                            2. 개인정보의 수집 및 이용목적
+                            본원은 수집한 개인정보를 다음의 목적을 위해 활용합니다.
+                            이용자가 제공한 모든 정보는 하기 목적에 필요한 용도 이외로는 사용되지 않으며 이용
+                            목적이 변경될 시에는 사전 동의를 구할 것입니다.
+
+                            [진료정보]
+                            - 진단 및 치료를 위한 진료서비스와 청구, 수납 및 환급 등의 원무서비스 제공
+                            [홈페이지 회원정보]
+                            - 필수정보 : 홈페이지를 통한 진료 예약, 예약조회 및 회원제 서비스 제공,
+                            - 선택정보 : 이메일을 통한 병원소식, 질병정보 등의 안내, 설문조사
+                            [마케팅 및 광고에 활용]
+                            - 이벤트 등 광고성 정보 전달, 접속 빈도 파악 또는 회원의 서비스 이용에 대한 통계
+                            3. 개인정보의 보유 및 이용기간
+                            본원은 개인정보의 수집목적 또는 제공받은 목적이 달성된 때에는 귀하의 개인정보를 지체 없이 파기합니다.
+
+                            [진료정보]
+                            - 의료법에 명시된 진료기록 보관 기준에 준하여 보관
+                            [홈페이지 회원정보]
+                            - 회원가입을 탈퇴하거나 회원에서 제명된 때
+                            다만, 수집목적 또는 제공받은 목적이 달성된 경우에도 상법 등 법령의 규정에 의하여
+                            보존할 필요성이 있는 경우에는 귀하의 개인정보를 보유할 수 있습니다.
+                            - 선택정보 : 이메일을 통한 병원소식, 질병정보 등의 안내, 설문조사
+                            - 소비자의 불만 또는 분쟁처리에 관한 기록 : 3년 (전자상거래 등에서의 소비자보호에 관한 법률)
+                            - 신용정보의 수집/처리 및 이용 등에 관한 기록 : 3년 (신용정보의 이용 및 보호에 관한 법률)
+                            - 본인 확인에 관한 기록 : 6개월 (정보통신망 이용촉진 및 정보보호 등에 관한 법률)
+                            - 방문에 관한 기록 : 3개월 (통신비밀보호법)
+                        </p>
+                    </div>
+                    <div class="line check_info_btn">
+                        <input type="checkbox" id="check_info_btn">
+                        <label for="check_info_btn">개인정보 수집 및 활용동의</label>
+                    </div>
+                    <div class="line">
                         <button>예약하기</button>
                     </div>
-                </form> -->
+                </form>
             </div>
         </div>
-        <!-- 지점매장 안내 게시판 -->
-        <!-- <div class="location">
-            <div class="center">
-                <h2>오시는 길</h2>
-                <div class="map">
-                    지도 api? 또는 지점 정보
-                </div>
-            </div>
-        </div> -->
     </div>
     <%- include("common/footer.ejs") %>
+    <!-- 슬라이드 관련 스크립트 -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <script src="/js/slide.js"></script>
 </body>
 </html>
