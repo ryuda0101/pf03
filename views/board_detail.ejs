@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>보도자료 상세 페이지</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include("common/header.ejs") %>
+    <div id="brd_detail">
+        <div class="center">
+            <h2>보도자료</h2>
+            <table>
+                <tr>
+                    <th>제목</th>
+                    <td>제목입니다.</td>
+                </tr>
+                <tr>
+                    <th>글쓴이</th>
+                    <td>관리자</td>
+                </tr>
+                <tr>
+                    <th>날짜</th>
+                    <td>2022-11-24</td>
+                </tr>
+                <tr class="context">
+                    <td>내용입니다.</td>
+                </tr>
+            </table>
+            <a href="/admin_board">목록</a>
+        </div>
+    </div>
+    <%- include("common/footer.ejs") %>
+</body>
+</html>

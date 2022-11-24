@@ -62,58 +62,227 @@ MongoClient.connect("mongodb+srv://admin:qwer1234@testdb.g2xxxrk.mongodb.net/?re
     });
 });
 
+// 첨부파일 기능
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, '/public/upload')
+      },
+      filename: function (req, file, cb) {
+        cb(null, file.originalname = Buffer.from(file.originalname, 'latin1').toString('utf8'))
+      }
+})
+const upload = multer({ storage: storage })
+
+// 메인 페이지
 app.get("/",(req,res) => {
     res.render("index");
 });
 
+// 관리자 로그인 페이지
 app.get("/admin_login",(req,res) => {
     res.render("admin/admin_login");
 });
 
-// html과 같은 정적인 파일 보낼때는 app.get.sendFile(__dirname + "/불러들일 html파일 경로")
-// ejs와 같은 동적인 파일 보낼때는 app.get.render("불러들일 ejs파일")
-// 특정 주소로 이동해달라고 요청할때는 res.redirect("/이동할 경로")
+// 관리자 메인 페이지
+app.get("/admin",(req,res) => {
+    res.render("admin/admin_main");
+});
+
+// 관리자 보도자료 게시판 페이지
+app.get("/admin_board",(req,res) => {
+    res.render("admin/admin_board_list");
+});
+
+// 관리자 보도자료 상세 페이지
+app.get("/admin_board_detail",(req,res) => {
+    res.render("admin/admin_board_detail");
+});
+
+// 관리자 보도자료 추가 페이지
+app.get("/admin_board_add",(req,res) => {
+    res.render("admin/admin_board_add");
+});
+
+app.post("/board_add",upload.single('file'),(req,res) => {
+    if (req.file) {
+        let fileUpload = req.file.originalname; 
+    }
+    else {
+        let fileUpload = null;
+    }
+    db.collection("count").find({name:"보도자료 게시글"},(err,count_result) => {
+        db.collection("brd").insertOne({
+            num:count_result.count + 1,
+            title:req.body.brd_title,
+            file:fileUpload,
+            context:req.body.brd_context,
+            date:moment().tz("Asia/Seoul").format("YYYY-MM-DD")
+        },(err,result) => {
+            db.collection("count").updateOne ({name:"보도자료 게시글"},{$inc:{count:1}},(err,result) => {
+                res.redirect("/admin_board");
+            });
+        });
+    });
+});
+
+// 관리자 이벤트 게시판 페이지
+app.get("/admin_event",(req,res) => {
+    res.render("admin/admin_event_list");
+});
+
+// 관리자 이벤트 상세 페이지
+app.get("/admin_event_detail",(req,res) => {
+    res.render("admin/admin_event_detail");
+});
+
+// 관리자 이벤트 추가 페이지
+app.get("/admin_event_insert",(req,res) => {
+    res.render("admin/admin_event_add");
+});
+
+app.post("/event_add",upload.single('file'),(req,res) => {
+    if (req.file) {
+        let fileUpload = req.file.originalname; 
+    }
+    else {
+        let fileUpload = null;
+    }
+    db.collection("count").find({name:"이벤트 게시글"},(err,count_result) => {
+        db.collection("brd_event").insertOne({
+            num:count_result.count + 1,
+            title:req.body.event_title,
+            date:req.body.event_date,
+            file:fileUpload,
+            context:req.body.event_context
+        },(err,result) => {
+            db.collection("count").updateOne ({name:"이벤트 게시글"},{$inc:{count:1}},(err,result) => {
+                res.redirect("/admin_event");
+            });
+        });
+    });
+});
+
+// 관리자 온라인 상담 목록 페이지
+app.get("/admin_qna",(req,res) => {
+    res.render("admin/admin_qna_list");
+});
+
+// 관리자 온라인 상담 상세 페이지
+app.get("/admin_qna_detail",(req,res) => {
+    res.render("admin/admin_qna_detail");
+});
+
+// 관리자 고객 후기 목록 페이지
+app.get("/admin_review",(req,res) => {
+    res.render("admin/admin_review_list");
+});
+
+// 관리자 고객 후기 목록 페이지
+app.get("/admin_review_detail",(req,res) => {
+    res.render("admin/admin_review_detail");
+});
 
 
-// get요청으로 join.ejs 화면 응답받기
-// ex.
-// app.get("/호스트8080 뒤에 붙을 주소 이름",function(req,res){
-//     res.render("응답받을 ejs파일 이름");
-// });
-
-// post요청으로 join.ejs에서 입력한 value값 콜렉션에 넣어주기
-// ex.
-// app.post("/폼태그에서 입력한 action의 경로",function(req,res){
-//     // 입력한 데이터값 요청받은거는 form 태그에서 name 속성값 이름지정필수
-//     // 데이터베이스에 값 저장하는 방법 db.collection("altas 사이트에서 본인이 생성한 콜렉션 이름 집어넣기").insertOne()
-//     db.collection("데이터베이스의 컬렉션 이름").insertOne({
-//         // ↓ 여러개의 객체로 데이터를 보내준다.
-//         // ex. 프로퍼티명: 추가할 데이터값
-//         userId:req.body.userId,      ←   컬렉션에 넣을때 넣어줄 이름:req.body.input에서 입력한 name값
-//         userpass:req.body.pass,
-//         userPassCheck:req.body.passCh
-//         // ↓ 전달받은 데이터를 받아서 실행할 코드. / ↓ 여기에 페이지 이동하는 기능이 들어간다.
-//     },function(err,result){
-//         // 에러가 발생했을 경우 메세지 출력 (선택사항임. 안쓴다고 해서 문제가 되지는 않는다.)
-//         if (err) {return console.log(err);}
-//         res.send("가입이 완료되었습니다.");      ←   결과 화면에 출력될것
-//     });
-//     데이터 값을 가져와서 화면에 보여주고자 할 때
-//     db.collection("joinTest").find().toArray(function(err,result){
-//         res.render("welcome.ejs",{useritem:result});
-//     })
-// });
 
 
-// 게시판 만들고 게시글 번호 부여하기
-// 1. 데이터베이스에서 컬렉션을 2개 만든다.
-//      하나는 데이터를 담을 컬렉션 / 하나는 데이터의 갯수를 담아줄 컬렉션
-// 2. ejs를 3개 만들어준다.
-//      하나는 데이터를 작성할 페이지 / 하나는 데이터를 수정할 페이지 / 하나는 데이터를 보여줄 페이지
-// 3. db에서 데이터의 갯수를 담아줄 컬렉션에 insert document로 ObjectId를 string에서 Int32 또는 Int64로 바꿔주고 totalCount값을 만들고 그 안에 0을 담아준다. 또한 name으로 개시물갯수라는 객체를 추가로 만들어준다. 
-// 4. db 컬렉션에서 findOne으로 갯수를 담아줄 컬렉션을 찾아서 가져온다.
-// 5. app.post작업으로 데이터를 작성할 페이지.ejs에서 입력한 값을 객체형식으로 db의 컬렉션에 받아준다.
-// 6. 데이터를 보여줄 페이지.ejs에서 db의 컬렉션에 담긴 값을 가져와서 화면에 보여준다.
+
+// 보도자료 목록 페이지
+app.get("/board",(req,res) => {
+    res.render("board_list");
+});
+
+// 보도자료 상세 페이지
+app.get("/board_detail",(req,res) => {
+    res.render("board_detail");
+});
+
+// 이벤트 목록 페이지
+app.get("/event",(req,res) => {
+    res.render("event_list");
+});
+
+// 이벤트 상세 페이지
+app.get("/event_detail",(req,res) => {
+    res.render("event_detail");
+});
+
+// 온라인 상담 목록 페이지
+app.get("/qna",(req,res) => {
+    res.render("qna_list");
+});
+
+// 온라인 상담 상세 페이지
+app.get("/qna_detail",(req,res) => {
+    res.render("qna_detail");
+});
+
+// 온라인 상담 작성 페이지
+app.get("/qna_insert",(req,res) => {
+    res.render("qna_add");
+});
+
+app.post("/qna_add",upload.single('file'),(req,res) => {
+    if (req.file) {
+        let fileUpload = req.file.originalname; 
+    }
+    else {
+        let fileUpload = null;
+    }
+    db.collection("count").find({name:"온라인 상담 게시글"},(err,count_result) => {
+        db.collection("brd_qna").insertOne({
+            num:count_result.count + 1,
+            title:req.body.qna_title,
+            file:fileUpload,
+            context:req.body.qna_context,
+            date:moment().tz("Asia/Seoul").format("YYYY-MM-DD"),
+        },(err,result) => {
+            db.collection("count").updateOne ({name:"온라인 상담 게시글"},{$inc:{count:1}},(err,result) => {
+                res.redirect("/qna");
+            });
+        });
+    });
+});
+
+// 고객후기 목록 페이지
+app.get("/review",(req,res) => {
+    res.render("review_list");
+});
+
+// 고객후기 상세 페이지
+app.get("/review_detail",(req,res) => {
+    res.render("review_detail");
+});
+
+// 고객후기 작성 페이지
+app.get("/review_insert",(req,res) => {
+    res.render("review_add");
+});
+
+app.post("/review_add",upload.single('file'),(req,res) => {
+    if (req.file) {
+        let fileUpload = req.file.originalname; 
+    }
+    else {
+        let fileUpload = null;
+    }
+    db.collection("count").find({name:"고객후기 게시글"},(err,count_result) => {
+        db.collection("brd_qna").insertOne({
+            num:count_result.count + 1,
+            title:req.body.review_title,
+            file:fileUpload,
+            context:req.body.review_context,
+            date:moment().tz("Asia/Seoul").format("YYYY-MM-DD")
+        },(err,result) => {
+            db.collection("count").updateOne ({name:"고객후기 게시글"},{$inc:{count:1}},(err,result) => {
+                res.redirect("/review");
+            });
+        });
+    });
+});
+
+
+
+
 
 
 // 데이터 수정하기
@@ -322,38 +491,6 @@ app.get("/admin_login",(req,res) => {
 //     <% } %>
 // </div>
 // <% } %>
-
-// 파일 업로드 하는 방법
-// 1. db의 collection에 업로드한 파일명을 저장할 컬렉션을 하나 만들어준다.
-
-// 2. ejs 파일에 form태그를 만들어주고 그 안에 enctype="multipart/form-data"를 입력해준다.
-// ex. <form action="/upload" method="post" enctype="multipart/form-data">
-
-// 3. server.js에서 get 요청으로 특정 경로에 들어가면 파일 업로드 기능이 담긴 ejs파일을 열어주도록 한다.
-
-// 4. 다음의 코드를 server.js에서 입력해준다
-// const storage = multer.diskStorage({
-//     destination: function (req, file, cb) {
-//         cb(null, 업로드 파일이 저장될 저장경로/업로드 파일이 저장될 저장경로')
-//       },
-//       filename: function (req, file, cb) {
-//         cb(null, file.originalname = Buffer.from(file.originalname, 'latin1').toString('utf8'))
-//       }
-// })
-// const upload = multer({ storage: storage })
-  
-// 5. post 요청으로 db의 컬렉션 안에 업로드 파일의 정보를 insertOne 해준다.
-// “/경로”와 function 사이에 꼭 upload.single('fileUpload')를 넣어줘야 한다!!
-// app.post("/add",upload.single('fileUpload'),function(req,res){
-//     db.collection("ex13_board").insertOne({
-//         fileName:req.file.originalname
-//     },function(err,result){
-//         res.redirect("/brdlist");
-//     });
-// });
-
-// 6. 업로드한 파일을 볼 상세페이지 ejs파일에서 a태그에 href=”/업로드한 파일이 들어있는 경로/<%- db의 컬렉션에 올라간 파일 정보 %>” download="" 를 써줘서 a태그 클릭시 해당 파일을 다운로드 할 수 있도록 해준다.
-// <a href=”/upload/<%- brdData.fileName” download="">다운로드</a>
 
 // 업로드한 파일 수정 방법
 // 1. 수정 파일 ejs를 get 요청

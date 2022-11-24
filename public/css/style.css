@@ -46,7 +46,7 @@ input {
 header {
   display: flex;
   justify-content: center;
-  background: transparent;
+  background: #fff;
   position: fixed;
   z-index: 99;
   width: 100%;
@@ -68,6 +68,9 @@ header .center .admin_btn {
   top: 10px;
   right: 10px;
   color: red;
+}
+header .center.admin_center .gnb {
+  width: 650px;
 }
 
 footer {
@@ -306,10 +309,10 @@ footer .center .address p, footer .center .copyright p {
 }
 #main_wrap .brd_wrap .center .boxs {
   display: flex;
+  justify-content: space-between;
 }
 #main_wrap .brd_wrap .center .boxs .box {
   width: 500px;
-  margin-right: 50px;
 }
 #main_wrap .brd_wrap .center .boxs .box .text_box h3 {
   font-size: 20px;
@@ -467,9 +470,328 @@ footer .center .address p, footer .center .copyright p {
 }
 
 #admin_login {
-  background-image: url("/img/banner 02.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
+}
+#admin_login::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: linear-gradient(170deg, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 17%, rgba(0, 0, 0, 0) 56%, rgba(0, 0, 0, 0) 61%);
+  opacity: 0.15;
+}
+#admin_login .center {
+  display: flex;
+  justify-content: space-between;
+}
+#admin_login .center .left_box {
+  width: 50%;
+  height: 100vh;
+}
+#admin_login .center .left_box img {
+  height: 100%;
+}
+#admin_login .center .right_box {
+  width: 50%;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 99;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+#admin_login .center .right_box p {
+  text-align: center;
+  margin-bottom: 30px;
+  line-height: 1.5;
+}
+#admin_login .center .right_box form .line {
+  width: 350px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#admin_login .center .right_box form .line input {
+  border: 1px solid #ccc;
+  border-radius: 35px;
+  width: 250px;
+  height: 50px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+#admin_login .center .right_box form .line a, #admin_login .center .right_box form .line button {
+  border: 1px solid #ccc;
+  border-radius: 35px;
+  background-color: #eee;
+  font-size: 15px;
+  font-weight: 300;
+  width: 48%;
+  height: 50px;
+  cursor: pointer;
+}
+#admin_login .center .right_box form .line a {
+  text-align: center;
+  line-height: 50px;
+}
+
+#admin_main {
+  background: linear-gradient(to right, rgb(163, 184, 197) 0%, rgb(164, 185, 198) 52%, rgb(163, 184, 197) 100%);
+  width: 100%;
+  height: 74.6vh;
+}
+
+#brd_list {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#brd_list .center {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+#brd_list .center h2 {
+  font-size: 40px;
+  margin-bottom: 100px;
+}
+#brd_list .center table {
+  border-top: 2px solid #cacaca;
+  border-bottom: 2px solid #cacaca;
+  width: 100%;
+}
+#brd_list .center table tr {
+  border-bottom: 1px solid #eee;
+  height: 65px;
+}
+#brd_list .center table tr .num {
+  width: 10%;
+  text-align: center;
+}
+#brd_list .center table tr .title {
+  width: 50%;
+}
+#brd_list .center table tr .auther {
+  width: 10%;
+  text-align: center;
+}
+#brd_list .center table tr .date {
+  width: 15%;
+  text-align: center;
+}
+#brd_list .center table tr:last-child {
+  border-bottom: none;
+}
+
+#brd_detail {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 200px 0;
+}
+#brd_detail .center {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+#brd_detail .center h2 {
+  font-size: 40px;
+  margin-bottom: 100px;
+}
+#brd_detail .center table {
+  border-top: 2px solid #cacaca;
+  border-bottom: 2px solid #cacaca;
+  width: 100%;
+}
+#brd_detail .center table tr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  height: 65px;
+}
+#brd_detail .center table tr:last-child {
+  border-bottom: none;
+}
+#brd_detail .center table tr th {
+  width: 7%;
+  text-align: start;
+  padding-left: 15px;
+}
+#brd_detail .center table tr td {
+  width: 93%;
+}
+#brd_detail .center table .context {
+  height: 450px;
+  position: relative;
+}
+#brd_detail .center table .context td {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 15px;
+}
+#brd_detail .center a {
+  border-radius: 35px;
+  background-color: #eee;
+  font-size: 15px;
+  font-weight: 300;
+  width: 300px;
+  height: 50px;
+  cursor: pointer;
+  text-align: center;
+  line-height: 50px;
+  border: 1px solid #ccc;
+  margin-top: 50px;
+}
+
+#brd_add {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 200px 0;
+}
+#brd_add .center {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+#brd_add .center h2 {
+  font-size: 40px;
+  margin-bottom: 100px;
+}
+#brd_add .center form {
+  width: 100%;
+}
+#brd_add .center form .line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#brd_add .center form .line label {
+  width: 10%;
+}
+#brd_add .center form .line a, #brd_add .center form .line button, #brd_add .center form .line input, #brd_add .center form .line textarea {
+  border: 1px solid #ccc;
+  margin: 10px 0;
+}
+#brd_add .center form .line input {
+  width: 90%;
+  height: 50px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+#brd_add .center form .line textarea {
+  width: 100%;
+  height: 450px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+#brd_add .center form .line a, #brd_add .center form .line button {
+  border-radius: 35px;
+  background-color: #eee;
+  font-size: 15px;
+  font-weight: 300;
+  width: 300px;
+  height: 50px;
+  cursor: pointer;
+}
+#brd_add .center form .line a {
+  text-align: center;
+  line-height: 50px;
+}
+#brd_add .center form .line.btns {
+  justify-content: space-around;
+}
+
+#brd_list_review {
+  display: flex;
+  justify-content: center;
+  padding: 200px 0;
+}
+#brd_list_review .center {
+  width: 80%;
+}
+#brd_list_review .center h2 {
+  font-size: 40px;
+  margin-bottom: 100px;
+  text-align: center;
+}
+#brd_list_review .center .boxs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+#brd_list_review .center .boxs .box {
+  width: 280px;
+}
+#brd_list_review .center .boxs .box .img_box img {
+  transition: all 0.5s;
+}
+#brd_list_review .center .boxs .box .text_box {
+  text-align: center;
+  position: relative;
+  top: -55px;
+}
+#brd_list_review .center .boxs .box .text_box h3 {
+  margin: 10px 0;
+  font-size: 20px;
+}
+#brd_list_review .center .boxs .box .text_box p {
+  color: #666;
+  opacity: 0;
+  transition: all 0.5s;
+}
+#brd_list_review .center .boxs .box .text_box img {
+  transition: all 0.5s;
+  opacity: 0;
+}
+#brd_list_review .center .boxs .box:hover .img_box img {
+  transform: translateY(-20px);
+}
+#brd_list_review .center .boxs .box:hover .text_box img {
+  opacity: 1;
+  transform: translateY(-30px);
+}
+#brd_list_review .center .boxs .box:hover .text_box p {
+  opacity: 1;
+}
+
+#brd_list_event {
+  display: flex;
+  justify-content: center;
+  padding: 200px 0;
+}
+#brd_list_event .center {
+  width: 80%;
+}
+#brd_list_event .center h2 {
+  font-size: 40px;
+  margin-bottom: 100px;
+  text-align: center;
+}
+#brd_list_event .center .boxs {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+#brd_list_event .center .boxs .box {
+  width: 385px;
+  margin-bottom: 50px;
+}
+#brd_list_event .center .boxs .box .img_box img {
+  width: 100%;
 }

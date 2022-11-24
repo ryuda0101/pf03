@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고객 후기 게시판</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include("common/header.ejs") %>
+    <div id="brd_list_review">
+        <div class="center">
+            <h2>고객 후기</h2>
+            <!-- 이름 / 후기 / 사진 / db에서 긁어오기 -->
+            <div class="boxs">
+                <div class="box">
+                    <div class="img_box">
+                        <img src="/img/customer01.png">
+                    </div>
+                    <div class="text_box">
+                        <img src="/img/plus_icon.png">
+                        <h3>김가람 고객님</h3>
+                        <p>렌즈없이 자유롭게 활동할 수 있게 되어서 너무 좋아요!</p>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="img_box">
+                        <img src="/img/customer02.png">
+                    </div>
+                    <div class="text_box">
+                        <img src="/img/plus_icon.png">
+                        <h3>이은영 고객님</h3>
+                        <p>하루종일 렌즈낀 것 처럼 선명해요!</p>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="img_box">
+                        <img src="/img/customer03.png">
+                    </div>
+                    <div class="text_box">
+                        <img src="/img/plus_icon.png">
+                        <h3>하예은 고객님</h3>
+                        <p>일에 더욱 집중하며 최선을 다할 수 있을 것 같아요</p>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="img_box">
+                        <img src="/img/customer01.png">
+                    </div>
+                    <div class="text_box">
+                        <img src="/img/plus_icon.png">
+                        <h3>김가람 고객님</h3>
+                        <p>렌즈없이 자유롭게 활동할 수 있게 되어서 너무 좋아요!</p>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="img_box">
+                        <img src="/img/customer02.png">
+                    </div>
+                    <div class="text_box">
+                        <img src="/img/plus_icon.png">
+                        <h3>이은영 고객님</h3>
+                        <p>하루종일 렌즈낀 것 처럼 선명해요!</p>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="img_box">
+                        <img src="/img/customer03.png">
+                    </div>
+                    <div class="text_box">
+                        <img src="/img/plus_icon.png">
+                        <h3>하예은 고객님</h3>
+                        <p>일에 더욱 집중하며 최선을 다할 수 있을 것 같아요</p>
+                    </div>
+                </div>
+            </div>
+            <a href="/qna_insert">후기 작성</a>
+        </div>
+    </div>
+    <%- include("common/footer.ejs") %>
+</body>
+</html>

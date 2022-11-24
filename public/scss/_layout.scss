@@ -1,7 +1,9 @@
 // 헤더 작업 시작
 header {
     display:flex; justify-content:center;
-    background:transparent; position:fixed;
+    // background:transparent;
+    background:#fff;
+    position:fixed;
     z-index:99; width:100%;
     padding:10px 0;
     .center {
@@ -16,6 +18,9 @@ header {
             position:absolute; top:10px; right:10px;
             color:red;
         }
+    }
+    .center.admin_center {
+        .gnb {width:650px;}
     }
 }
 
@@ -205,12 +210,10 @@ footer {
         width:100%;
         .center {
             overflow:hidden;
-            h2 {}
             .boxs {
-                display:flex;
+                display:flex; justify-content:space-between;
                 .box {
                     width:500px;
-                    margin-right:50px;
                     .img_box {
                         img {}
                     }
@@ -375,19 +378,243 @@ footer {
 }
 
 // 관리자 페이지 작업 시작
+// 관리자 로그인 페이지
 #admin_login {
-    background-image:url("/img/banner\ 02.png");
-    background-repeat:no-repeat;
-    background-size:cover;
-    width:100vw;
+    width:100%;
     height:100vh;
+    &::after{
+        content:""; display:block;
+        width:100%; height:100%;
+        position:absolute; top:0; left:0;
+        background:linear-gradient(170deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 17%, rgba(0,0,0,0) 56%, rgba(0,0,0,0) 61%);
+        opacity:0.15;
+        }
     .center {
-        a {}
+        display:flex; justify-content:space-between;
+        .left_box {
+            width:50%; height:100vh;
+            img {height:100%;}
+        }
+        .right_box {
+            width:50%;
+            background-color:rgba(255,255,255,0.7);
+            z-index:99;
+            display:flex; justify-content:center; align-items:center;
+            flex-direction:column;
+            p {text-align:center; margin-bottom:30px; line-height:1.5;}
+            form {
+                .line {
+                    width:350px;
+                    margin-bottom:10px;
+                    display:flex; justify-content:space-between; align-items:center;
+                    input {
+                        border:1px solid #ccc; border-radius:35px;
+                        width:250px; height:50px;
+                        padding:10px; box-sizing:border-box;
+                    }
+                    a, button {
+                        border:1px solid #ccc; border-radius:35px;
+                        background-color:#eee; font-size:15px; font-weight:300;
+                        width:48%; height:50px; cursor:pointer;
+                    }
+                    a {
+                        text-align:center; line-height:50px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// 관리자 메인 페이지
+#admin_main {
+    background:linear-gradient(to right, rgb(163, 184, 197) 0%, rgb(164, 185, 198) 52%, rgb(163, 184, 197) 100%);
+    width:100%; height:74.6vh;
+}
+
+// 게시판 페이지
+#brd_list {
+    width:100%; height:100vh;
+    display:flex; justify-content:center; align-items:center;
+    .center {
+        width:80%;
+        display:flex; justify-content:center; align-items:center;
+        flex-direction:column;
+        h2 {font-size:40px; margin-bottom:100px;}
+        table {
+            border-top:2px solid #cacaca;
+            border-bottom:2px solid #cacaca;
+            width:100%;
+            tr {
+                border-bottom:1px solid #eee;
+                height:65px;
+                .num {width:10%; text-align:center;}
+                .title {width:50%;}
+                .auther {width:10%; text-align:center;}
+                .date {width:15%; text-align:center;}
+                &:last-child {
+                    border-bottom:none;
+                }
+            }
+        }
+    }
+}
+
+// 게시글 상세 페이지
+#brd_detail {
+    width:100%;
+    display:flex; justify-content:center;
+    padding:200px 0;
+    .center {
+        width:80%;
+        display:flex; justify-content:center; align-items:center;
+        flex-direction:column;
+        h2 {
+            font-size:40px;
+            margin-bottom:100px;
+        }
+        table {
+            border-top:2px solid #cacaca;
+            border-bottom:2px solid #cacaca;
+            width:100%;
+            tr {
+                display:flex; justify-content:space-between; align-items:center;
+                border-bottom:1px solid #eee;
+                height:65px;
+                &:last-child {
+                    border-bottom:none;
+                }
+                th {width:7%; text-align:start; padding-left:15px;}
+                td {width:93%;}
+            }
+            .context {
+                height:450px;
+                position:relative;
+                td {
+                    position:absolute;
+                    top:0; left:0;
+                    width:100%;
+                    padding:15px;
+                }
+            }
+        }
+        a {
+            border-radius:35px;
+            background-color:#eee; font-size:15px; font-weight:300;
+            width:300px; height:50px; cursor:pointer;
+            text-align:center; line-height:50px; border:1px solid #ccc;
+            margin-top:50px;
+        }
+    }
+}
+
+// 게시글 추가 페이지
+#brd_add {
+    width:100%;
+    display:flex; justify-content:center;
+    padding:200px 0;
+    .center {
+        width:50%; display:flex; justify-content:center; align-items:center;
+        flex-direction:column;
+        h2 {
+            font-size:40px;
+            margin-bottom:100px;
+        }
         form {
+            width:100%;
             .line {
-                label {}
-                input {}
-                button {}
+                display:flex; justify-content:space-between; align-items:center;
+                label {width:10%;}
+                a, button, input, textarea {
+                    border:1px solid #ccc;
+                    margin:10px 0;
+                }
+                input {
+                    width:90%; height:50px;
+                    padding:10px; box-sizing:border-box;
+                }
+                textarea {
+                    width:100%; height:450px;
+                    padding:10px;
+                    box-sizing:border-box;
+                }
+                a, button {
+                    border-radius:35px;
+                    background-color:#eee; font-size:15px; font-weight:300;
+                    width:300px; height:50px; cursor:pointer;
+                }
+                a {
+                    text-align:center; line-height:50px;
+                }
+            }
+            .line.btns {
+                justify-content:space-around;
+            }
+        }
+    }
+}
+
+// 고객 후기 게시판
+#brd_list_review {
+    display:flex; justify-content:center;
+    padding:200px 0;
+    .center {
+        width:80%;
+        h2 {font-size:40px; margin-bottom:100px; text-align:center;}
+        .boxs {
+            display:flex; flex-wrap:wrap;
+            justify-content:space-between;
+            .box {
+                width:280px;
+                .img_box {
+                    img {transition:all 0.5s;}
+                }
+                .text_box {
+                    text-align:center;
+                    position:relative; top:-55px;
+                    h3 {margin:10px 0; font-size:20px;}
+                    p {color:#666; opacity:0; transition:all 0.5s;}
+                    img {
+                        transition:all 0.5s; opacity:0;
+                    }
+                }
+                &:hover {
+                    .img_box {
+                        img {
+                            transform:translateY(-20px);
+                        }
+                    }
+                    .text_box {
+                        img {opacity:1; transform:translateY(-30px);}
+                        p {opacity:1;}
+                    }
+                }
+            }
+        }
+    }
+}
+
+// 이벤트 목록 고객 페이지
+#brd_list_event {
+    display:flex; justify-content:center;
+    padding:200px 0;
+    .center {
+        width:80%; 
+        h2 {font-size:40px; margin-bottom:100px; text-align:center;}
+        .boxs {
+            display:flex; justify-content:space-between; flex-wrap:wrap;
+            .box {
+                width:385px;
+                margin-bottom:50px;
+                .img_box {
+                    img {
+                        width:100%;
+                    }
+                }
+                .text_box {
+                    h3 {}
+                    p {}
+                }
             }
         }
     }

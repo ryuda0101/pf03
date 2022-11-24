@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>보도자료 추가 페이지</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include("../common/admin_header.ejs") %>
+    <div id="brd_add">
+        <div class="center">
+            <h2>보도자료</h2>
+            <form action="/board_add" method="get" enctype="multipart/form-data">
+                <div class="line">
+                    <label for="title">제목</label>
+                    <input name="brd_title" type="text" id="title">
+                </div>
+                <div class="line">
+                    <label for="file">파일 첨부</label>
+                    <input name="brd_file" type="file" id="file">
+                </div>
+                <div class="line">
+                    <textarea name="brd_context" id="context"></textarea>
+                </div>
+                <div class="line btns">
+                    <button type="submit">작성</button>
+                    <a href="/admin_board">작성 취소</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <%- include("../common/footer.ejs") %>
+</body>
+</html>
