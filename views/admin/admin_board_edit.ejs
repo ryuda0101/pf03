@@ -1,0 +1,61 @@
+<% if (!userData){ %>
+    <script>
+        alert("비회원은 접근할 수 없는 페이지 입니다.");
+        location.href = "/admin_login";
+    </script>
+<% } else { %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>보도자료 추가 페이지</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include("../common/admin_header.ejs") %>
+    <div id="brd_add">
+        <div class="center">
+            <h2>보도자료</h2>
+            <% brdData.forEach((item,index) => { %>
+                <form action="/board_edit" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="brd_auther" value="<%- userData.name %>">
+                    <input type="hidden" name="brd_number" value="<%- item.num %>">
+                    <div class="line">
+                        <label for="title">제목</label>
+                        <input name="brd_title" type="text" id="title" value="<%- item.title %>">
+                    </div>
+                    <div class="line">
+                        <label for="doc">관련 원장님</label>
+                        <input name="brd_doc" type="text" id="doc" value="<%- item.doc %>">
+                    </div>
+                    <div class="line">
+                        <label for="file">이미지 첨부</label>
+                        <input type="hidden" name="brd_hidden_file" value="<%- item.file %>">
+                        <input name="brd_file" type="file" id="file">
+                    </div>
+                    <div class="line">
+                        <p>기존 이미지<br>미리보기</p>
+                        <% if(item.file == null) { %>
+                            <p class="none">기존 이미지 없음</p>
+                        <% }else{ %>
+                            <img src="/upload/<%- item.file %>">
+                        <% } %>
+                    </div>
+                    <div class="line">
+                        <label for="context">내용</label>
+                        <textarea name="brd_context" id="context"><%- item.context %></textarea>
+                    </div>
+                    <div class="line btns">
+                        <button type="submit">작성</button>
+                        <a href="/admin_board_detail/<%- item.num %>">작성 취소</a>
+                    </div>
+                </form>
+            <% }); %>
+        </div>
+    </div>
+    <%- include("../common/footer.ejs") %>
+</body>
+</html>
+<% } %>

@@ -12,21 +12,32 @@
     <div id="brd_add">
         <div class="center">
             <h2>온라인 상담</h2>
-            <form action="/qna_add" method="get" enctype="multipart/form-data">
+            <form class="qna_form" action="/qna_add" method="post" enctype="multipart/form-data">
+                <div class="line qna_firsr_line">
+                    <div class="sub_line">
+                        <label for="customer_name">성함</label>
+                        <input name="customer_name" type="text" id="customer_name">
+                    </div>
+                    <div class="sub_line">
+                        <label for="customer_phone">연락처</label>
+                        <input name="customer_phone" type="text" id="customer_phone">
+                    </div>
+                </div>
                 <div class="line">
                     <label for="title">제목</label>
                     <input name="qna_title" type="text" id="title">
                 </div>
                 <div class="line">
                     <label for="file">파일 첨부</label>
-                    <input name="file" type="file" id="file">
+                    <input name="qna_file" type="file" id="file">
                 </div>
                 <div class="line">
+                    <label for="context">내용</label>
                     <textarea name="qna_context" id="context"></textarea>
                 </div>
                 <div class="line btns">
                     <button>작성</button>
-                    <a href="/admin_board">작성 취소</a>
+                    <a href="/qna">작성 취소</a>
                 </div>
             </form>
         </div>

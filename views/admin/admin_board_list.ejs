@@ -19,19 +19,16 @@
                     <th class="auther">작성자</th>
                     <th class="date">작성일</th>
                 </tr>
+                <% brdData.forEach((item,index) => { %>
                 <tr>
-                    <td class="num">1</td>
-                    <td class="title">제목입니다.</td>
-                    <td class="auther">작성자</td>
-                    <td class="date">2022-11-24</td>
+                    <td class="num"><%- item.num %></td>
+                    <td class="title"><a href="/admin_board_detail/<%- item.num %>">[<%- item.doc %>] <%- item.title %></a></td>
+                    <td class="auther"><%- item.auther %></td>
+                    <td class="date"><%- item.date %></td>
                 </tr>
-                <tr>
-                    <td class="num">2</td>
-                    <td class="title">제목입니다.</td>
-                    <td class="auther">작성자</td>
-                    <td class="date">2022-11-24</td>
-                </tr>
+                <% }); %>
             </table>
+            <a class="add_btn" href="/admin_board_add">보도자료 추가</a>
         </div>
     </div>
     <%- include("../common/footer.ejs") %>

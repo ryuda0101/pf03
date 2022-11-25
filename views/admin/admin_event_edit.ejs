@@ -1,0 +1,87 @@
+<% if (!userData){ %>
+    <script>
+        alert("비회원은 접근할 수 없는 페이지 입니다.");
+        location.href = "/admin_login";
+    </script>
+<% } else { %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이벤트 추가 페이지</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include("../common/admin_header.ejs") %>
+    <div id="brd_add">
+        <div class="center">
+            <h2>이벤트</h2>
+            <% eventData.forEach((item,index) => { %>
+                <form action="/event_edit" method="post" enctype="multipart/form-data">
+                    <input name="event_number" type="hidden" value="<%- item.num %>">
+                    <input name="event_auther" type="hidden" value="<%- userData.name %>">
+                    <div class="line">
+                        <label for="title">제목</label>
+                        <input name="event_title" type="text" id="title" value="<%- item.title %>">
+                    </div>
+                    <div class="line">
+                        <label for="date">날짜</label>
+                        <input name="event_date" type="text" id="date" value="<%- item.date %>">
+                    </div>
+                    <div class="line">
+                        <label for="file">썸네일 첨부</label>
+                        <input name="thumbnail_hidden_file" type="hidden" id="file" value="<%- item.thumbnail %>">
+                        <input name="thumbnail_file" type="file" id="file">
+                    </div>
+                    <div class="line">
+                        <p>기존 썸네일<br>미리보기</p>
+                        <% if(item.thumbnail == null) { %>
+                            <p class="none">기존 썸네일 없음</p>
+                        <% }else{ %>
+                            <td><img src="/upload/<%- item.thumbnail %>"></td>
+                        <% } %>
+                    </div>
+                    <div class="line">
+                        <label for="file">파일 첨부1</label>
+                        <input name="event_file1_hidden_file" type="hidden" id="file" value="<%- item.eventFile1 %>">
+                        <input name="event_file1" type="file" id="file">
+                    </div>
+                    <div class="line">
+                        <p>기존 파일1<br>미리보기</p>
+                        <% if(item.eventFile1 == null) { %>
+                            <p class="none">기존파일1 없음</p>
+                        <% }else{ %>
+                            <td><img src="/upload/<%- item.eventFile1 %>"></td>
+                        <% } %>
+                    </div>
+                    <div class="line">
+                        <label for="file">파일 첨부2</label>
+                        <input name="event_file2_hidden_file" type="hidden" id="file" value="<%- item.eventFile2 %>">
+                        <input name="event_file2" type="file" id="file">
+                    </div>
+                    <div class="line">
+                        <p>기존 파일2<br>미리보기</p>
+                        <% if(item.eventFile2 == null) { %>
+                            <p class="none">기존파일2 없음</p>
+                        <% }else{ %>
+                            <td><img src="/upload/<%- item.eventFile2 %>"></td>
+                        <% } %>
+                    </div>
+                    <div class="line">
+                        <label for="context">내용</label>
+                        <textarea name="event_context" id="context"><%- item.context %></textarea>
+                    </div>
+                    <div class="line btns">
+                        <button>작성</button>
+                        <a href="/admin_event">작성 취소</a>
+                    </div>
+                </form>
+            <% }) %>
+        </div>
+    </div>
+    <%- include("../common/footer.ejs") %>
+</body>
+</html>
+<% } %>

@@ -131,36 +131,18 @@
                 <div class="boxs">
                     <!-- db에서 긁어와서 슬라이드로 만들어주기 -->
                     <!-- 제목 / 관련 원장님 / 기사내용 / 사진? -->
+                    <% brd.forEach((brd_item,index) => { %>
                     <div class="box">
                         <div class="img_box">
-                            <img src="/img/news 01.jpg">
+                            <img src="/upload/<%- brd_item.file %>">
                         </div>
                         <div class="text_box">
-                            <h3>[건강 Q&A] 중증도 근시·난시 환자도 시력교정 가능할까?</h3>
-                                <p class="doc">나성진 원장님</p>
-                                <p class="context">시력교정술이란? 가장 흔히 접할 수 있는 시력교정술은 레이저를 이용해 각막을 절삭, 굴적력을 교정하는 레이저 시력교정술입니다. 널리 알려진 라식과 라섹이 여기에 해당합니다. 라식이란 각막에 절편을 만들어 각막 실질을 깎아낸 후 절편을 다시 덮어 회복합니다.</p>
+                            <h3><%- brd_item.title %></h3>
+                                <p class="doc"><%- brd_item.doc %></p>
+                                <p class="context"><%- brd_item.context %></p>
                         </div>
                     </div>
-                    <div class="box">
-                        <div class="img_box">
-                            <img src="/img/news 03.jpg">
-                        </div>
-                        <div class="text_box">
-                            <h3>리지안안과 최성호 원장, 클리어라식 ‘레퍼런스 닥터’로 선정</h3>
-                                <p class="doc">최성호 원장님</p>
-                                <p class="context">퍼스트삼성안과 최성호 원장이 클리어 라식에 대한 다년간의 경험과 성공적 수술 케이스 축적, 공동 연구에 대한 공로를 인정받아 글로벌 스위스 광학기업 짐머로부터 레퍼런스 닥터로 선정됐다.</p>
-                        </div>
-                    </div>
-                    <div class="box">
-                        <div class="img_box">
-                            <img src="/img/news 02.jpg">
-                        </div>
-                        <div class="text_box">
-                            <h3>굴절수술 레이저인 EX500 자문</h3>
-                                <p class="doc">최성호 원장님</p>
-                                <p class="context">글로벌 안과 전문기업인 알콘(Alcon)의 자회사인 Wavelight의 General Manager 외 Global Team이 방문하여 컨트라 라식의 결과 향상과 레이져 장비인 EX500의 성능 개선에 대한 심도있는 의견을 나누었습니다.</p>
-                        </div>
-                    </div>
+                    <% }); %>
                 </div>
             </div>
         </div>
@@ -171,61 +153,19 @@
                 <div class="boxs">
                     <!-- db에서 긁어오기 -->
                     <!-- 제목 / 날짜 / 내용 / 사진 -->
+                    <% eventData.forEach((event_item, index) => { %>
                     <div class="box">
-                        <div class="img_box">
-                            <img src="/img/event02.jpg">
-                        </div>
-                        <div class="text_box">
-                            <h3>하루만에, 안경탈출! 원데이 시력교정</h3>
-                            <p class="date">2022-11-01 ~ 2022-11-30</p>
-                        </div>
+                        <a href="/event_detail/<%- event_item.num %>">
+                            <div class="img_box">
+                                <img src="/upload/<%- event_item.thumbnail %>">
+                            </div>
+                            <div class="text_box">
+                                <h3><%- event_item.title %></h3>
+                                <p class="date"><%- event_item.date %></p>
+                            </div>
+                        </a>
                     </div>
-                    <div class="box">
-                        <div class="img_box">
-                            <img src="/img/event02.jpg">
-                        </div>
-                        <div class="text_box">
-                            <h3>하루만에, 안경탈출! 원데이 시력교정</h3>
-                            <p class="date">2022-11-01 ~ 2022-11-30</p>
-                        </div>
-                    </div>
-                    <div class="box">
-                        <div class="img_box">
-                            <img src="/img/event02.jpg">
-                        </div>
-                        <div class="text_box">
-                            <h3>하루만에, 안경탈출! 원데이 시력교정</h3>
-                            <p class="date">2022-11-01 ~ 2022-11-30</p>
-                        </div>
-                    </div>
-                    <div class="box">
-                        <div class="img_box">
-                            <img src="/img/event02.jpg">
-                        </div>
-                        <div class="text_box">
-                            <h3>하루만에, 안경탈출! 원데이 시력교정</h3>
-                            <p class="date">2022-11-01 ~ 2022-11-30</p>
-                        </div>
-                    </div>
-                    <div class="box">
-                        <div class="img_box">
-                            <img src="/img/event02.jpg">
-                        </div>
-                        <div class="text_box">
-                            <h3>하루만에, 안경탈출! 원데이 시력교정</h3>
-                            <p class="date">2022-11-01 ~ 2022-11-30</p>
-                        </div>
-                    </div>
-                    <div class="box">
-                        <div class="img_box">
-                            <img src="/img/event02.jpg">
-                        </div>
-                        <div class="text_box">
-                            <h3>하루만에, 안경탈출! 원데이 시력교정</h3>
-                            <p class="date">2022-11-01 ~ 2022-11-30</p>
-                        </div>
-                    </div>
-
+                    <% }) %>
                 </div>
                 <a class="more_btn" href="#">더보기</a>
             </div>

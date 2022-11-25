@@ -1,3 +1,9 @@
+<% if (!userData){ %>
+    <script>
+        alert("비회원은 접근할 수 없는 페이지 입니다.");
+        location.href = "/admin_login";
+    </script>
+<% } else { %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,16 +18,22 @@
     <div id="brd_add">
         <div class="center">
             <h2>보도자료</h2>
-            <form action="/board_add" method="get" enctype="multipart/form-data">
+            <form action="/board_add" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="brd_auther" value="<%- userData.name %>">
                 <div class="line">
                     <label for="title">제목</label>
                     <input name="brd_title" type="text" id="title">
                 </div>
                 <div class="line">
-                    <label for="file">파일 첨부</label>
+                    <label for="doc">관련 원장님</label>
+                    <input name="brd_doc" type="text" id="doc">
+                </div>
+                <div class="line">
+                    <label for="file">이미지 첨부</label>
                     <input name="brd_file" type="file" id="file">
                 </div>
                 <div class="line">
+                    <label for="context">내용</label>
                     <textarea name="brd_context" id="context"></textarea>
                 </div>
                 <div class="line btns">
@@ -34,3 +46,4 @@
     <%- include("../common/footer.ejs") %>
 </body>
 </html>
+<% } %>

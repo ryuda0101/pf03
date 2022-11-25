@@ -72,6 +72,21 @@ header .center .admin_btn {
 header .center.admin_center .gnb {
   width: 650px;
 }
+header .center.admin_center .login_info {
+  display: flex;
+  position: absolute;
+  top: 5px;
+  right: 25px;
+}
+header .center.admin_center .login_info p::after {
+  content: "";
+  display: inline-block;
+  width: 2px;
+  height: 15px;
+  background: #000;
+  transform: translateY(2px);
+  margin: 0 10px;
+}
 
 footer {
   display: flex;
@@ -314,6 +329,13 @@ footer .center .address p, footer .center .copyright p {
 #main_wrap .brd_wrap .center .boxs .box {
   width: 500px;
 }
+#main_wrap .brd_wrap .center .boxs .box .img_box {
+  height: 333px;
+  overflow: hidden;
+}
+#main_wrap .brd_wrap .center .boxs .box .img_box img {
+  height: 100%;
+}
 #main_wrap .brd_wrap .center .boxs .box .text_box h3 {
   font-size: 20px;
 }
@@ -345,8 +367,23 @@ footer .center .address p, footer .center .copyright p {
   width: 385px;
   margin-bottom: 50px;
 }
+#main_wrap .event_wrap .center .boxs .box .img_box {
+  margin-bottom: 10px;
+}
 #main_wrap .event_wrap .center .boxs .box .img_box img {
   width: 100%;
+}
+#main_wrap .event_wrap .center .boxs .box .text_box h3, #main_wrap .event_wrap .center .boxs .box .text_box p {
+  text-align: center;
+  margin-bottom: 10px;
+}
+#main_wrap .event_wrap .center .boxs .box .text_box h3 {
+  color: #333;
+  font-size: 20px;
+}
+#main_wrap .event_wrap .center .boxs .box .text_box p {
+  color: #666;
+  font-size: 13px;
 }
 #main_wrap .qna_wrap .center .qna_brd_wrap {
   border-top: 2px solid #cacaca;
@@ -527,7 +564,7 @@ footer .center .address p, footer .center .copyright p {
 #admin_login .center .right_box form .line a, #admin_login .center .right_box form .line button {
   border: 1px solid #ccc;
   border-radius: 35px;
-  background-color: #eee;
+  background-color: #fff;
   font-size: 15px;
   font-weight: 300;
   width: 48%;
@@ -547,7 +584,7 @@ footer .center .address p, footer .center .copyright p {
 
 #brd_list {
   width: 100%;
-  height: 100vh;
+  padding: 200px 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -589,6 +626,16 @@ footer .center .address p, footer .center .copyright p {
 }
 #brd_list .center table tr:last-child {
   border-bottom: none;
+}
+#brd_list .center .add_btn {
+  display: block;
+  width: 150px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 30px;
+  margin: 50px 0;
 }
 
 #brd_detail {
@@ -632,22 +679,31 @@ footer .center .address p, footer .center .copyright p {
   width: 93%;
 }
 #brd_detail .center table .context {
-  height: 450px;
+  height: 100%;
   position: relative;
-}
-#brd_detail .center table .context td {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
+  flex-direction: column;
   padding: 15px;
 }
-#brd_detail .center a {
+#brd_detail .center table .context .img {
+  text-align: center;
+}
+#brd_detail .center table .context td {
+  width: 100%;
+}
+#brd_detail .center table .context .context_td {
+  white-space: pre-line;
+}
+#brd_detail .center .btns {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+#brd_detail .center .btns a {
   border-radius: 35px;
-  background-color: #eee;
+  background-color: #fff;
   font-size: 15px;
   font-weight: 300;
-  width: 300px;
+  width: 200px;
   height: 50px;
   cursor: pointer;
   text-align: center;
@@ -695,7 +751,7 @@ footer .center .address p, footer .center .copyright p {
   box-sizing: border-box;
 }
 #brd_add .center form .line textarea {
-  width: 100%;
+  width: 90%;
   height: 450px;
   padding: 10px;
   box-sizing: border-box;
@@ -713,8 +769,42 @@ footer .center .address p, footer .center .copyright p {
   text-align: center;
   line-height: 50px;
 }
+#brd_add .center form .line p {
+  width: 100px;
+}
+#brd_add .center form .line .none {
+  width: 900px;
+  text-align: center;
+  border: 1px solid #ccc;
+  padding: 16px 0;
+  margin: 10px 0;
+}
+#brd_add .center form .line img {
+  width: 200px;
+  border: 1px solid #ccc;
+  padding: 10px 327px;
+  margin: 10px 0;
+}
 #brd_add .center form .line.btns {
   justify-content: space-around;
+}
+#brd_add .center .qna_form .line {
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+#brd_add .center .qna_form .line input, #brd_add .center .qna_form .line label, #brd_add .center .qna_form .line textarea {
+  width: 100%;
+}
+#brd_add .center .qna_form .line.qna_firsr_line {
+  flex-direction: row;
+}
+#brd_add .center .qna_form .line.qna_firsr_line .sub_line {
+  width: 49%;
+  display: flex;
+  flex-direction: column;
+}
+#brd_add .center .qna_form .line.btns {
+  flex-direction: row;
 }
 
 #brd_list_review {
@@ -792,6 +882,28 @@ footer .center .address p, footer .center .copyright p {
   width: 385px;
   margin-bottom: 50px;
 }
+#brd_list_event .center .boxs .box .img_box {
+  margin-bottom: 10px;
+}
 #brd_list_event .center .boxs .box .img_box img {
   width: 100%;
+}
+#brd_list_event .center .boxs .box .text_box h3, #brd_list_event .center .boxs .box .text_box p {
+  text-align: center;
+  margin-bottom: 10px;
+}
+#brd_list_event .center .boxs .box .text_box h3 {
+  color: #333;
+  font-size: 20px;
+}
+#brd_list_event .center .boxs .box .text_box p {
+  color: #666;
+  font-size: 13px;
+}
+
+.event_wrap {
+  height: auto;
+}
+.event_wrap .center {
+  margin-top: 100px;
 }

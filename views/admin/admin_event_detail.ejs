@@ -12,26 +12,41 @@
     <div id="brd_detail">
         <div class="center">
             <h2>이벤트</h2>
+            <% eventData.forEach((item,index) => { %>
             <table>
                 <tr>
                     <th>제목</th>
-                    <td>제목입니다.</td>
+                    <td><%- item.title %></td>
                 </tr>
                 <tr>
                     <th>글쓴이</th>
-                    <td>관리자</td>
+                    <td><%- item.auther %></td>
                 </tr>
                 <tr>
                     <th>날짜</th>
-                    <td>2022-11-24</td>
+                    <td><%- item.date %></td>
                 </tr>
                 <tr class="context">
-                    <td>내용입니다.</td>
+                    <% if(item.eventFile1 == null) { %>
+                    <% }else{ %>
+                        <td class="img"><img src="/upload/<%- item.eventFile1 %>"></td>
+                    <% } %>
+                    <% if(item.eventFile2 == null) { %>
+                    <% }else{ %>
+                        <td class="img"><img src="/upload/<%- item.eventFile2 %>"></td>
+                    <% } %>
+                    <td><%- item.context %></td>
                 </tr>
             </table>
-            <a href="/admin_board">목록</a>
+            <div class="btns">
+                <a class="edit" href="/admin_event_edit/<%- item.num %>">수정</a>
+                <a class="list" href="/admin_event">목록</a>
+                <a class="delete" href="/admin_event_delete/<%- item.num %>">삭제</a>
+            </div>
+            <% }) %>
         </div>
     </div>
     <%- include("../common/footer.ejs") %>
+    <script src="/js/delete_btn.js"></script>
 </body>
 </html>

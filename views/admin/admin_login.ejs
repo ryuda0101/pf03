@@ -15,14 +15,14 @@
             </div>
             <div class="right_box">
                 <p>관리자 페이지 입니다.<br>테스트 아이디는 admin<br>비밀번호는 1234 입니다.</p>
-                <form action="" method="">
+                <form action="/adminLogin" method="post">
                     <div class="line">
                         <label for="id">아이디</label>
-                        <input type="text" id="id" value="admin">
+                        <input type="text" name="admin_id" id="id" value="admin">
                     </div>
                     <div class="line">
                         <label for="pass">비밀번호</label>
-                        <input type="password" id="pass" value="1234">
+                        <input type="password" name="admin_pass" id="pass" value="1234">
                     </div>
                     <div class="line">
                         <button>로그인</button>

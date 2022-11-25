@@ -1,3 +1,11 @@
+// 온라인 상담 server 건드리는중
+// add는 했고, db에 들어가는것까지는 확인함
+// 수정, 삭제, 상세, 목록 페이지 작성하면 됨
+// 추가로 관리자페이지에서 보고 댓글기능 넣어줘서 답변할 수 있도록 해주기
+// 고객페이지에서는 댓글 작성 안되고 관리자만 작성할 수 있도록!
+
+
+
 // npm init
 // npm install ejs express mongodb 
 // npm install express-session passport passport-local
@@ -54,7 +62,7 @@ MongoClient.connect("mongodb+srv://admin:qwer1234@testdb.g2xxxrk.mongodb.net/?re
     if(err){ return console.log(err);}
 
     // 위에서 만든 db변수에 최종적으로 연결 / ()안에는 mongodb atlas에서 생성한 데이터 베이스 이름 집어넣기
-    db = result.db("testdb");
+    db = result.db("portfolio03");
 
     // db연결이 제대로 되었다면 서버 실행
     app.listen(port,function(){
@@ -65,7 +73,7 @@ MongoClient.connect("mongodb+srv://admin:qwer1234@testdb.g2xxxrk.mongodb.net/?re
 // 첨부파일 기능
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, '/public/upload')
+        cb(null, 'public/upload')
       },
       filename: function (req, file, cb) {
         cb(null, file.originalname = Buffer.from(file.originalname, 'latin1').toString('utf8'))
@@ -73,50 +81,119 @@ const storage = multer.diskStorage({
 })
 const upload = multer({ storage: storage })
 
-// 메인 페이지
-app.get("/",(req,res) => {
-    res.render("index");
-});
-
+// 로그인 작업 시작
 // 관리자 로그인 페이지
 app.get("/admin_login",(req,res) => {
     res.render("admin/admin_login");
 });
 
+app.post("/adminLogin",passport.authenticate('local', {failureRedirect : '/fail'}),(req,res) => {
+    res.redirect("/admin")
+});
+
+// 로그인 실패시 fail 경로
+app.get("/fail",(req,res) => {
+    db.collection('user_admin').find({}).toArray((err, result) => {
+        console.log(result);
+    });
+    res.send("<script>alert('로그인 실패'); location.href = '/admin_login'</script>");
+});
+
+passport.use(new LocalStrategy({
+    usernameField: 'admin_id',    // login.ejs에서 입력한 아이디의 name값
+    passwordField: 'admin_pass',    // login.ejs에서 입력한 비밀번호의 name값
+    session: true,      // 세션을 이용할것인지에 대한 여부
+    passReqToCallback: false,   // 아이디와 비밀번호 말고도 다른 항목들을 더 검사할것인가에 대한 여부
+  }, function (admin_id, admin_pass, done) {
+    db.collection('user_admin').findOne({ id: admin_id }, function (err, result) {
+      if (err) return done(err)
+// 아래의 message는 필요에 따라 뻴수도 있다. 
+      if (!result) return done(null, false, { message: '존재하지않는 아이디 입니다.' })
+      if (admin_pass == result.pass) {
+        return done(null, result)
+      } else {
+        return done(null, false, { message: '비밀번호를 다시한번 확인해주세요.' })
+      }
+    })
+}));
+
+// 최초의 로그인시 한번 실행
+// serializeUser    →   처음 로그인 했을 시 해당 사용자의 아이디를 기반으로 세션을 생성함
+// ↓ 여기서 생성된 매게변수 user로 req.user~~를 쓸 수 있다.
+passport.serializeUser(function (user, done) {
+     // ↓ 서버에는 세션을 만들고 / 사용자 웹 브라우저에는 쿠키를 만들어준다. 
+    done(null, user.id)
+});
+
+// 로그인 할 때마다 실행
+// deserializeUser  →   로그인을 한 후 다른 페이지들을 접근할 시 생성된 세션에 담겨있는 회원정보 데이터를 보내주는 처리
+passport.deserializeUser(function (admin_id, done) {
+    db.collection("user_admin").findOne({id:admin_id},function(err,result){
+        done(null,result)
+    });
+});
+
+// 로그아웃 기능 작업
+app.get("/logout",function(req,res){
+    // 서버의 세션을 삭제하고, 본인 웹브라우저의 쿠키를 삭제한다.
+    req.session.destroy(function(err,result){
+        // 지워줄 쿠키를 선택한다. / 콘솔 로그의 application → cookies에 가면 name에서 확인할 수 있다.
+        res.clearCookie("connect.sid")
+        // 로그아웃 후 다시 메인페이지로 돌아가기
+        res.redirect("/admin_login");
+    });
+});
+
+
+// 메인 페이지
+app.get("/",(req,res) => {
+    db.collection("brd_event").find({}).sort({num:-1}).toArray((err,event_result) => {
+        db.collection("brd").find({}).toArray((err,brd_result) => {
+            res.render("index",{eventData:event_result, brd:brd_result});
+        });
+    });
+});
+
 // 관리자 메인 페이지
 app.get("/admin",(req,res) => {
-    res.render("admin/admin_main");
+    res.render("admin/admin_main",{userData:req.user});
 });
 
 // 관리자 보도자료 게시판 페이지
 app.get("/admin_board",(req,res) => {
-    res.render("admin/admin_board_list");
+    db.collection("brd").find().toArray((err,result) => {
+        res.render("admin/admin_board_list",{userData:req.user, brdData:result});
+    });
 });
 
 // 관리자 보도자료 상세 페이지
-app.get("/admin_board_detail",(req,res) => {
-    res.render("admin/admin_board_detail");
+app.get("/admin_board_detail/:no",(req,res) => {
+    db.collection("brd").find({num:Number(req.params.no)}).toArray((err,result) => {
+        res.render("admin/admin_board_detail",{userData:req.user, brdData:result});
+    });
 });
 
 // 관리자 보도자료 추가 페이지
 app.get("/admin_board_add",(req,res) => {
-    res.render("admin/admin_board_add");
+    res.render("admin/admin_board_add",{userData:req.user});
 });
 
-app.post("/board_add",upload.single('file'),(req,res) => {
+app.post("/board_add",upload.single('brd_file'),(req,res) => {
     if (req.file) {
-        let fileUpload = req.file.originalname; 
+        fileUpload = req.file.originalname;
     }
     else {
-        let fileUpload = null;
+        fileUpload = null;
     }
-    db.collection("count").find({name:"보도자료 게시글"},(err,count_result) => {
+    db.collection("count").findOne({name:"보도자료 게시글"},(err,count_result) => {
         db.collection("brd").insertOne({
             num:count_result.count + 1,
             title:req.body.brd_title,
+            doc:req.body.brd_doc,
             file:fileUpload,
             context:req.body.brd_context,
-            date:moment().tz("Asia/Seoul").format("YYYY-MM-DD")
+            date:moment().tz("Asia/Seoul").format("YYYY-MM-DD"),
+            auther:req.body.brd_auther
         },(err,result) => {
             db.collection("count").updateOne ({name:"보도자료 게시글"},{$inc:{count:1}},(err,result) => {
                 res.redirect("/admin_board");
@@ -125,61 +202,176 @@ app.post("/board_add",upload.single('file'),(req,res) => {
     });
 });
 
+// 관리자 보도자료 삭제 페이지
+app.get("/brd_delete/:no",(req,res) => {
+    db.collection("brd").deleteOne({num:Number(req.params.no)},(err,result) => {
+        res.redirect("/admin_board")
+    });
+});
+
+// 관리자 보도자료 수정 페이지
+app.get("/brd_edit/:no",(req,res) => {
+    db.collection("brd").find({num:Number(req.params.no)}).toArray((err,result) => {
+        res.render("admin/admin_board_edit",{userData:req.user, brdData:result});
+    });
+});
+
+app.post("/board_edit",upload.single('brd_file'),(req,res) => {
+    if (req.file) {
+        fileUpload = req.file.originalname;
+    }
+    else {
+        fileUpload = req.body.brd_hidden_file;
+    }
+    db.collection("brd").updateOne({num:Number(req.body.brd_number)},{$set:{
+        title:req.body.brd_title,
+        doc:req.body.brd_doc,
+        file:fileUpload,
+        context:req.body.brd_context
+    }},(err,result) => {
+        res.redirect("/admin_board_detail/" + Number(req.body.brd_number))
+    });
+});
+
+
+
 // 관리자 이벤트 게시판 페이지
 app.get("/admin_event",(req,res) => {
-    res.render("admin/admin_event_list");
+    db.collection("brd_event").find({}).sort({num:-1}).toArray((err,result) => {
+        res.render("admin/admin_event_list",{userData:req.user, eventData:result});
+    });
 });
 
 // 관리자 이벤트 상세 페이지
-app.get("/admin_event_detail",(req,res) => {
-    res.render("admin/admin_event_detail");
+app.get("/admin_event_detail/:no",(req,res) => {
+    db.collection("brd_event").find({num:Number(req.params.no)}).toArray((err,result) => {
+        res.render("admin/admin_event_detail",{userData:req.user, eventData:result});
+    });
 });
 
 // 관리자 이벤트 추가 페이지
 app.get("/admin_event_insert",(req,res) => {
-    res.render("admin/admin_event_add");
+    res.render("admin/admin_event_add",{userData:req.user});
 });
 
-app.post("/event_add",upload.single('file'),(req,res) => {
-    if (req.file) {
-        let fileUpload = req.file.originalname; 
+// app.post("/event_add",upload.single('thumbnail_file'),(req,res) => {
+app.post("/event_add",upload.fields([{name:'thumbnail_file'},{name:'event_file1'},{name:'event_file2'}]),(req,res) => {
+    if (req.files.thumbnail_file) {
+        thumbnailUpload = req.files.thumbnail_file[0].originalname; 
     }
     else {
-        let fileUpload = null;
+        thumbnailUpload = null;
     }
-    db.collection("count").find({name:"이벤트 게시글"},(err,count_result) => {
+    if (req.files.event_file1) {
+        eventUpload1 = req.files.event_file1[0].originalname; 
+    }
+    else {
+        eventUpload1 = null;
+    }
+    if (req.files.event_file2) {
+        eventUpload2 = req.files.event_file2[0].originalname; 
+    }
+    else {
+        eventUpload2 = null;
+    }
+    db.collection("count").findOne({name:"이벤트 게시글"},(err,count_result) => {
         db.collection("brd_event").insertOne({
             num:count_result.count + 1,
             title:req.body.event_title,
             date:req.body.event_date,
-            file:fileUpload,
-            context:req.body.event_context
+            thumbnail:thumbnailUpload,
+            eventFile1:eventUpload1,
+            eventFile2:eventUpload2,
+            context:req.body.event_context,
+            auther:req.body.event_auther
         },(err,result) => {
-            db.collection("count").updateOne ({name:"이벤트 게시글"},{$inc:{count:1}},(err,result) => {
+            db.collection("count").updateOne({name:"이벤트 게시글"},{$inc:{count:1}},(err,result) => {
                 res.redirect("/admin_event");
             });
         });
     });
 });
 
+// 관리자 이벤트 삭제 페이지
+app.get("/admin_event_delete/:no",(req,res) => {
+    db.collection("brd_event").deleteOne({num:Number(req.params.no)},(err,result) => {
+        res.redirect("/admin_event")
+    });
+});
+
+// 관리자 이벤트 수정 페이지
+app.get("/admin_event_edit/:no",(req,res) => {
+    db.collection("brd_event").find({num:Number(req.params.no)}).toArray((err,result) => {
+       res.render("admin/admin_event_edit", {userData:req.user, eventData:result})
+    });
+});
+
+// 삼항연산자로 줄이기
+app.post("/event_edit",upload.fields([{name:'thumbnail_file'},{name:'event_file1'},{name:'event_file2'}]),(req,res) => {
+    if (req.files.thumbnail_file) {
+        thumbnailUpload = req.files.thumbnail_file[0].originalname; 
+    }
+    else if (req.body.thumbnail_hidden_file) {
+        thumbnailUpload = req.body.thumbnail_hidden_file;
+    }
+    else {
+        thumbnailUpload = null
+    }
+    
+    if (req.files.event_file1) {
+        eventUpload1 = req.files.event_file1[0].originalname; 
+    }
+    else if (req.body.event_file1_hidden_file) {
+        eventUpload1 = req.body.event_file1_hidden_file;
+    }
+    else {
+        eventUpload1 = null
+    }
+
+    if (req.files.event_file2) {
+        eventUpload2 = req.files.event_file2[0].originalname; 
+    }
+    else if (req.body.event_file2_hidden_file) {
+        eventUpload2 = req.body.event_file2_hidden_file;
+    }
+    else {
+        eventUpload2 = null
+    }
+
+    db.collection("brd_event").updateOne({num:Number(req.body.event_number)},{$set:{
+        title:req.body.event_title,
+        thumbnail:thumbnailUpload,
+        eventFile1:eventUpload1,
+        eventFile2:eventUpload2,
+        context:req.body.event_context
+    }},(err,result) => {
+        res.redirect("/admin_event");
+        console.log(eventUpload2);
+    });
+});
+
+
+
+
+
 // 관리자 온라인 상담 목록 페이지
 app.get("/admin_qna",(req,res) => {
-    res.render("admin/admin_qna_list");
+    res.render("admin/admin_qna_list",{userData:req.user});
 });
 
 // 관리자 온라인 상담 상세 페이지
 app.get("/admin_qna_detail",(req,res) => {
-    res.render("admin/admin_qna_detail");
+    res.render("admin/admin_qna_detail",{userData:req.user});
 });
 
 // 관리자 고객 후기 목록 페이지
 app.get("/admin_review",(req,res) => {
-    res.render("admin/admin_review_list");
+    res.render("admin/admin_review_list",{userData:req.user});
 });
 
-// 관리자 고객 후기 목록 페이지
+// 관리자 고객 후기 상세 페이지
 app.get("/admin_review_detail",(req,res) => {
-    res.render("admin/admin_review_detail");
+    res.render("admin/admin_review_detail",{userData:req.user});
 });
 
 
@@ -198,13 +390,18 @@ app.get("/board_detail",(req,res) => {
 
 // 이벤트 목록 페이지
 app.get("/event",(req,res) => {
-    res.render("event_list");
+    db.collection("brd_event").find({}).sort({num:-1}).toArray((err,result) => {
+        res.render("event_list",{eventData:result});
+    });
 });
 
 // 이벤트 상세 페이지
-app.get("/event_detail",(req,res) => {
-    res.render("event_detail");
+app.get("/event_detail/:no",(req,res) => {
+    db.collection("brd_event").find({num:Number(req.params.no)}).toArray((err,result) => {
+        res.render("event_detail",{eventData:result});
+    });
 });
+
 
 // 온라인 상담 목록 페이지
 app.get("/qna",(req,res) => {
@@ -221,16 +418,18 @@ app.get("/qna_insert",(req,res) => {
     res.render("qna_add");
 });
 
-app.post("/qna_add",upload.single('file'),(req,res) => {
+app.post("/qna_add",upload.single('qna_file'),(req,res) => {
     if (req.file) {
-        let fileUpload = req.file.originalname; 
+        fileUpload = req.file.originalname; 
     }
     else {
-        let fileUpload = null;
+        fileUpload = null;
     }
-    db.collection("count").find({name:"온라인 상담 게시글"},(err,count_result) => {
+    db.collection("count").findOne({name:"온라인 상담 게시글"},(err,count_result) => {
         db.collection("brd_qna").insertOne({
             num:count_result.count + 1,
+            name:req.body.customer_name,
+            phone:req.body.customer_phone,
             title:req.body.qna_title,
             file:fileUpload,
             context:req.body.qna_context,
@@ -285,33 +484,7 @@ app.post("/review_add",upload.single('file'),(req,res) => {
 
 
 
-// 데이터 수정하기
-// 1. 기존의컬렉션의 데이터값을 가져와서 데이터를 수정할 페이지.ejs에 넣어준다.  
-// 2. 데이터를 수정할 페이지.ejs에서 가져온 기존의 값을 컬렉션에.update({변경될 값의 페이지 넘버 찾기},{$set:{변경될 값}},function(req,res){})해서 수정해준다.
-// 3. 수정해준 값이 화면에 보여지는지 확인한다.
-// ex. 
-// app.post("/update",function(req,res){
-//     // 해당 게시글 번호에 맞는 게시글 수정 처리
-//     db.collection("ex10_board").updateOne({brdid:Number(req.body.no)},{$set:{
-//         brdtitle:req.body.title,
-//         brdcontext:req.body.context
-//     }},function(req,res){
-//     // 해당 게시글 상세 화면 페이지로 이동
-//     res.redirect("/detail/" + req.body.no);
-//     });
-// });
 
-// 게시글 삭제하기
-// 1. 상세페이지에서 삭제버튼을 누르면 /delete/숫자 경로로 요청하기
-// ex. href="/delete/<%- brdinfo.brdid %>"
-// 2. server.js에서 get 방식으로 delete를 넘겨받아서
-// 3. db의 컬렉션에서 경로 뒤의 숫자와 동일한 게시판 넘버를 가진 게시판 글을 찾는다.
-// 4. deleteOne을 이용해 삭제해주고 모든 작업이 끝나면 redirect를 이용해 다른 경로로 이동시켜준다
-// app.get ("/delete/:no",function(req,res){
-//     db.collection("ex10_board").deleteOne({brdid:Number(req.params.no)},function(err,result){
-//         res.redirect("/brdlist")
-//     })
-// });
 
 // 검색기능 추가하기
 // 1. db에서 search를 만들어주고 server.js에 다음의 코드를 기입해준다.
@@ -335,75 +508,7 @@ app.post("/review_add",upload.single('file'),(req,res) => {
 // });
 
 
-// // 로그인 기능 수행 작업
-// // 로그인 화면으로 요청
-// app.get("/login",function(req,res){
-//     res.render("login");
-// });
 
-// // 로그인 페이지에서 입력한 아이디, 비밀번호 검증처리 요청
-// // app.post("/경로",여기 사이에 ↓ 입력,function(req,res){});
-// // passport.authenticate('local', {failureRedirect : '/fail'})
-// app.post("/loginresult",passport.authenticate('local', {failureRedirect : '/fail'}),function(req,res){
-//     //                                                   ↑ 실패시 위의 경로로 요청
-//     // ↓ 로그인 성공시 메인페이지로 이동
-//     res.redirect("/")
-// });
-
-// /loginresult 경로 요청시 passport.autenticate() 함수 구간이 아이디, 비밀번호 로그인 검증 구간
-// passport.use(new LocalStrategy({
-//     usernameField: 'id',    // login.ejs에서 입력한 아이디의 name값
-//     passwordField: 'pw',    // login.ejs에서 입력한 비밀번호의 name값
-//     session: true,      // 세션을 이용할것인지에 대한 여부
-//     passReqToCallback: false,   // 아이디와 비밀번호 말고도 다른 항목들을 더 검사할것인가에 대한 여부
-//   }, function (입력한아이디작명, 입력한비번작명, done) {
-//     //console.log(입력한아이디, 입력한비번);
-//     db.collection('아이디, 비밀번호가 들어있는 컬렉션 이름').findOne({ 컬렉션에서 아이디가 들어있는 데이터 이름: 위에서작명한입력한아이디 }, function (에러, 결과) {
-//       if (에러) return done(에러)
-// // 아래의 message는 필요에 따라 뻴수도 있다. 
-//       if (!결과) return done(null, false, { message: '존재하지않는 아이디요' })
-//       if (위에서작명한입력한비번 == 결과.컬렉션에서 비밀번호가 들어있는 데이터 이름) {
-//         return done(null, 결과)
-//       } else {
-//         return done(null, false, { message: '비번틀렸어요' })
-//       }
-//     })
-// }));
-
-// // 최초의 로그인시 한번 실행
-// // serializeUser    →   처음 로그인 했을 시 해당 사용자의 아이디를 기반으로 세션을 생성함
-// // ↓ 여기서 생성된 매게변수 user로 req.user~~를 쓸 수 있다.
-// passport.serializeUser(function (user, done) {
-//      // ↓ 서버에는 세션을 만들고 / 사용자 웹 브라우저에는 쿠키를 만들어준다. 
-//     done(null, user.컬렉션에서 아이디가 들어있는 데이터 이름)
-// });
-
-// // 로그인 할 때마다 실행
-// // deserializeUser  →   로그인을 한 후 다른 페이지들을 접근할 시 생성된 세션에 담겨있는 회원정보 데이터를 보내주는 처리
-// passport.deserializeUser(function (입력한아이디작명, done) {
-//     db.collection("아이디, 비밀번호가 들어있는 컬렉션 이름").findOne({컬렉션에서 아이디가 들어있는 데이터 이름:위에서 입력한아이디작명},function(err,result){
-//         done(null,result)
-//     });
-// });
-
-// // 로그아웃 기능 작업
-// app.get("/logout",function(req,res){
-//     // 서버의 세션을 삭제하고, 본인 웹브라우저의 쿠키를 삭제한다.
-//     req.session.destroy(function(err,result){
-//         // 지워줄 쿠키를 선택한다. / 콘솔 로그의 application → cookies에 가면 name에서 확인할 수 있다.
-//         res.clearCookie("어떤 쿠키를 지워줄 것인가 선택")
-//         // 로그아웃 후 다시 메인페이지로 돌아가기
-//         res.redirect("/");
-//     });
-// });
-
-// 로그인 했는지 않했는지 확인하는 작업
-// app.get("/list",function(req,res){
-// /list 경로를 입력하면 ↓ 아래의 ejs가 출력되고, 동시에 userData에 로그인 정보를 담아서 보내준다.
-// passport.serializeUser(function (user, done){}에서 써준 코드인 user를 써서 그 안에 담긴 데이터를 가져온다.
-// 즉, req.user는 로그인 했을 때 담긴 아이디, 비밀번호, 메일주소, 전화번호의 데이터를 말한다.
-//     res.render("brd_list",{userData:req.user});
-// })
 
 // 댓글 관련 기능 코드
 // //게시글 상세화면 get 요청  /:변수명  작명가능
@@ -491,24 +596,3 @@ app.post("/review_add",upload.single('file'),(req,res) => {
 //     <% } %>
 // </div>
 // <% } %>
-
-// 업로드한 파일 수정 방법
-// 1. 수정 파일 ejs를 get 요청
-// app.get("/edit/:no",function(req,res){
-//     db.collection("ex13_board").findOne({brdid:Number(req.params.no)},function(err,result){
-//         res.render("edit",{brdData:result,userData:req.user});
-//     });
-// });
-
-// 2. ejs파일로 수정할 페이지를 만들고 input hidden으로 value값으로 게시글의 번호값을 가진 태그를 만든다.
-
-// 3. post 요청으로 다음과 같이 요청해준다.
-// app.post("/edit",upload.single('fileUpload'),function(req,res){
-//     db.collection("ex13_board").updateOne({brdid:Number(req.body.id)},{$set:{
-//         brdtitle:req.body.title,
-//         brdcontext:req.body.context,
-//         fileName:req.file.originalname
-//     }},function(err,result){
-//         res.redirect("/brddetail/" + req.body.id);
-//     });
-// });

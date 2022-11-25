@@ -21,6 +21,19 @@ header {
     }
     .center.admin_center {
         .gnb {width:650px;}
+        .login_info {
+            display:flex;
+            position:absolute; top:5px; right:25px;
+            p {
+                &::after {
+                    content:""; display:inline-block;
+                    width:2px; height:15px;
+                    background:#000;
+                    transform:translateY(2px);
+                    margin:0 10px;
+                }
+            }
+        }
     }
 }
 
@@ -215,7 +228,8 @@ footer {
                 .box {
                     width:500px;
                     .img_box {
-                        img {}
+                        height:333px; overflow:hidden;
+                        img {height:100%;}
                     }
                     .text_box {
                         h3 {font-size:20px;}
@@ -243,13 +257,15 @@ footer {
                     width:385px;
                     margin-bottom:50px;
                     .img_box {
+                        margin-bottom:10px;
                         img {
                             width:100%;
                         }
                     }
                     .text_box {
-                        h3 {}
-                        p {}
+                        h3,p {text-align:center; margin-bottom:10px;}
+                        h3 {color:#333; font-size:20px;}
+                        p {color:#666; font-size:13px;}
                     }
                 }
             }
@@ -414,7 +430,7 @@ footer {
                     }
                     a, button {
                         border:1px solid #ccc; border-radius:35px;
-                        background-color:#eee; font-size:15px; font-weight:300;
+                        background-color:#fff; font-size:15px; font-weight:300;
                         width:48%; height:50px; cursor:pointer;
                     }
                     a {
@@ -434,7 +450,8 @@ footer {
 
 // 게시판 페이지
 #brd_list {
-    width:100%; height:100vh;
+    width:100%;
+    padding:200px 0;
     display:flex; justify-content:center; align-items:center;
     .center {
         width:80%;
@@ -456,6 +473,15 @@ footer {
                     border-bottom:none;
                 }
             }
+        }
+        .add_btn {
+            display:block;
+            width:150px; height:40px;
+            line-height:40px;
+            text-align:center;
+            border:1px solid #ccc;
+            border-radius:30px;
+            margin:50px 0;
         }
     }
 }
@@ -488,22 +514,33 @@ footer {
                 td {width:93%;}
             }
             .context {
-                height:450px;
+                height:100%;
                 position:relative;
+                flex-direction:column;
+                padding:15px;
+                .img {
+                    text-align:center;
+                }
                 td {
-                    position:absolute;
-                    top:0; left:0;
                     width:100%;
-                    padding:15px;
+                }
+                .img_td {
+                }
+                .context_td {
+                    white-space:pre-line;
                 }
             }
         }
-        a {
-            border-radius:35px;
-            background-color:#eee; font-size:15px; font-weight:300;
-            width:300px; height:50px; cursor:pointer;
-            text-align:center; line-height:50px; border:1px solid #ccc;
-            margin-top:50px;
+        .btns {
+            width:100%;
+            display:flex; justify-content:space-around;
+            a {
+                border-radius:35px;
+                background-color:#fff; font-size:15px; font-weight:300;
+                width:200px; height:50px; cursor:pointer;
+                text-align:center; line-height:50px; border:1px solid #ccc;
+                margin-top:50px;
+            }
         }
     }
 }
@@ -534,7 +571,7 @@ footer {
                     padding:10px; box-sizing:border-box;
                 }
                 textarea {
-                    width:100%; height:450px;
+                    width:90%; height:450px;
                     padding:10px;
                     box-sizing:border-box;
                 }
@@ -546,10 +583,40 @@ footer {
                 a {
                     text-align:center; line-height:50px;
                 }
+                p {width:100px;}
+                .none {
+                    width:900px; text-align:center;
+                    border:1px solid #ccc;
+                    padding:16px 0;
+                    margin:10px 0;
+                }
+                img {
+                    width:200px;
+                    border:1px solid #ccc;
+                    padding:10px 327px;
+                    margin:10px 0;
+                }
             }
             .line.btns {
                 justify-content:space-around;
             }
+        }
+        .qna_form {
+            .line {
+                flex-direction:column;
+                margin-bottom:15px;
+                input,label,textarea {
+                    width:100%
+                }
+            }
+            .line.qna_firsr_line {
+                flex-direction:row;
+                .sub_line {
+                    width:49%;
+                    display:flex; flex-direction:column;
+                }
+            }
+            .line.btns {flex-direction:row;}
         }
     }
 }
@@ -607,15 +674,23 @@ footer {
                 width:385px;
                 margin-bottom:50px;
                 .img_box {
+                    margin-bottom:10px;
                     img {
                         width:100%;
                     }
                 }
                 .text_box {
-                    h3 {}
-                    p {}
+                    h3,p {text-align:center; margin-bottom:10px;}
+                    h3 {color:#333; font-size:20px;}
+                    p {color:#666; font-size:13px;}
                 }
             }
         }
+    }
+}
+.event_wrap {
+    height:auto;
+    .center {
+        margin-top:100px;
     }
 }
