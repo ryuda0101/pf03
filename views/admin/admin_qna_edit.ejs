@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>온라인 상담 작성 페이지</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include("../common/header.ejs") %>
+    <div id="brd_add">
+        <div class="center">
+            <h2>온라인 상담</h2>
+            <% qnaData.forEach((item, index) => { %>
+            <form class="qna_form" action="/qna_edit" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="qna_number" value="<%- item.num %>">
+                <div class="line qna_firsr_line">
+                    <div class="sub_line">
+                        <label for="customer_name">성함</label>
+                        <input name="customer_name" type="text" id="customer_name" value="<%- item.name %>">
+                    </div>
+                    <div class="sub_line">
+                        <label for="customer_phone">연락처</label>
+                        <input name="customer_phone" type="text" id="customer_phone" value="<%- item.phone %>">
+                    </div>
+                </div>
+                <div class="line">
+                    <label for="title">제목</label>
+                    <input name="qna_title" type="text" id="title" value="<%- item.title %>">
+                </div>
+                <div class="line">
+                    <label for="file">파일 첨부</label>
+                    <input type="hidden" name="qna_hidden_file" value="<%- item.file %>">
+                    <input name="qna_file" type="file" id="file">
+                </div>
+                <div class="line">
+                    <p>기존 이미지<br>미리보기</p>
+                    <% if(item.file == null) { %>
+                        <p class="none">기존 이미지 없음</p>
+                    <% }else{ %>
+                        <img src="/upload/<%- item.file %>">
+                    <% } %>
+                </div>
+                <div class="line">
+                    <label for="context">내용</label>
+                    <textarea name="qna_context" id="context"><%- item.context %></textarea>
+                </div>
+                <div class="line btns">
+                    <button>작성</button>
+                    <a href="/admin_qna">작성 취소</a>
+                </div>
+            </form>
+            <% }); %>
+        </div>
+    </div>
+    <%- include("../common/footer.ejs") %>
+</body>
+</html>

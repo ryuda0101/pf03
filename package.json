@@ -1,7 +1,6 @@
 {
   "name": "portfolio03",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -19,5 +18,15 @@
     "multer": "^1.4.5-lts.1",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryuda0101/portfolio03.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ryuda0101/portfolio03/issues"
+  },
+  "homepage": "https://github.com/ryuda0101/portfolio03#readme",
+  "description": ""
 }

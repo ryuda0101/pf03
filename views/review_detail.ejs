@@ -12,24 +12,29 @@
     <div id="brd_detail">
         <div class="center">
             <h2>고객 후기</h2>
+            <% reviewData.forEach((item,index) => { %>
             <table>
                 <tr>
                     <th>제목</th>
-                    <td>제목입니다.</td>
+                    <td><%- item.title %></td>
                 </tr>
                 <tr>
                     <th>글쓴이</th>
-                    <td>관리자</td>
+                    <td><%- item.name %> 고객님</td>
                 </tr>
                 <tr>
                     <th>날짜</th>
-                    <td>2022-11-24</td>
+                    <td><%- item.date %></td>
+                </tr>
+                <tr>
+                    <td><img src="/upload/<%- item.file %>"></td>
                 </tr>
                 <tr class="context">
-                    <td>내용입니다.</td>
+                    <td><%- item.context %></td>
                 </tr>
             </table>
-            <a href="/admin_board">목록</a>
+            <% }); %>
+            <a href="/review">목록</a>
         </div>
     </div>
     <%- include("common/footer.ejs") %>

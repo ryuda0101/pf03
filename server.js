@@ -1,8 +1,14 @@
-// 온라인 상담 server 건드리는중
-// add는 했고, db에 들어가는것까지는 확인함
-// 수정, 삭제, 상세, 목록 페이지 작성하면 됨
-// 추가로 관리자페이지에서 보고 댓글기능 넣어줘서 답변할 수 있도록 해주기
+// 4개 페이지 게시판 작업 완료
+// 추가 / 삭제 / 수정 / 목록 / 상세페이지 구현 완료
+// qna는 관리자페이지에서 보고 댓글기능 넣어줘서 답변할 수 있도록 해주기
 // 고객페이지에서는 댓글 작성 안되고 관리자만 작성할 수 있도록!
+// 전체 페이징 기능 넣기
+
+// 의사 목록페이지 작업...?
+// 아래에 동그라미로 의사 얼굴 넣고 클릭시 위에 의사 정보 뜨도록...
+// 약력 / 수상후기 같은거
+// css 전체적으로 수정해주기 + 반응형도 작업
+
 
 
 
@@ -96,7 +102,7 @@ app.get("/fail",(req,res) => {
     db.collection('user_admin').find({}).toArray((err, result) => {
         console.log(result);
     });
-    res.send("<script>alert('로그인 실패'); location.href = '/admin_login'</script>");
+    res.send("<script>alert('아이디를 다시한번 확인해 주세요.'); location.href = '/admin_login'</script>");
 });
 
 passport.use(new LocalStrategy({
@@ -149,7 +155,9 @@ app.get("/logout",function(req,res){
 app.get("/",(req,res) => {
     db.collection("brd_event").find({}).sort({num:-1}).toArray((err,event_result) => {
         db.collection("brd").find({}).toArray((err,brd_result) => {
-            res.render("index",{eventData:event_result, brd:brd_result});
+            db.collection("brd_qna").find({}).toArray((err,qna_result) => {
+                res.render("index",{eventData:event_result, brd:brd_result, qnaData:qna_result});
+            });
         });
     });
 });
@@ -356,24 +364,98 @@ app.post("/event_edit",upload.fields([{name:'thumbnail_file'},{name:'event_file1
 
 // 관리자 온라인 상담 목록 페이지
 app.get("/admin_qna",(req,res) => {
-    res.render("admin/admin_qna_list",{userData:req.user});
+    db.collection("brd_qna").find({}).toArray((err,result) => {
+        res.render("admin/admin_qna_list",{userData:req.user ,qnaData:result});
+    });
 });
 
 // 관리자 온라인 상담 상세 페이지
-app.get("/admin_qna_detail",(req,res) => {
-    res.render("admin/admin_qna_detail",{userData:req.user});
+app.get("/admin_qna_detail/:no",(req,res) => {
+    db.collection("brd_qna").find({num:Number(req.params.no)}).toArray((err,result) => {
+        res.render("admin/admin_qna_detail",{userData:req.user ,qnaData:result});
+    });
 });
+
+// 관리자 온라인 상담 삭제 페이지
+app.get("/qna_delete/:no",(req,res) => {
+    db.collection("brd_qna").deleteOne({num:Number(req.params.no)},(err,result) => {
+        res.redirect("/admin_qna");
+    });
+});
+
+// 관리자 온라인 상담 수정 페이지
+app.get("/qna_edit/:no",(req,res) => {
+    db.collection("brd_qna").find({num:Number(req.params.no)}).toArray((err,result) => {
+        res.render("admin/admin_qna_edit",{userData:req.user ,qnaData:result});
+    });
+});
+
+app.post("/qna_edit",upload.single('qna_file'),(req,res) => {
+    if (req.file) {
+        fileUpload = req.file.originalname;
+    }
+    else {
+        fileUpload = req.body.qna_hidden_file;
+    }
+    db.collection("brd_qna").updateOne({num:Number(req.body.qna_number)},{$set:{
+        name:req.body.customer_name,
+        phone:req.body.customer_phone,
+        title:req.body.qna_title,
+        file:fileUpload,
+        context:req.body.qna_context,
+    }},(err,result) => {
+        res.redirect("/admin_qna_detail/" + Number(req.body.qna_number))
+    });
+});
+
+
+
+
 
 // 관리자 고객 후기 목록 페이지
 app.get("/admin_review",(req,res) => {
-    res.render("admin/admin_review_list",{userData:req.user});
+    db.collection("brd_review").find({}).toArray((er,result) => {
+        res.render("admin/admin_review_list",{userData:req.user, reviewData:result});
+    });
 });
 
 // 관리자 고객 후기 상세 페이지
-app.get("/admin_review_detail",(req,res) => {
-    res.render("admin/admin_review_detail",{userData:req.user});
+app.get("/admin_review_detail/:no",(req,res) => {
+    db.collection("brd_review").find({num:Number(req.params.no)}).toArray((err,result) => {
+        res.render("admin/admin_review_detail",{userData:req.user, reviewData:result});
+    });
 });
 
+// 관리자 고객 후기 수정 페이지
+app.get("/review_edit/:no",(req,res) => {
+    db.collection("brd_review").find({num:Number(req.params.no)}).toArray((err,result) => {
+        res.render("admin/admin_review_edit",{userData:req.user ,reviewData:result});
+    });
+});
+
+app.post("/review_edit",upload.single('review_file'),(req,res) => {
+    if (req.file) {
+        fileUpload = req.file.originalname;
+    }
+    else {
+        fileUpload = req.body.review_hidden_file;
+    }
+    db.collection("brd_review").updateOne({num:Number(req.body.review_number)},{$set:{
+        name:req.body.review_name,
+        title:req.body.review_title,
+        file:fileUpload,
+        context:req.body.review_context,
+    }},(err,result) => {
+        res.redirect("/admin_review_detail/" + Number(req.body.review_number))
+    });
+});
+
+// 관리자 고객 후기 삭제 페이지
+app.get("/review_delete/:no",(req,res) => {
+    db.collection("brd_review").deleteOne({num:Number(req.params.no)},(err,result) => {
+        res.redirect("/admin_review");
+    });
+});
 
 
 
@@ -405,12 +487,16 @@ app.get("/event_detail/:no",(req,res) => {
 
 // 온라인 상담 목록 페이지
 app.get("/qna",(req,res) => {
-    res.render("qna_list");
+    db.collection("brd_qna").find({}).toArray((err,result) => {
+        res.render("qna_list",{qnaData:result});
+    });
 });
 
 // 온라인 상담 상세 페이지
-app.get("/qna_detail",(req,res) => {
-    res.render("qna_detail");
+app.get("/qna_detail/:no",(req,res) => {
+    db.collection("brd_qna").find({num:Number(req.params.no)}).toArray((err,result) => {
+        res.render("qna_detail",{qnaData:result});
+    });
 });
 
 // 온라인 상담 작성 페이지
@@ -442,14 +528,25 @@ app.post("/qna_add",upload.single('qna_file'),(req,res) => {
     });
 });
 
+
+
+
+
+
+
+
 // 고객후기 목록 페이지
 app.get("/review",(req,res) => {
-    res.render("review_list");
+    db.collection("brd_review").find({}).toArray((er,result) => {
+        res.render("review_list",{reviewData:result});
+    });
 });
 
 // 고객후기 상세 페이지
-app.get("/review_detail",(req,res) => {
-    res.render("review_detail");
+app.get("/review_detail/:no",(req,res) => {
+    db.collection("brd_review").find({num:Number(req.params.no)}).toArray((err,result) => {
+        res.render("review_detail",{reviewData:result});
+    });
 });
 
 // 고객후기 작성 페이지
@@ -457,16 +554,17 @@ app.get("/review_insert",(req,res) => {
     res.render("review_add");
 });
 
-app.post("/review_add",upload.single('file'),(req,res) => {
+app.post("/review_add",upload.single('review_file'),(req,res) => {
     if (req.file) {
-        let fileUpload = req.file.originalname; 
+        fileUpload = req.file.originalname; 
     }
     else {
-        let fileUpload = null;
+        fileUpload = null;
     }
-    db.collection("count").find({name:"고객후기 게시글"},(err,count_result) => {
-        db.collection("brd_qna").insertOne({
+    db.collection("count").findOne({name:"고객후기 게시글"},(err,count_result) => {
+        db.collection("brd_review").insertOne({
             num:count_result.count + 1,
+            name:req.body.review_name,
             title:req.body.review_title,
             file:fileUpload,
             context:req.body.review_context,
@@ -478,9 +576,6 @@ app.post("/review_add",upload.single('file'),(req,res) => {
         });
     });
 });
-
-
-
 
 
 

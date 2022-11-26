@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고객 후기 작성 페이지</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include("../common/header.ejs") %>
+    <div id="brd_add">
+        <div class="center">
+            <h2>고객 후기</h2>
+            <% reviewData.forEach((item,index) => { %>
+            <form action="/review_edit" method="post" enctype="multipart/form-data">
+                <input name="review_number" type="hidden" value="<%- item.num %>">
+                <div class="line">
+                    <label for="customer_name">성함</label>
+                    <input name="review_name" type="text" id="customer_name" value="<%- item.name %>">
+                </div>
+                <div class="line">
+                    <label for="title">제목</label>
+                    <input name="review_title" type="text" id="title" value="<%- item.title %>">
+                </div>
+                <div class="line">
+                    <label for="file">파일 첨부</label>
+                    <input type="hidden" name="review_hidden_file" value="<%- item.file %>">
+                    <input name="review_file" type="file" id="file">
+                </div>
+                <div class="line">
+                    <p>기존 파일<br>미리보기</p>
+                    <% if(item.file == null) { %>
+                        <p class="none">기존 파일 없음</p>
+                    <% }else{ %>
+                        <td><img src="/upload/<%- item.file %>"></td>
+                    <% } %>
+                </div>
+                <div class="line">
+                    <textarea name="review_context" id="context"><%- item.context %></textarea>
+                </div>
+                <div class="line btns">
+                    <button>작성</button>
+                    <a href="/admin_review_detail/" + <%- item.num %>>작성 취소</a>
+                </div>
+            </form>
+            <% }) %>
+        </div>
+    </div>
+    <%- include("../common/footer.ejs") %>
+</body>
+</html>

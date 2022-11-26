@@ -12,24 +12,28 @@
     <div id="brd_detail">
         <div class="center">
             <h2>온라인 상담</h2>
-            <table>
-                <tr>
-                    <th>제목</th>
-                    <td>제목입니다.</td>
-                </tr>
-                <tr>
-                    <th>글쓴이</th>
-                    <td>관리자</td>
-                </tr>
-                <tr>
-                    <th>날짜</th>
-                    <td>2022-11-24</td>
-                </tr>
-                <tr class="context">
-                    <td>내용입니다.</td>
-                </tr>
-            </table>
-            <a href="/admin_board">목록</a>
+            <% qnaData.forEach((item,index) => { %>
+                <table>
+                    <tr>
+                        <th>제목</th>
+                        <td><%- item.title %></td>
+                    </tr>
+                    <tr>
+                        <th>글쓴이</th>
+                        <td><%- item.name %></td>
+                    </tr>
+                    <tr>
+                        <th>날짜</th>
+                        <td><%- item.date %></td>
+                    </tr>
+                    <tr class="context">
+                        <td class="context_td"><%- item.context %></td>
+                    </tr>
+                </table>
+                <div class="btns">
+                    <a class="list" href="/qna">목록</a>
+                </div>
+            <% }); %>
         </div>
     </div>
     <%- include("common/footer.ejs") %>

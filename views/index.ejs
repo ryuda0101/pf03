@@ -177,42 +177,20 @@
                 <div class="qna_brd_wrap">
                     <!-- db에서 긁어오기 -->
                     <!-- 제목 / 질문 -->
+                    <% for(let i = 0; i < 3; i++) { %>
                     <div class="line">
                         <div class="top_line">
                             <div class="icon">
                                 <img class="off" src="/img/qna_icon.png">
                                 <img class="on" src="/img/qna_icon02.png">
                             </div>
-                            <div class="title"><a href="#">질문</a></div>
+                            <div class="title"><a href="#"><%- qnaData[i].title %></a></div>
                         </div>
                         <div class="answer">
                             <p>여기에 답변 넣어주기</p>
                         </div>
                     </div>
-                    <div class="line">
-                        <div class="top_line">
-                            <div class="icon">
-                                <img class="off" src="/img/qna_icon.png">
-                                <img class="on" src="/img/qna_icon02.png">
-                            </div>
-                            <div class="title"><a href="#">질문</a></div>
-                        </div>
-                        <div class="answer">
-                            <p>여기에 답변 넣어주기</p>
-                        </div>
-                    </div>
-                    <div class="line">
-                        <div class="top_line">
-                            <div class="icon">
-                                <img class="off" src="/img/qna_icon.png">
-                                <img class="on" src="/img/qna_icon02.png">
-                            </div>
-                            <div class="title"><a href="#">질문</a></div>
-                        </div>
-                        <div class="answer">
-                            <p>여기에 답변 넣어주기</p>
-                        </div>
-                    </div>
+                    <% } %>
                     <a class="more_btn" href="#">더보기</a>
                 </div>
             </div>

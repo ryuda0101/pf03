@@ -12,21 +12,25 @@
     <div id="brd_add">
         <div class="center">
             <h2>고객 후기</h2>
-            <form action="/review_add" method="get" enctype="multipart/form-data">
+            <form action="/review_add" method="post" enctype="multipart/form-data">
+                <div class="line">
+                    <label for="customer_name">성함</label>
+                    <input name="review_name" type="text" id="customer_name">
+                </div>
                 <div class="line">
                     <label for="title">제목</label>
                     <input name="review_title" type="text" id="title">
                 </div>
                 <div class="line">
                     <label for="file">파일 첨부</label>
-                    <input name="file" type="file" id="file">
+                    <input name="review_file" type="file" id="file">
                 </div>
                 <div class="line">
                     <textarea name="review_context" id="context"></textarea>
                 </div>
                 <div class="line btns">
                     <button>작성</button>
-                    <a href="/admin_board">작성 취소</a>
+                    <a href="/review">작성 취소</a>
                 </div>
             </form>
         </div>
