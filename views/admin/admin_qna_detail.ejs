@@ -9,7 +9,7 @@
 </head>
 <body>
     <%- include("../common/admin_header.ejs") %>
-    <div id="brd_detail">
+    <div id="brd_detail" class="qna_detail">
         <div class="center">
             <h2>온라인 상담</h2>
             <% qnaData.forEach((item,index) => { %>
@@ -30,6 +30,24 @@
                         <td class="context_td"><%- item.context %></td>
                     </tr>
                 </table>
+                <div class="answer_box">
+                    <form action="/qna_answer" method="post">
+                        <input type="hidden" name="qna_number" value="<%- item.num %>">
+                        <div class="line">
+                            <textarea name="answer"></textarea>
+                        </div>
+                        <div class="line">
+                            <button>작성 완료</button>
+                        </div>
+                    </form>
+                </div>
+            <% }); %>
+            <% answerData.forEach((item,index) => { %>
+            <div class="answer_box">
+                <p><%- item.answer %></p>
+            </div>
+            <% }); %>
+            <% qnaData.forEach((item,index) => { %>
                 <div class="btns">
                     <a class="edit" href="/qna_edit/<%- item.num %>">수정</a>
                     <a class="list" href="/admin_qna">목록</a>

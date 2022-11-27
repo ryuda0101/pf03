@@ -1,7 +1,10 @@
 // 4개 페이지 게시판 작업 완료
 // 추가 / 삭제 / 수정 / 목록 / 상세페이지 구현 완료
 // qna는 관리자페이지에서 보고 댓글기능 넣어줘서 답변할 수 있도록 해주기
-// 고객페이지에서는 댓글 작성 안되고 관리자만 작성할 수 있도록!
+// 고객페이지에서는 댓글 작성 안되고 관리자만 작성할 수 있도록!4
+
+// 댓글 db에서 못가져오는 문제 있음!!!!!!!
+
 // 전체 페이징 기능 넣기
 
 // 의사 목록페이지 작업...?
@@ -168,9 +171,45 @@ app.get("/admin",(req,res) => {
 });
 
 // 관리자 보도자료 게시판 페이지
-app.get("/admin_board",(req,res) => {
-    db.collection("brd").find().toArray((err,result) => {
-        res.render("admin/admin_board_list",{userData:req.user, brdData:result});
+app.get("/admin_board",async (req,res) => {
+    // 현재 접속한 페이지의 페이징 번호
+    let pageNumber = (req.query.page == null) ? 1 : Number(req.query.page);
+    // 한 페이지당 보여줄 데이터 갯수
+    let perPage = 5;
+    // 한 블록당 보여줄 페이징 갯수
+    let blockCount = 2;
+    // 현재 접속한 페이지의 블록
+    let blockNum = Math.ceil(pageNumber / blockCount);
+    // 블록 안에 있는 페이징의 시작번호
+    let blockStart = ((blockNum - 1) * blockCount) + 1;
+    // 블록 안에 있는 페이징의 끝번호
+    let blockEnd = blockStart + blockCount - 1;
+    // db의 collection에있는 전체 객체의 갯수값
+    let totalData = await db.collection("brd").countDocuments({});
+    // 전체 데이터값을 통해서 만들어져야하는 페이징 개수 계산
+    let paging = Math.ceil(totalData / perPage);
+    // 블록에서 마지막 번호가 페이징의 끝번호 보다 크다면, 페이징의 끝번호를 강제로 부여
+    if (blockEnd > paging) {
+        blockEnd = paging; 
+    }
+    // 블록의 총 개수
+    let totalBlock = Math.ceil(paging / blockCount);
+    // db에서 꺼내오는 데이터의 시작 순번값
+    let startDbData = (pageNumber - 1) * perPage;
+    
+    // db의 실제 값을 꺼내올 때 한 페이지당 몇개씩 가져올건지  skip() limit()함수로 설정
+    // sort()로 가져온 데이터 내림차순으로 정렬
+    db.collection("brd").find({}).skip(startDbData).limit(perPage).toArray((err,result) => {
+        res.render("admin/admin_board_list",{
+            userData:req.user,
+            brdData:result,
+            paging:paging,
+            pageNumber:pageNumber,
+            blockStart:blockStart,
+            blockEnd:blockEnd,
+            blockNum:blockNum,
+            totalBlock:totalBlock
+        });
     });
 });
 
@@ -244,9 +283,45 @@ app.post("/board_edit",upload.single('brd_file'),(req,res) => {
 
 
 // 관리자 이벤트 게시판 페이지
-app.get("/admin_event",(req,res) => {
-    db.collection("brd_event").find({}).sort({num:-1}).toArray((err,result) => {
-        res.render("admin/admin_event_list",{userData:req.user, eventData:result});
+app.get("/admin_event",async (req,res) => {
+        // 현재 접속한 페이지의 페이징 번호
+        let pageNumber = (req.query.page == null) ? 1 : Number(req.query.page);
+        // 한 페이지당 보여줄 데이터 갯수
+        let perPage = 5;
+        // 한 블록당 보여줄 페이징 갯수
+        let blockCount = 2;
+        // 현재 접속한 페이지의 블록
+        let blockNum = Math.ceil(pageNumber / blockCount);
+        // 블록 안에 있는 페이징의 시작번호
+        let blockStart = ((blockNum - 1) * blockCount) + 1;
+        // 블록 안에 있는 페이징의 끝번호
+        let blockEnd = blockStart + blockCount - 1;
+        // db의 collection에있는 전체 객체의 갯수값
+        let totalData = await db.collection("brd_event").countDocuments({});
+        // 전체 데이터값을 통해서 만들어져야하는 페이징 개수 계산
+        let paging = Math.ceil(totalData / perPage);
+        // 블록에서 마지막 번호가 페이징의 끝번호 보다 크다면, 페이징의 끝번호를 강제로 부여
+        if (blockEnd > paging) {
+            blockEnd = paging; 
+        }
+        // 블록의 총 개수
+        let totalBlock = Math.ceil(paging / blockCount);
+        // db에서 꺼내오는 데이터의 시작 순번값
+        let startDbData = (pageNumber - 1) * perPage;
+        
+        // db의 실제 값을 꺼내올 때 한 페이지당 몇개씩 가져올건지  skip() limit()함수로 설정
+        // sort()로 가져온 데이터 내림차순으로 정렬
+    db.collection("brd_event").find({}).sort({num:-1}).skip(startDbData).limit(perPage).toArray((err,result) => {
+        res.render("admin/admin_event_list",{
+            userData:req.user,
+            eventData:result,
+            paging:paging,
+            pageNumber:pageNumber,
+            blockStart:blockStart,
+            blockEnd:blockEnd,
+            blockNum:blockNum,
+            totalBlock:totalBlock
+        });
     });
 });
 
@@ -363,18 +438,139 @@ app.post("/event_edit",upload.fields([{name:'thumbnail_file'},{name:'event_file1
 
 
 // 관리자 온라인 상담 목록 페이지
-app.get("/admin_qna",(req,res) => {
-    db.collection("brd_qna").find({}).toArray((err,result) => {
-        res.render("admin/admin_qna_list",{userData:req.user ,qnaData:result});
+app.get("/admin_qna",async (req,res) => {
+        // 현재 접속한 페이지의 페이징 번호
+        let pageNumber = (req.query.page == null) ? 1 : Number(req.query.page);
+        // 한 페이지당 보여줄 데이터 갯수
+        let perPage = 5;
+        // 한 블록당 보여줄 페이징 갯수
+        let blockCount = 2;
+        // 현재 접속한 페이지의 블록
+        let blockNum = Math.ceil(pageNumber / blockCount);
+        // 블록 안에 있는 페이징의 시작번호
+        let blockStart = ((blockNum - 1) * blockCount) + 1;
+        // 블록 안에 있는 페이징의 끝번호
+        let blockEnd = blockStart + blockCount - 1;
+        // db의 collection에있는 전체 객체의 갯수값
+        let totalData = await db.collection("brd_qna").countDocuments({});
+        // 전체 데이터값을 통해서 만들어져야하는 페이징 개수 계산
+        let paging = Math.ceil(totalData / perPage);
+        // 블록에서 마지막 번호가 페이징의 끝번호 보다 크다면, 페이징의 끝번호를 강제로 부여
+        if (blockEnd > paging) {
+            blockEnd = paging; 
+        }
+        // 블록의 총 개수
+        let totalBlock = Math.ceil(paging / blockCount);
+        // db에서 꺼내오는 데이터의 시작 순번값
+        let startDbData = (pageNumber - 1) * perPage;
+        
+        // db의 실제 값을 꺼내올 때 한 페이지당 몇개씩 가져올건지  skip() limit()함수로 설정
+        // sort()로 가져온 데이터 내림차순으로 정렬
+    db.collection("brd_qna").find({}).skip(startDbData).limit(perPage).toArray((err,result) => {
+        res.render("admin/admin_qna_list",{
+            userData:req.user,
+            qnaData:result,
+            paging:paging,
+            pageNumber:pageNumber,
+            blockStart:blockStart,
+            blockEnd:blockEnd,
+            blockNum:blockNum,
+            totalBlock:totalBlock
+        });
+    });
+});
+
+// 관리자 온라인 상담 댓글 답변
+app.post("/qna_answer",(req,res) => {
+    db.collection("brd_qna_answer").insertOne({
+        question_num:req.body.qna_number,
+        answer:req.body.answer
+    },(err,result) => {
+        res.redirect("/admin_qna_detail/" + Number(req.body.qna_number));
     });
 });
 
 // 관리자 온라인 상담 상세 페이지
 app.get("/admin_qna_detail/:no",(req,res) => {
     db.collection("brd_qna").find({num:Number(req.params.no)}).toArray((err,result) => {
-        res.render("admin/admin_qna_detail",{userData:req.user ,qnaData:result});
+        db.collection("brd_qna_answer").find({question_num:result.num}).toArray((err,answer_result) => {
+
+            // 댓글 db에서 못가져오는 문제 있음!!!!!!!
+
+            console.log(result.num);
+            res.render("admin/admin_qna_detail",{userData:req.user ,qnaData:result, answerData:answer_result});
+        });
     });
 });
+
+// 댓글 관련 기능 코드
+// //게시글 상세화면 get 요청  /:변수명  작명가능
+// //db안에 해당 게시글번호에 맞는 데이터만 꺼내오고 ejs파일로 응답
+// app.get("/brddetail/:no",function(req,res){
+//     db.collection("ex12_board").findOne({brdid:Number(req.params.no)},function(err,result1){
+//         // 게시글 가져와서 → 해당 게시글 번호에 맞는 댓글들만 가져오기
+//         db.collection("ex12_comment").find({comPrd:result1.brdid}).toArray(function(err,result2){
+//             // 사용자에게 응답 / ejs 파일로 데이터 넘겨주기
+//             // 게시글에 관련된 데이터 / 로그인한 유저정보 / 댓글에 관련된 데이터
+//             res.render("brddetail",{brdData:result1, userData:req.user, commentData:result2})
+//         });
+        
+//         // res.render("brddetail",{brdData:result,userData:req.user});
+//     });
+// });
+
+// // 댓글 작성 후 db에 추가하는 post 요청
+// app.post("/addcomment",function(req,res){
+//     // 몇번 댓글인지 번호 부여하기 위한 작업
+//     db.collection("ex12_count").findOne({name:"댓글"},function(err,result1){
+//         // 해당 게시글의 번호값도 함께 부여해줘야 한다.
+//         db.collection("ex12_board").findOne({brdid:Number(req.body.prdid)},function(err,result2){
+//             // ex12_comment 에 댓글을 집어넣기
+//             db.collection("ex12_comment").insertOne({
+//                 comNo:result1.commentCount + 1,
+//                 comPrd:result2.brdid,
+//                 comContext:req.body.comment_text,
+//                 comAuther:req.user.joinnick,
+//                 comDate:moment().tz("Asia/Seoul").format("YYYY-MM-DD HH:mm:ss")
+//             },function(err,result){
+//                 db.collection("ex12_count").updateOne({name:"댓글"},{$inc:{commentCount:1}},function(err,result){
+//                     // 상세페이지에서 댓글 입력시 보내준 게시글 번호로 → 상세페이지 이동하도록 요청
+//                     // res.redirect("/brddetail/" + result2.brdid);
+//                     res.redirect("/brddetail/" + req.body.prdid);
+//                 })
+//             });
+//         });
+//     });
+// });
+
+// // 댓글 수정 요청
+// app.post("/updatecomment",function(req,res){
+//     db.collection("ex12_comment").findOne({comNo:Number(req.body.comNo)},function(err,result1){
+//         db.collection("ex12_comment").updateOne({comNo:Number(req.body.comNo)},{$set:{
+//             comContext:req.body.comContext
+//         }},function(err,result2){
+//             res.redirect("/brddetail/" + result1.comPrd);
+//         });
+//     });
+// });
+
+// // 댓글 삭제 요청
+// app.get("/deletecomment/:no",function(req,res){
+//     // 해당 댓글의 게시글(부모) 번호값을 찾아온 후 댓글을 삭제하고
+//     db.collection("ex12_comment").findOne({comNo:Number(req.params.no)},function(err,result1){
+//         db.collection("ex12_comment").deleteOne({comNo:Number(req.params.no)},function(err,result2){
+//             // 그 다음 해당 상세페이지로 다시 이동 (게시글 번호 값)!
+//             // 댓 삭제 후 findOne으로 찾아온 comPrd ← 게시글(부모)의 번호
+//             res.redirect("/brddetail/" + result1.comPrd);
+//         });
+//     });
+// });
+
+
+
+
+
+
 
 // 관리자 온라인 상담 삭제 페이지
 app.get("/qna_delete/:no",(req,res) => {
@@ -413,9 +609,45 @@ app.post("/qna_edit",upload.single('qna_file'),(req,res) => {
 
 
 // 관리자 고객 후기 목록 페이지
-app.get("/admin_review",(req,res) => {
-    db.collection("brd_review").find({}).toArray((er,result) => {
-        res.render("admin/admin_review_list",{userData:req.user, reviewData:result});
+app.get("/admin_review",async (req,res) => {
+        // 현재 접속한 페이지의 페이징 번호
+        let pageNumber = (req.query.page == null) ? 1 : Number(req.query.page);
+        // 한 페이지당 보여줄 데이터 갯수
+        let perPage = 5;
+        // 한 블록당 보여줄 페이징 갯수
+        let blockCount = 2;
+        // 현재 접속한 페이지의 블록
+        let blockNum = Math.ceil(pageNumber / blockCount);
+        // 블록 안에 있는 페이징의 시작번호
+        let blockStart = ((blockNum - 1) * blockCount) + 1;
+        // 블록 안에 있는 페이징의 끝번호
+        let blockEnd = blockStart + blockCount - 1;
+        // db의 collection에있는 전체 객체의 갯수값
+        let totalData = await db.collection("brd_review").countDocuments({});
+        // 전체 데이터값을 통해서 만들어져야하는 페이징 개수 계산
+        let paging = Math.ceil(totalData / perPage);
+        // 블록에서 마지막 번호가 페이징의 끝번호 보다 크다면, 페이징의 끝번호를 강제로 부여
+        if (blockEnd > paging) {
+            blockEnd = paging; 
+        }
+        // 블록의 총 개수
+        let totalBlock = Math.ceil(paging / blockCount);
+        // db에서 꺼내오는 데이터의 시작 순번값
+        let startDbData = (pageNumber - 1) * perPage;
+        
+        // db의 실제 값을 꺼내올 때 한 페이지당 몇개씩 가져올건지  skip() limit()함수로 설정
+        // sort()로 가져온 데이터 내림차순으로 정렬
+    db.collection("brd_review").find({}).skip(startDbData).limit(perPage).toArray((er,result) => {
+        res.render("admin/admin_review_list",{
+            userData:req.user,
+            reviewData:result,
+            paging:paging,
+            pageNumber:pageNumber,
+            blockStart:blockStart,
+            blockEnd:blockEnd,
+            blockNum:blockNum,
+            totalBlock:totalBlock
+        });
     });
 });
 
@@ -461,13 +693,52 @@ app.get("/review_delete/:no",(req,res) => {
 
 
 // 보도자료 목록 페이지
-app.get("/board",(req,res) => {
-    res.render("board_list");
+app.get("/board",async (req,res) => {
+    // 현재 접속한 페이지의 페이징 번호
+    let pageNumber = (req.query.page == null) ? 1 : Number(req.query.page);
+    // 한 페이지당 보여줄 데이터 갯수
+    let perPage = 5;
+    // 한 블록당 보여줄 페이징 갯수
+    let blockCount = 2;
+    // 현재 접속한 페이지의 블록
+    let blockNum = Math.ceil(pageNumber / blockCount);
+    // 블록 안에 있는 페이징의 시작번호
+    let blockStart = ((blockNum - 1) * blockCount) + 1;
+    // 블록 안에 있는 페이징의 끝번호
+    let blockEnd = blockStart + blockCount - 1;
+    // db의 collection에있는 전체 객체의 갯수값
+    let totalData = await db.collection("brd").countDocuments({});
+    // 전체 데이터값을 통해서 만들어져야하는 페이징 개수 계산
+    let paging = Math.ceil(totalData / perPage);
+    // 블록에서 마지막 번호가 페이징의 끝번호 보다 크다면, 페이징의 끝번호를 강제로 부여
+    if (blockEnd > paging) {
+        blockEnd = paging; 
+    }
+    // 블록의 총 개수
+    let totalBlock = Math.ceil(paging / blockCount);
+    // db에서 꺼내오는 데이터의 시작 순번값
+    let startDbData = (pageNumber - 1) * perPage;
+    
+    // db의 실제 값을 꺼내올 때 한 페이지당 몇개씩 가져올건지  skip() limit()함수로 설정
+    // sort()로 가져온 데이터 내림차순으로 정렬
+    db.collection("brd").find({}).skip(startDbData).limit(perPage).toArray((err,result) => {
+        res.render("board_list",{
+            brdData:result,
+            paging:paging,
+            pageNumber:pageNumber,
+            blockStart:blockStart,
+            blockEnd:blockEnd,
+            blockNum:blockNum,
+            totalBlock:totalBlock
+        });
+    });
 });
 
 // 보도자료 상세 페이지
-app.get("/board_detail",(req,res) => {
-    res.render("board_detail");
+app.get("/board_detail/:no",(req,res) => {
+    db.collection("brd").find({num:Number(req.params.no)}).toArray((err,result) => {
+        res.render("board_detail",{brdData:result});
+    });
 });
 
 // 이벤트 목록 페이지
@@ -486,9 +757,44 @@ app.get("/event_detail/:no",(req,res) => {
 
 
 // 온라인 상담 목록 페이지
-app.get("/qna",(req,res) => {
-    db.collection("brd_qna").find({}).toArray((err,result) => {
-        res.render("qna_list",{qnaData:result});
+app.get("/qna",async (req,res) => {
+        // 현재 접속한 페이지의 페이징 번호
+        let pageNumber = (req.query.page == null) ? 1 : Number(req.query.page);
+        // 한 페이지당 보여줄 데이터 갯수
+        let perPage = 5;
+        // 한 블록당 보여줄 페이징 갯수
+        let blockCount = 2;
+        // 현재 접속한 페이지의 블록
+        let blockNum = Math.ceil(pageNumber / blockCount);
+        // 블록 안에 있는 페이징의 시작번호
+        let blockStart = ((blockNum - 1) * blockCount) + 1;
+        // 블록 안에 있는 페이징의 끝번호
+        let blockEnd = blockStart + blockCount - 1;
+        // db의 collection에있는 전체 객체의 갯수값
+        let totalData = await db.collection("brd_qna").countDocuments({});
+        // 전체 데이터값을 통해서 만들어져야하는 페이징 개수 계산
+        let paging = Math.ceil(totalData / perPage);
+        // 블록에서 마지막 번호가 페이징의 끝번호 보다 크다면, 페이징의 끝번호를 강제로 부여
+        if (blockEnd > paging) {
+            blockEnd = paging; 
+        }
+        // 블록의 총 개수
+        let totalBlock = Math.ceil(paging / blockCount);
+        // db에서 꺼내오는 데이터의 시작 순번값
+        let startDbData = (pageNumber - 1) * perPage;
+        
+        // db의 실제 값을 꺼내올 때 한 페이지당 몇개씩 가져올건지  skip() limit()함수로 설정
+        // sort()로 가져온 데이터 내림차순으로 정렬
+    db.collection("brd_qna").find({}).skip(startDbData).limit(perPage).toArray((err,result) => {
+        res.render("qna_list",{
+            qnaData:result,
+            paging:paging,
+            pageNumber:pageNumber,
+            blockStart:blockStart,
+            blockEnd:blockEnd,
+            blockNum:blockNum,
+            totalBlock:totalBlock
+        });
     });
 });
 
@@ -579,115 +885,40 @@ app.post("/review_add",upload.single('review_file'),(req,res) => {
 
 
 
+// 페이징 기능 추가
+// app.get("/admin/board",async (req,res) => {
+    // // 현재 접속한 페이지의 페이징 번호
+    // let pageNumber = (req.query.page == null) ? 1 : Number(req.query.page);
+    // // 한 페이지당 보여줄 데이터 갯수
+    // let perPage = 5;
+    // // 한 블록당 보여줄 페이징 갯수
+    // let blockCount = 2;
+    // // 현재 접속한 페이지의 블록
+    // let blockNum = Math.ceil(pageNumber / blockCount);
+    // // 블록 안에 있는 페이징의 시작번호
+    // let blockStart = ((blockNum - 1) * blockCount) + 1;
+    // // 블록 안에 있는 페이징의 끝번호
+    // let blockEnd = blockStart + blockCount - 1;
+    // // db의 collection에있는 전체 객체의 갯수값
+    // let totalData = await db.collection("board").countDocuments({});
+    // // 전체 데이터값을 통해서 만들어져야하는 페이징 개수 계산
+    // let paging = Math.ceil(totalData / perPage);
+    // // 블록에서 마지막 번호가 페이징의 끝번호 보다 크다면, 페이징의 끝번호를 강제로 부여
+    // if (blockEnd > paging) {
+    //     blockEnd = paging; 
+    // }
+    // // 블록의 총 개수
+    // let totalBlock = Math.ceil(paging / blockCount);
+    // // db에서 꺼내오는 데이터의 시작 순번값
+    // let startDbData = (pageNumber - 1) * perPage;
+    
+    // // db의 실제 값을 꺼내올 때 한 페이지당 몇개씩 가져올건지  skip() limit()함수로 설정
+    // // sort()로 가져온 데이터 내림차순으로 정렬
 
-
-// 검색기능 추가하기
-// 1. db에서 search를 만들어주고 server.js에 다음의 코드를 기입해준다.
-// app.get("/search",function(req,res){
-//     let search = [
-//                     {
-//                         '$search': {
-//                             'index': '검색할 컬렉션 이름',
-//                             'text': {
-//                                 query: req.query.검색메뉴가 있는 ejs파일에서 검색어가 들어갈 input 태그의 name값,
-//                                 path: req.query.검색메뉴가 있는 ejs파일에서 검색어의 종류를 선택할 select태그의 name값
-//                             }
-//                         }
-//                     },{
-//                         $sort:{brdid:-1}
-//                     }
-//                 ]
-//     db.collection("검색할 컬렉션 이름").aggregate(search(바로 위에서 작성한 변수의 이름)).toArray(function(err,result){
-//         res.render("brd_list",{brdinfo:result,userData:req.user});
-//     });
-// });
-
-
-
-
-// 댓글 관련 기능 코드
-// //게시글 상세화면 get 요청  /:변수명  작명가능
-// //db안에 해당 게시글번호에 맞는 데이터만 꺼내오고 ejs파일로 응답
-// app.get("/brddetail/:no",function(req,res){
-//     db.collection("ex12_board").findOne({brdid:Number(req.params.no)},function(err,result1){
-//         // 게시글 가져와서 → 해당 게시글 번호에 맞는 댓글들만 가져오기
-//         db.collection("ex12_comment").find({comPrd:result1.brdid}).toArray(function(err,result2){
-//             // 사용자에게 응답 / ejs 파일로 데이터 넘겨주기
-//             // 게시글에 관련된 데이터 / 로그인한 유저정보 / 댓글에 관련된 데이터
-//             res.render("brddetail",{brdData:result1, userData:req.user, commentData:result2})
-//         });
-        
-//         // res.render("brddetail",{brdData:result,userData:req.user});
-//     });
-// });
-
-// // 댓글 작성 후 db에 추가하는 post 요청
-// app.post("/addcomment",function(req,res){
-//     // 몇번 댓글인지 번호 부여하기 위한 작업
-//     db.collection("ex12_count").findOne({name:"댓글"},function(err,result1){
-//         // 해당 게시글의 번호값도 함께 부여해줘야 한다.
-//         db.collection("ex12_board").findOne({brdid:Number(req.body.prdid)},function(err,result2){
-//             // ex12_comment 에 댓글을 집어넣기
-//             db.collection("ex12_comment").insertOne({
-//                 comNo:result1.commentCount + 1,
-//                 comPrd:result2.brdid,
-//                 comContext:req.body.comment_text,
-//                 comAuther:req.user.joinnick,
-//                 comDate:moment().tz("Asia/Seoul").format("YYYY-MM-DD HH:mm:ss")
-//             },function(err,result){
-//                 db.collection("ex12_count").updateOne({name:"댓글"},{$inc:{commentCount:1}},function(err,result){
-//                     // 상세페이지에서 댓글 입력시 보내준 게시글 번호로 → 상세페이지 이동하도록 요청
-//                     // res.redirect("/brddetail/" + result2.brdid);
-//                     res.redirect("/brddetail/" + req.body.prdid);
-//                 })
-//             });
-//         });
-//     });
-// });
-
-// // 댓글 수정 요청
-// app.post("/updatecomment",function(req,res){
-//     db.collection("ex12_comment").findOne({comNo:Number(req.body.comNo)},function(err,result1){
-//         db.collection("ex12_comment").updateOne({comNo:Number(req.body.comNo)},{$set:{
-//             comContext:req.body.comContext
-//         }},function(err,result2){
-//             res.redirect("/brddetail/" + result1.comPrd);
-//         });
-//     });
-// });
-
-// // 댓글 삭제 요청
-// app.get("/deletecomment/:no",function(req,res){
-//     // 해당 댓글의 게시글(부모) 번호값을 찾아온 후 댓글을 삭제하고
-//     db.collection("ex12_comment").findOne({comNo:Number(req.params.no)},function(err,result1){
-//         db.collection("ex12_comment").deleteOne({comNo:Number(req.params.no)},function(err,result2){
-//             // 그 다음 해당 상세페이지로 다시 이동 (게시글 번호 값)!
-//             // 댓 삭제 후 findOne으로 찾아온 comPrd ← 게시글(부모)의 번호
-//             res.redirect("/brddetail/" + result1.comPrd);
-//         });
-//     });
-// });
-
-// ejs에는 다음과 같이 입력 해준다.
-// <!-- 댓글 출력 구간 -->
-// <% for(let i = 0; i < commentData.length; i++){ %>
-// <div class="comment_box">
-//     <div class="comment_context"><%- commentData[i].comContext %></div>
-//     <div class="comment_date"><%- commentData[i].comAuther %></div>
-//     <div class="comment_auther"><%- commentData[i].comDate %></div>
-//     <!-- 조건문으로  -->
-//     <% if(userData.joinnick === commentData[i].comAuther) { %>
-//         <div class="comment_btn">
-//             <a class="update_comment" href="#">댓글 수정</a>
-//             <a class="del_comment" href="/deletecomment/<%- commentData[i].comNo %>">댓글 삭제</a>
-//         </div>
-//         <form class="comupdate_form" action="/updatecomment" method="post">
-//             <!-- 내가 수정할 댓글의 순번값을 받아오기 위한 type="hidden"의 input 태그 -->
-//             <input type="hidden" name="comNo" value="<%- commentData[i].comNo %>">
-//             <textarea name="comContext" class="comContext"><%- commentData[i].comContext %></textarea>    
-//             <button class="comment_ok" type="submit">작성 완료</button>
-//             <button class="comment_no" type="button">작성 취소</button>
-//         </form>
-//     <% } %>
-// </div>
-// <% } %>
+    // db.collection("board").find({}).sort({num:-1}).skip(startDbData).limit(perPage).toArray((err,result) => {
+        // paging:paging,
+        // pageNumber:pageNumber,
+        // blockStart:blockStart,
+        // blockEnd:blockEnd,
+        // blockNum:blockNum,
+        // totalBlock:totalBlock
