@@ -1,11 +1,11 @@
 // 헤더 작업 시작
 header {
     display:flex; justify-content:center;
-    // background:transparent;
-    background:#fff;
     position:fixed;
     z-index:99; width:100%;
     padding:10px 0;
+    background:transparent;
+    transition:all 0.3s;
     .center {
         width:80%;
         display:flex; justify-content:space-between; align-items:center;
@@ -13,10 +13,17 @@ header {
         .gnb {
             display:flex; justify-content:space-between;
             width:500px;
+            li {
+                &:hover {
+                    a {
+                        color:#2b9fd9;
+                    }
+                }
+            }
         }
         .admin_btn {
             position:absolute; top:10px; right:10px;
-            color:red;
+            color:#333; opacity:0.5;
         }
     }
     .center.admin_center {
@@ -100,7 +107,7 @@ footer {
             }
         }
         li.pagingOn {
-            a {color:red; font-weight:bold;}
+            a {color:#2b9fd9; font-weight:bold;}
         }
     }
 }
@@ -142,7 +149,17 @@ footer {
                 color:#fff;
                 h2 {
                     font-size:25px; margin-bottom:0;
-                    span {font-size:185px;}
+                }
+                .years_Count {
+                    display:flex;
+                    width:452px; height:277.5px;
+                    overflow-y:hidden;
+                    .line {
+                        position:relative;
+                        top:0;
+                        transition:all 0.1s;
+                        p {font-size:185px;}
+                    }
                 }
                 .years {
                     font-size:30px;
@@ -194,7 +211,12 @@ footer {
                     width:20%;
                     > div {
                         margin-bottom:30px;
-                        h3 {margin-bottom:10px; font-size:28px; transition:all 0.2s;}
+                        h3 {
+                            margin-bottom:10px;
+                            font-size:28px;
+                            transition:all 0.2s;
+                            cursor:pointer;
+                        }
                         p {margin-bottom:10px; font-size:17px;}
                         a {
                             font-size:15px;
@@ -205,13 +227,13 @@ footer {
                         }
                         &:hover {
                             h3 {
-                                color:red;
+                                color:#2b9fd9;
                             }
                         }
                     }
                     .on {
                         h3 {
-                            color:red;
+                            color:#2b9fd9;
                         }
                     }
                 }
@@ -221,10 +243,12 @@ footer {
                     overflow:hidden;
                     .box {
                         display:flex;
+                        opacity:0;
                         justify-content:center;
                         align-items:center;
-                        position:relative;
+                        position:absolute;
                         top:0; left:0;
+                        transition:all 0.5s;
                         .text_box {
                             width:40%;
                             h3 {font-size:30px; margin-bottom:30px;}
@@ -236,6 +260,9 @@ footer {
                             }
                         }
                     }
+                    .box_on {
+                        opacity:1;
+                    }
                 }
             }
         }
@@ -245,7 +272,6 @@ footer {
         .center {
             overflow:hidden;
             .boxs {
-                display:flex; justify-content:space-between;
                 .box {
                     width:500px;
                     .img_box {
@@ -272,21 +298,25 @@ footer {
         .center {
             margin-top:100px;
             h2 {}
-            .boxs {
-                display:flex; justify-content:space-between; flex-wrap:wrap;
-                .box {
-                    width:385px;
-                    margin-bottom:50px;
-                    .img_box {
-                        margin-bottom:10px;
-                        img {
-                            width:100%;
+            .box_show {
+                width:100%; height:594.77px;
+                overflow:hidden;
+                .boxs {
+                    display:flex; justify-content:space-between; flex-wrap:wrap;
+                    .box {
+                        width:385px;
+                        margin-bottom:50px;
+                        .img_box {
+                            margin-bottom:10px;
+                            img {
+                                width:100%;
+                            }
                         }
-                    }
-                    .text_box {
-                        h3,p {text-align:center; margin-bottom:10px;}
-                        h3 {color:#333; font-size:20px;}
-                        p {color:#666; font-size:13px;}
+                        .text_box {
+                            h3,p {text-align:center; margin-bottom:10px;}
+                            h3 {color:#333; font-size:20px;}
+                            p {color:#666; font-size:13px;}
+                        }
                     }
                 }
             }
@@ -301,14 +331,22 @@ footer {
                     .top_line {
                         padding:18px;
                         display:flex; align-items:center;
+                        p {cursor:pointer;}
                         .icon {margin-right:10px;}
                         .on {display:none;}
                     }
                     .answer {
-                        padding:35px;
+                        overflow:hidden;
+                        height:0;
+                        padding:0;
                         background-color:#f2f2f2;
                         border-top:1px solid #ddd;
                         border-bottom:1px solid #ddd;
+                        transition:all 0.3s;
+                        p {padding:35px;}
+                    }
+                    .answer.on {
+                        height:94px;
                     }
                 }
             }
@@ -317,37 +355,38 @@ footer {
     .review {
         .center {
             h2 {}
-            .boxs {
-                display:flex;
-                .box {
-                    margin-right:50px;
-                    width:280px;
-                    .img_box {
-                        img {transition:all 0.5s;}
-                    }
-                    .text_box {
-                        text-align:center;
-                        position:relative; top:-55px;
-                        h3 {margin:10px 0; font-size:20px;}
-                        p {color:#666; opacity:0; transition:all 0.5s;}
-                        img {
-                            transition:all 0.5s; opacity:0;
-                        }
-                    }
-                    &:hover {
+            .review_swiper {
+                width:100%; overflow:hidden;
+                .boxs {
+                    display:flex;
+                    .box {
+                        width:280px;
                         .img_box {
-                            img {
-                                transform:translateY(-20px);
-                            }
+                            img {transition:all 0.5s;}
                         }
                         .text_box {
-                            img {opacity:1; transform:translateY(-30px);}
-                            p {opacity:1;}
+                            text-align:center;
+                            position:relative; top:-55px;
+                            h3 {margin:10px 0; font-size:20px;}
+                            p {color:#666; opacity:0; transition:all 0.5s;}
+                            img {
+                                transition:all 0.5s; opacity:0;
+                            }
+                        }
+                        &:hover {
+                            .img_box {
+                                img {
+                                    transform:translateY(-20px);
+                                }
+                            }
+                            .text_box {
+                                img {opacity:1; transform:translateY(-30px);}
+                                p {opacity:1;}
+                            }
                         }
                     }
                 }
             }
-
         }
     }
     .reservation {
@@ -386,7 +425,7 @@ footer {
                         padding:0 50px;
                         line-height:60px;
                         font-size:18px;
-                        background-color:blue;
+                        background-color:#fff;
                         color:#fff;
                         margin:0 auto;
                         position:relative;
@@ -544,6 +583,9 @@ footer {
                 }
                 td {
                     width:100%;
+                    img {
+                        margin:10px 0 50px 0;
+                    }
                 }
                 .img_td {
                 }
@@ -598,7 +640,7 @@ footer {
                 }
                 a, button {
                     border-radius:35px;
-                    background-color:#eee; font-size:15px; font-weight:300;
+                    background-color:#fff; font-size:15px; font-weight:300;
                     width:300px; height:50px; cursor:pointer;
                 }
                 a {
@@ -651,9 +693,9 @@ footer {
         h2 {font-size:40px; margin-bottom:100px; text-align:center;}
         .boxs {
             display:flex; flex-wrap:wrap;
-            justify-content:space-between;
             .box {
                 width:280px;
+                margin:0 10px;
                 .img_box {
                     img {transition:all 0.5s;}
                 }
@@ -678,6 +720,15 @@ footer {
                     }
                 }
             }
+        }
+        .add_btn {
+            display:block;
+            border-radius:35px;
+            background-color:#fff; font-size:15px; font-weight:300;
+            width:200px; height:50px; cursor:pointer;
+            text-align:center; line-height:50px; border:1px solid #ccc;
+            margin-top:50px;
+            margin:0 auto;
         }
     }
 }

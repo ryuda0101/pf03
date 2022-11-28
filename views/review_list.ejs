@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>고객 후기 게시판</title>
     <link rel="stylesheet" href="/css/style.css">
+    <!-- 아이콘 관련 링크 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
 </head>
 <body>
     <%- include("common/header.ejs") %>
@@ -15,21 +17,25 @@
             <!-- 이름 / 후기 / 사진 / db에서 긁어오기 -->
             <div class="boxs">
                 <% reviewData.forEach((item,index) => { %>
-                <div class="box">
-                    <div class="img_box">
-                        <img src="/upload/<%- item.file %>">
+                <a href="/review_detail/<%- item.num %>">
+                    <div class="box">
+                        <div class="img_box">
+                            <img src="/upload/<%- item.file %>">
+                        </div>
+                        <div class="text_box">
+                            <img src="/img/plus_icon.png">
+                            <h3><%- item.name %> 고객님</h3>
+                            <a href="/review_detail/<%- item.num %>"><%- item.title %></a>
+                        </div>
                     </div>
-                    <div class="text_box">
-                        <img src="/img/plus_icon.png">
-                        <h3><%- item.name %> 고객님</h3>
-                        <a href="/review_detail/<%- item.num %>"><%- item.title %></a>
-                    </div>
-                </div>
+                </a>
                 <% }); %>
             </div>
             <a class="add_btn" href="/review_insert">후기 작성</a>
         </div>
     </div>
     <%- include("common/footer.ejs") %>
+    <!-- 스크롤시 해더 변하는 이벤트 관련 스크립트 -->
+    <script src="/js/main_scroll.js"></script>
 </body>
 </html>

@@ -160,7 +160,9 @@ app.get("/",(req,res) => {
     db.collection("brd_event").find({}).sort({num:-1}).toArray((err,event_result) => {
         db.collection("brd").find({}).toArray((err,brd_result) => {
             db.collection("brd_qna").find({}).toArray((err,qna_result) => {
-                res.render("index",{eventData:event_result, brd:brd_result, qnaData:qna_result});
+                db.collection("brd_review").find({}).toArray((err,review_result) => {
+                    res.render("index",{eventData:event_result, brd:brd_result, qnaData:qna_result, reviewData:review_result});
+                });
             });
         });
     });

@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>보도자료 게시판</title>
     <link rel="stylesheet" href="/css/style.css">
+    <!-- 아이콘 관련 링크 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
 </head>
 <body>
     <%- include("common/header.ejs") %>
@@ -19,22 +21,20 @@
                     <th class="auther">작성자</th>
                     <th class="date">작성일</th>
                 </tr>
-                <tr>
-                    <td class="num">1</td>
-                    <td class="title">제목입니다.</td>
-                    <td class="auther">작성자</td>
-                    <td class="date">2022-11-24</td>
-                </tr>
-                <tr>
-                    <td class="num">2</td>
-                    <td class="title">제목입니다.</td>
-                    <td class="auther">작성자</td>
-                    <td class="date">2022-11-24</td>
-                </tr>
+                <% brdData.forEach((item,index) => { %>
+                    <tr>
+                        <td class="num"><%- item.num %></td>
+                        <td class="title"><a href="/board_detail/<%- item.num %>">[<%- item.doc %>] <%- item.title %></a></td>
+                        <td class="auther"><%- item.auther %></td>
+                        <td class="date"><%- item.date %></td>
+                    </tr>
+                    <% }); %>
             </table>
             <%- include("common/paging.ejs") %>
         </div>
     </div>
     <%- include("common/footer.ejs") %>
+    <!-- 스크롤시 해더 변하는 이벤트 관련 스크립트 -->
+    <script src="/js/main_scroll.js"></script>
 </body>
 </html>

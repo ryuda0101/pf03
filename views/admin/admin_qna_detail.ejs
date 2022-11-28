@@ -30,6 +30,7 @@
                         <td class="context_td"><%- item.context %></td>
                     </tr>
                 </table>
+                <!-- 댓글 데이터 넣어주는 박스 -->
                 <div class="answer_box">
                     <form action="/qna_answer" method="post">
                         <input type="hidden" name="qna_number" value="<%- item.num %>">
@@ -42,11 +43,12 @@
                     </form>
                 </div>
             <% }); %>
-            <% answerData.forEach((item,index) => { %>
-            <div class="answer_box">
-                <p><%- item.answer %></p>
+
+            <!-- 댓글이 보여지는 박스 -->
+            <div class="result_box">
+                <p><%- answerData.answer %></p>
             </div>
-            <% }); %>
+
             <% qnaData.forEach((item,index) => { %>
                 <div class="btns">
                     <a class="edit" href="/qna_edit/<%- item.num %>">수정</a>

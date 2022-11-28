@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>고객 후기 상세 페이지</title>
     <link rel="stylesheet" href="/css/style.css">
+    <!-- 아이콘 관련 링크 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
 </head>
 <body>
     <%- include("common/header.ejs") %>
@@ -26,17 +28,19 @@
                     <th>날짜</th>
                     <td><%- item.date %></td>
                 </tr>
-                <tr>
-                    <td><img src="/upload/<%- item.file %>"></td>
-                </tr>
                 <tr class="context">
+                    <td><img src="/upload/<%- item.file %>"></td>
                     <td><%- item.context %></td>
                 </tr>
             </table>
             <% }); %>
-            <a href="/review">목록</a>
+            <div class="btns">
+                <a class="list" href="/review">목록</a>
+            </div>
         </div>
     </div>
     <%- include("common/footer.ejs") %>
+    <!-- 스크롤시 해더 변하는 이벤트 관련 스크립트 -->
+    <script src="/js/main_scroll.js"></script>
 </body>
 </html>

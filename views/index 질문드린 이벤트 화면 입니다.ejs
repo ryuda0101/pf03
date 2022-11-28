@@ -17,7 +17,36 @@
         <div class="main_banner">
             <div class="center">
                 <div class="left_box">
-                    <h2>since<br><span>2000</span></h2>
+                    <h2>since</h2>
+                    <div class="years_Count">
+                        <div class="line">
+                            <p>2</p>
+                        </div>
+                        <div class="line">
+                            <p>0</p>
+                        </div>
+                        <div class="line count_ten">
+                            <p>0</p>
+                            <p>1</p>
+                            <p>2</p>
+                        </div>
+                        <div class="line count_one">
+                            <p>0</p>
+                            <p>1</p>
+                            <p>2</p>
+                            <p>3</p>
+                            <p>4</p>
+                            <p>5</p>
+                            <p>6</p>
+                            <p>7</p>
+                            <p>8</p>
+                            <p>9</p>
+                            <p>0</p>
+                            <p>1</p>
+                            <p>2</p>
+                            <p>3</p>
+                        </div>
+                    </div>
                     <p class="years">23년의 발걸음</p>
                     <p>눈건강을 위한 리지안이 되겠습니다.</p>
                 </div>
@@ -26,7 +55,6 @@
                 </div>
             </div>
         </div>
-        <!-- 상품 안내 게시판 -->
         <div class="main_banner02">
             <div class="center">
                 <div class="left_box">
@@ -84,7 +112,7 @@
                         </div>
                     </div>
                     <div class="right_box">
-                        <div class="box">
+                        <div class="box box_on">
                             <div class="text_box">
                                 <h3>최고의 결과와 밝은 세상, 모두를 보여드리겠습니다.</h3>
                                 <p>전문분야: 녹내장, 시력교정, 스마일, 렌즈삽입술, 백내장</p>
@@ -128,21 +156,25 @@
         <div class="brd_wrap">
             <div class="center">
                 <h2>언론 보도</h2>
-                <div class="boxs">
-                    <!-- db에서 긁어와서 슬라이드로 만들어주기 -->
-                    <!-- 제목 / 관련 원장님 / 기사내용 / 사진? -->
-                    <% brd.forEach((brd_item,index) => { %>
-                    <div class="box">
-                        <div class="img_box">
-                            <img src="/upload/<%- brd_item.file %>">
+                <div class="brd_swiper">
+                    <div class="boxs swiper-wrapper">
+                        <!-- db에서 긁어와서 슬라이드로 만들어주기 -->
+                        <!-- 제목 / 관련 원장님 / 기사내용 / 사진? -->
+                        <% brd.forEach((brd_item,index) => { %>
+                        <div class="box swiper-slide">
+                            <a href="/board_detail/<%- brd_item.num %>">
+                                <div class="img_box">
+                                    <img src="/upload/<%- brd_item.file %>">
+                                </div>
+                                <div class="text_box">
+                                    <h3><%- brd_item.title %></h3>
+                                        <p class="doc"><%- brd_item.doc %></p>
+                                        <p class="context"><%- brd_item.context %></p>
+                                </div>
+                            </a>
                         </div>
-                        <div class="text_box">
-                            <h3><%- brd_item.title %></h3>
-                                <p class="doc"><%- brd_item.doc %></p>
-                                <p class="context"><%- brd_item.context %></p>
-                        </div>
+                        <% }); %>
                     </div>
-                    <% }); %>
                 </div>
             </div>
         </div>
@@ -150,22 +182,24 @@
         <div class="event_wrap">
             <div class="center">
                 <h2>진행 중인 이벤트</h2>
-                <div class="boxs">
-                    <!-- db에서 긁어오기 -->
-                    <!-- 제목 / 날짜 / 내용 / 사진 -->
-                    <% eventData.forEach((event_item, index) => { %>
-                    <div class="box">
-                        <a href="/event_detail/<%- event_item.num %>">
-                            <div class="img_box">
-                                <img src="/upload/<%- event_item.thumbnail %>">
-                            </div>
-                            <div class="text_box">
-                                <h3><%- event_item.title %></h3>
-                                <p class="date"><%- event_item.date %></p>
-                            </div>
-                        </a>
+                <div class="box_show">
+                    <div class="boxs">
+                        <!-- db에서 긁어오기 -->
+                        <!-- 제목 / 날짜 / 내용 / 사진 -->
+                        <% eventData.forEach((event_item, index) => { %>
+                        <div class="box">
+                            <a href="/event_detail/<%- event_item.num %>">
+                                <div class="img_box">
+                                    <img src="/upload/<%- event_item.thumbnail %>">
+                                </div>
+                                <div class="text_box">
+                                    <h3><%- event_item.title %></h3>
+                                    <p class="date"><%- event_item.date %></p>
+                                </div>
+                            </a>
+                        </div>
+                        <% }) %>
                     </div>
-                    <% }) %>
                 </div>
                 <a class="more_btn" href="#">더보기</a>
             </div>
@@ -184,14 +218,14 @@
                                 <img class="off" src="/img/qna_icon.png">
                                 <img class="on" src="/img/qna_icon02.png">
                             </div>
-                            <div class="title"><a href="#"><%- qnaData[i].title %></a></div>
+                            <div class="title"><p><%- qnaData[i].title %></p></div>
                         </div>
                         <div class="answer">
                             <p>여기에 답변 넣어주기</p>
                         </div>
                     </div>
                     <% } %>
-                    <a class="more_btn" href="#">더보기</a>
+                    <a class="more_btn" href="/qna">더보기</a>
                 </div>
             </div>
         </div>
@@ -200,40 +234,27 @@
             <div class="center">
                 <h2>고객 후기</h2>
                 <!-- 이름 / 후기 / 사진 / db에서 긁어오기 -->
-                <div class="boxs">
-                    <div class="box">
-                        <div class="img_box">
-                            <img src="/img/customer01.png">
-                        </div>
-                        <div class="text_box">
-                            <img src="/img/plus_icon.png">
-                            <h3>김가람 고객님</h3>
-                            <p>렌즈없이 자유롭게 활동할 수 있게 되어서 너무 좋아요!</p>
-                        </div>
-                    </div>
-                    <div class="box">
-                        <div class="img_box">
-                            <img src="/img/customer02.png">
-                        </div>
-                        <div class="text_box">
-                            <img src="/img/plus_icon.png">
-                            <h3>이은영 고객님</h3>
-                            <p>하루종일 렌즈낀 것 처럼 선명해요!</p>
-                        </div>
-                    </div>
-                    <div class="box">
-                        <div class="img_box">
-                            <img src="/img/customer03.png">
-                        </div>
-                        <div class="text_box">
-                            <img src="/img/plus_icon.png">
-                            <h3>하예은 고객님</h3>
-                            <p>일에 더욱 집중하며 최선을 다할 수 있을 것 같아요</p>
-                        </div>
+                <div class="review_swiper">
+                    <div class="boxs swiper-wrapper">
+                        <% reviewData.forEach((item,index) => { %>
+                            <div class="box swiper-slide">
+                                <a href="/review_detail/<%- item.num %>">
+                                    <div class="img_box">
+                                        <img src="/upload/<%- item.file %>">
+                                    </div>
+                                    <div class="text_box">
+                                        <img src="/img/plus_icon.png">
+                                        <h3><%- item.name %></h3>
+                                        <p><%- item.title %></p>
+                                    </div>
+                                </a>
+                            </div>
+                        <% }) %>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- 예약 form태그 -->
         <div class="reservation">
             <div class="center">
                 <h2>상담 예약</h2>
@@ -310,7 +331,7 @@
                         <label for="check_info_btn">개인정보 수집 및 활용동의</label>
                     </div>
                     <div class="line">
-                        <button>예약하기</button>
+                        <button type="button">예약하기</button>
                     </div>
                 </form>
             </div>
@@ -319,6 +340,17 @@
     <%- include("common/footer.ejs") %>
     <!-- 슬라이드 관련 스크립트 -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <!-- 메인화면 슬라이드 관련 스크립트 -->
     <script src="/js/slide.js"></script>
+    <!-- 스크롤시 해더 변하는 이벤트 관련 스크립트 -->
+    <script src="/js/main_scroll.js"></script>
+    <!-- 메인화면 카운트 스크립트 -->
+    <script src="/js/count.js"></script>
+    <!-- 메인화면 의사 소개 스크립트 -->
+    <script src="/js/doc.js"></script>
+    <!-- 메인화면 이벤트 안내 스크립트 -->
+    <script src="/js/event.js"></script>
+    <!-- 메인화면 온라인 상담 스크립트 -->
+    <script src="/js/qna.js"></script>
 </body>
 </html>

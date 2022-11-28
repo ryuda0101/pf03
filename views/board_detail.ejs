@@ -6,32 +6,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>보도자료 상세 페이지</title>
     <link rel="stylesheet" href="/css/style.css">
+    <!-- 아이콘 관련 링크 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
 </head>
 <body>
     <%- include("common/header.ejs") %>
     <div id="brd_detail">
         <div class="center">
             <h2>보도자료</h2>
+            <% brdData.forEach((item,index) => { %>
             <table>
                 <tr>
                     <th>제목</th>
-                    <td>제목입니다.</td>
+                    <td>[<%- item.doc %>] <%- item.title %></td>
                 </tr>
                 <tr>
                     <th>글쓴이</th>
-                    <td>관리자</td>
+                    <td><%- item.auther %></td>
                 </tr>
                 <tr>
                     <th>날짜</th>
-                    <td>2022-11-24</td>
+                    <td><%- item.date %></td>
                 </tr>
                 <tr class="context">
-                    <td>내용입니다.</td>
+                    <td class="img_td"><img src="/upload/<%- item.file %>"></td>
+                    <td class="context_td"><%- item.context %></td>
                 </tr>
             </table>
-            <a href="/admin_board">목록</a>
+            <% }); %>
+            <div class="btns">
+                <a class="list" href="/board">목록</a>
+            </div>
         </div>
     </div>
     <%- include("common/footer.ejs") %>
+    <!-- 스크롤시 해더 변하는 이벤트 관련 스크립트 -->
+    <script src="/js/main_scroll.js"></script>
 </body>
 </html>

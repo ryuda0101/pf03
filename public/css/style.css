@@ -46,11 +46,12 @@ input {
 header {
   display: flex;
   justify-content: center;
-  background: #fff;
   position: fixed;
   z-index: 99;
   width: 100%;
   padding: 10px 0;
+  background: transparent;
+  transition: all 0.3s;
 }
 header .center {
   width: 80%;
@@ -63,11 +64,15 @@ header .center .gnb {
   justify-content: space-between;
   width: 500px;
 }
+header .center .gnb li:hover a {
+  color: #2b9fd9;
+}
 header .center .admin_btn {
   position: absolute;
   top: 10px;
   right: 10px;
-  color: red;
+  color: #333;
+  opacity: 0.5;
 }
 header .center.admin_center .gnb {
   width: 650px;
@@ -154,7 +159,7 @@ footer .center .address p, footer .center .copyright p {
   text-decoration: underline;
 }
 .paging_wrap .line li.pagingOn a {
-  color: red;
+  color: #2b9fd9;
   font-weight: bold;
 }
 
@@ -217,7 +222,18 @@ footer .center .address p, footer .center .copyright p {
   font-size: 25px;
   margin-bottom: 0;
 }
-#main_wrap .main_banner .center .left_box h2 span {
+#main_wrap .main_banner .center .left_box .years_Count {
+  display: flex;
+  width: 452px;
+  height: 277.5px;
+  overflow-y: hidden;
+}
+#main_wrap .main_banner .center .left_box .years_Count .line {
+  position: relative;
+  top: 0;
+  transition: all 0.1s;
+}
+#main_wrap .main_banner .center .left_box .years_Count .line p {
   font-size: 185px;
 }
 #main_wrap .main_banner .center .left_box .years {
@@ -290,6 +306,7 @@ footer .center .address p, footer .center .copyright p {
   margin-bottom: 10px;
   font-size: 28px;
   transition: all 0.2s;
+  cursor: pointer;
 }
 #main_wrap .doc_wrap .center .doc_boxs .left_box > div p {
   margin-bottom: 10px;
@@ -303,10 +320,10 @@ footer .center .address p, footer .center .copyright p {
   padding: 10px 20px;
 }
 #main_wrap .doc_wrap .center .doc_boxs .left_box > div:hover h3 {
-  color: red;
+  color: #2b9fd9;
 }
 #main_wrap .doc_wrap .center .doc_boxs .left_box .on h3 {
-  color: red;
+  color: #2b9fd9;
 }
 #main_wrap .doc_wrap .center .doc_boxs .right_box {
   position: relative;
@@ -316,11 +333,13 @@ footer .center .address p, footer .center .copyright p {
 }
 #main_wrap .doc_wrap .center .doc_boxs .right_box .box {
   display: flex;
+  opacity: 0;
   justify-content: center;
   align-items: center;
-  position: relative;
+  position: absolute;
   top: 0;
   left: 0;
+  transition: all 0.5s;
 }
 #main_wrap .doc_wrap .center .doc_boxs .right_box .box .text_box {
   width: 40%;
@@ -335,15 +354,14 @@ footer .center .address p, footer .center .copyright p {
 #main_wrap .doc_wrap .center .doc_boxs .right_box .box .img_box {
   width: 70%;
 }
+#main_wrap .doc_wrap .center .doc_boxs .right_box .box_on {
+  opacity: 1;
+}
 #main_wrap .brd_wrap {
   width: 100%;
 }
 #main_wrap .brd_wrap .center {
   overflow: hidden;
-}
-#main_wrap .brd_wrap .center .boxs {
-  display: flex;
-  justify-content: space-between;
 }
 #main_wrap .brd_wrap .center .boxs .box {
   width: 500px;
@@ -377,30 +395,35 @@ footer .center .address p, footer .center .copyright p {
 #main_wrap .event_wrap .center {
   margin-top: 100px;
 }
-#main_wrap .event_wrap .center .boxs {
+#main_wrap .event_wrap .center .box_show {
+  width: 100%;
+  height: 594.77px;
+  overflow: hidden;
+}
+#main_wrap .event_wrap .center .box_show .boxs {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
 }
-#main_wrap .event_wrap .center .boxs .box {
+#main_wrap .event_wrap .center .box_show .boxs .box {
   width: 385px;
   margin-bottom: 50px;
 }
-#main_wrap .event_wrap .center .boxs .box .img_box {
+#main_wrap .event_wrap .center .box_show .boxs .box .img_box {
   margin-bottom: 10px;
 }
-#main_wrap .event_wrap .center .boxs .box .img_box img {
+#main_wrap .event_wrap .center .box_show .boxs .box .img_box img {
   width: 100%;
 }
-#main_wrap .event_wrap .center .boxs .box .text_box h3, #main_wrap .event_wrap .center .boxs .box .text_box p {
+#main_wrap .event_wrap .center .box_show .boxs .box .text_box h3, #main_wrap .event_wrap .center .box_show .boxs .box .text_box p {
   text-align: center;
   margin-bottom: 10px;
 }
-#main_wrap .event_wrap .center .boxs .box .text_box h3 {
+#main_wrap .event_wrap .center .box_show .boxs .box .text_box h3 {
   color: #333;
   font-size: 20px;
 }
-#main_wrap .event_wrap .center .boxs .box .text_box p {
+#main_wrap .event_wrap .center .box_show .boxs .box .text_box p {
   color: #666;
   font-size: 13px;
 }
@@ -415,6 +438,9 @@ footer .center .address p, footer .center .copyright p {
   display: flex;
   align-items: center;
 }
+#main_wrap .qna_wrap .center .qna_brd_wrap .line .top_line p {
+  cursor: pointer;
+}
 #main_wrap .qna_wrap .center .qna_brd_wrap .line .top_line .icon {
   margin-right: 10px;
 }
@@ -422,47 +448,59 @@ footer .center .address p, footer .center .copyright p {
   display: none;
 }
 #main_wrap .qna_wrap .center .qna_brd_wrap .line .answer {
-  padding: 35px;
+  overflow: hidden;
+  height: 0;
+  padding: 0;
   background-color: #f2f2f2;
   border-top: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
+  transition: all 0.3s;
 }
-#main_wrap .review .center .boxs {
+#main_wrap .qna_wrap .center .qna_brd_wrap .line .answer p {
+  padding: 35px;
+}
+#main_wrap .qna_wrap .center .qna_brd_wrap .line .answer.on {
+  height: 94px;
+}
+#main_wrap .review .center .review_swiper {
+  width: 100%;
+  overflow: hidden;
+}
+#main_wrap .review .center .review_swiper .boxs {
   display: flex;
 }
-#main_wrap .review .center .boxs .box {
-  margin-right: 50px;
+#main_wrap .review .center .review_swiper .boxs .box {
   width: 280px;
 }
-#main_wrap .review .center .boxs .box .img_box img {
+#main_wrap .review .center .review_swiper .boxs .box .img_box img {
   transition: all 0.5s;
 }
-#main_wrap .review .center .boxs .box .text_box {
+#main_wrap .review .center .review_swiper .boxs .box .text_box {
   text-align: center;
   position: relative;
   top: -55px;
 }
-#main_wrap .review .center .boxs .box .text_box h3 {
+#main_wrap .review .center .review_swiper .boxs .box .text_box h3 {
   margin: 10px 0;
   font-size: 20px;
 }
-#main_wrap .review .center .boxs .box .text_box p {
+#main_wrap .review .center .review_swiper .boxs .box .text_box p {
   color: #666;
   opacity: 0;
   transition: all 0.5s;
 }
-#main_wrap .review .center .boxs .box .text_box img {
+#main_wrap .review .center .review_swiper .boxs .box .text_box img {
   transition: all 0.5s;
   opacity: 0;
 }
-#main_wrap .review .center .boxs .box:hover .img_box img {
+#main_wrap .review .center .review_swiper .boxs .box:hover .img_box img {
   transform: translateY(-20px);
 }
-#main_wrap .review .center .boxs .box:hover .text_box img {
+#main_wrap .review .center .review_swiper .boxs .box:hover .text_box img {
   opacity: 1;
   transform: translateY(-30px);
 }
-#main_wrap .review .center .boxs .box:hover .text_box p {
+#main_wrap .review .center .review_swiper .boxs .box:hover .text_box p {
   opacity: 1;
 }
 #main_wrap .reservation .center form .line {
@@ -502,7 +540,7 @@ footer .center .address p, footer .center .copyright p {
   padding: 0 50px;
   line-height: 60px;
   font-size: 18px;
-  background-color: blue;
+  background-color: #fff;
   color: #fff;
   margin: 0 auto;
   position: relative;
@@ -709,6 +747,9 @@ footer .center .address p, footer .center .copyright p {
 #brd_detail .center table .context td {
   width: 100%;
 }
+#brd_detail .center table .context td img {
+  margin: 10px 0 50px 0;
+}
 #brd_detail .center table .context .context_td {
   white-space: pre-line;
 }
@@ -777,7 +818,7 @@ footer .center .address p, footer .center .copyright p {
 }
 #brd_add .center form .line a, #brd_add .center form .line button {
   border-radius: 35px;
-  background-color: #eee;
+  background-color: #fff;
   font-size: 15px;
   font-weight: 300;
   width: 300px;
@@ -842,10 +883,10 @@ footer .center .address p, footer .center .copyright p {
 #brd_list_review .center .boxs {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
 }
 #brd_list_review .center .boxs .box {
   width: 280px;
+  margin: 0 10px;
 }
 #brd_list_review .center .boxs .box .img_box img {
   transition: all 0.5s;
@@ -877,6 +918,21 @@ footer .center .address p, footer .center .copyright p {
 }
 #brd_list_review .center .boxs .box:hover .text_box p {
   opacity: 1;
+}
+#brd_list_review .center .add_btn {
+  display: block;
+  border-radius: 35px;
+  background-color: #fff;
+  font-size: 15px;
+  font-weight: 300;
+  width: 200px;
+  height: 50px;
+  cursor: pointer;
+  text-align: center;
+  line-height: 50px;
+  border: 1px solid #ccc;
+  margin-top: 50px;
+  margin: 0 auto;
 }
 
 #brd_list_event {
