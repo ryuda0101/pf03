@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>온라인 상담 상세 페이지</title>
     <link rel="stylesheet" href="/css/style.css">
+    <!-- 폰트 관련 링크 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
     <%- include("../common/admin_header.ejs") %>
@@ -37,18 +41,22 @@
                         <div class="line">
                             <textarea name="answer"></textarea>
                         </div>
-                        <div class="line">
+                        <div class="line btn_line">
                             <button>작성 완료</button>
                         </div>
                     </form>
                 </div>
             <% }); %>
-
             <!-- 댓글이 보여지는 박스 -->
+            <% answerData.forEach((item,index) => { %>
             <div class="result_box">
-                <p><%- answerData.answer %></p>
+                <p><%- item.answer %></p>
+                <div class="answer_btns">
+                    <a class="edit" href="#">수정</a>
+                    <a class="delete" href="/answer_delete/<%- item.answer_num %>">삭제</a>
+                </div>
             </div>
-
+            <% }); %>
             <% qnaData.forEach((item,index) => { %>
                 <div class="btns">
                     <a class="edit" href="/qna_edit/<%- item.num %>">수정</a>
@@ -59,6 +67,9 @@
         </div>
     </div>
     <%- include("../common/footer.ejs") %>
+    <!-- 삭제확인 스크립트 -->
     <script src="/js/delete_btn.js"></script>
+    <!-- 스크롤시 해더 변하는 이벤트 관련 스크립트 -->
+    <script src="/js/main_scroll.js"></script>
 </body>
 </html>

@@ -155,13 +155,22 @@ app.get("/logout",function(req,res){
 });
 
 
+// db.collection("brd_qna").find({num:Number(req.params.no)}).toArray((err,result) => {
+//     db.collection("brd_qna_answer").find({qna_brd_num:Number(req.params.no)}).toArray((err,answer_result) => {
+//         res.render("admin/admin_qna_detail",{userData:req.user ,qnaData:result, answerData:answer_result});
+//     });
+// });
+
+
 // 메인 페이지
 app.get("/",(req,res) => {
     db.collection("brd_event").find({}).sort({num:-1}).toArray((err,event_result) => {
         db.collection("brd").find({}).toArray((err,brd_result) => {
-            db.collection("brd_qna").find({}).toArray((err,qna_result) => {
-                db.collection("brd_review").find({}).toArray((err,review_result) => {
-                    res.render("index",{eventData:event_result, brd:brd_result, qnaData:qna_result, reviewData:review_result});
+            db.collection("brd_review").find({}).toArray((err,review_result) => {
+                db.collection("brd_qna").find({}).toArray((err,qna_result) => {
+                    db.collection("brd_qna_answer").find({}).toArray((err,answer_result) => {
+                        res.render("index",{eventData:event_result, brd:brd_result, qnaData:qna_result, reviewData:review_result, answerData:answer_result});
+                    });
                 });
             });
         });
@@ -484,9 +493,11 @@ app.get("/admin_qna",async (req,res) => {
 });
 
 // 관리자 온라인 상담 댓글 답변
+let dummyCount = 0;
 app.post("/qna_answer",(req,res) => {
     db.collection("brd_qna_answer").insertOne({
-        question_num:req.body.qna_number,
+        qna_brd_num:Number(req.body.qna_number),
+        answer_num:dummyCount + 1,
         answer:req.body.answer
     },(err,result) => {
         res.redirect("/admin_qna_detail/" + Number(req.body.qna_number));
@@ -496,55 +507,11 @@ app.post("/qna_answer",(req,res) => {
 // 관리자 온라인 상담 상세 페이지
 app.get("/admin_qna_detail/:no",(req,res) => {
     db.collection("brd_qna").find({num:Number(req.params.no)}).toArray((err,result) => {
-        db.collection("brd_qna_answer").find({question_num:result.num}).toArray((err,answer_result) => {
-
-            // 댓글 db에서 못가져오는 문제 있음!!!!!!!
-
-            console.log(result.num);
+        db.collection("brd_qna_answer").find({qna_brd_num:Number(req.params.no)}).toArray((err,answer_result) => {
             res.render("admin/admin_qna_detail",{userData:req.user ,qnaData:result, answerData:answer_result});
         });
     });
 });
-
-// 댓글 관련 기능 코드
-// //게시글 상세화면 get 요청  /:변수명  작명가능
-// //db안에 해당 게시글번호에 맞는 데이터만 꺼내오고 ejs파일로 응답
-// app.get("/brddetail/:no",function(req,res){
-//     db.collection("ex12_board").findOne({brdid:Number(req.params.no)},function(err,result1){
-//         // 게시글 가져와서 → 해당 게시글 번호에 맞는 댓글들만 가져오기
-//         db.collection("ex12_comment").find({comPrd:result1.brdid}).toArray(function(err,result2){
-//             // 사용자에게 응답 / ejs 파일로 데이터 넘겨주기
-//             // 게시글에 관련된 데이터 / 로그인한 유저정보 / 댓글에 관련된 데이터
-//             res.render("brddetail",{brdData:result1, userData:req.user, commentData:result2})
-//         });
-        
-//         // res.render("brddetail",{brdData:result,userData:req.user});
-//     });
-// });
-
-// // 댓글 작성 후 db에 추가하는 post 요청
-// app.post("/addcomment",function(req,res){
-//     // 몇번 댓글인지 번호 부여하기 위한 작업
-//     db.collection("ex12_count").findOne({name:"댓글"},function(err,result1){
-//         // 해당 게시글의 번호값도 함께 부여해줘야 한다.
-//         db.collection("ex12_board").findOne({brdid:Number(req.body.prdid)},function(err,result2){
-//             // ex12_comment 에 댓글을 집어넣기
-//             db.collection("ex12_comment").insertOne({
-//                 comNo:result1.commentCount + 1,
-//                 comPrd:result2.brdid,
-//                 comContext:req.body.comment_text,
-//                 comAuther:req.user.joinnick,
-//                 comDate:moment().tz("Asia/Seoul").format("YYYY-MM-DD HH:mm:ss")
-//             },function(err,result){
-//                 db.collection("ex12_count").updateOne({name:"댓글"},{$inc:{commentCount:1}},function(err,result){
-//                     // 상세페이지에서 댓글 입력시 보내준 게시글 번호로 → 상세페이지 이동하도록 요청
-//                     // res.redirect("/brddetail/" + result2.brdid);
-//                     res.redirect("/brddetail/" + req.body.prdid);
-//                 })
-//             });
-//         });
-//     });
-// });
 
 // // 댓글 수정 요청
 // app.post("/updatecomment",function(req,res){
@@ -557,17 +524,13 @@ app.get("/admin_qna_detail/:no",(req,res) => {
 //     });
 // });
 
-// // 댓글 삭제 요청
-// app.get("/deletecomment/:no",function(req,res){
-//     // 해당 댓글의 게시글(부모) 번호값을 찾아온 후 댓글을 삭제하고
-//     db.collection("ex12_comment").findOne({comNo:Number(req.params.no)},function(err,result1){
-//         db.collection("ex12_comment").deleteOne({comNo:Number(req.params.no)},function(err,result2){
-//             // 그 다음 해당 상세페이지로 다시 이동 (게시글 번호 값)!
-//             // 댓 삭제 후 findOne으로 찾아온 comPrd ← 게시글(부모)의 번호
-//             res.redirect("/brddetail/" + result1.comPrd);
-//         });
-//     });
-// });
+app.get("/answer_delete/:no", (req,res) => {
+    db.collection("brd_qna_answer").findOne({answer_num:Number(req.params.no)},(err,result1) => {
+        db.collection("brd_qna_answer").deleteOne({answer_num:Number(req.params.no)},(err,result2) => {
+            res.redirect("/admin_qna_detail/" + result1.qna_brd_num);
+        });
+    });
+});
 
 
 
@@ -804,9 +767,12 @@ app.get("/qna",async (req,res) => {
 // 온라인 상담 상세 페이지
 app.get("/qna_detail/:no",(req,res) => {
     db.collection("brd_qna").find({num:Number(req.params.no)}).toArray((err,result) => {
-        res.render("qna_detail",{qnaData:result});
+        db.collection("brd_qna_answer").find({qna_brd_num:Number(req.params.no)}).toArray((err,answer_result) => {
+            res.render("qna_detail",{qnaData:result, answerData:answer_result});
+        });
     });
 });
+
 
 // 온라인 상담 작성 페이지
 app.get("/qna_insert",(req,res) => {
@@ -885,43 +851,3 @@ app.post("/review_add",upload.single('review_file'),(req,res) => {
         });
     });
 });
-
-
-
-// 페이징 기능 추가
-// app.get("/admin/board",async (req,res) => {
-    // // 현재 접속한 페이지의 페이징 번호
-    // let pageNumber = (req.query.page == null) ? 1 : Number(req.query.page);
-    // // 한 페이지당 보여줄 데이터 갯수
-    // let perPage = 5;
-    // // 한 블록당 보여줄 페이징 갯수
-    // let blockCount = 2;
-    // // 현재 접속한 페이지의 블록
-    // let blockNum = Math.ceil(pageNumber / blockCount);
-    // // 블록 안에 있는 페이징의 시작번호
-    // let blockStart = ((blockNum - 1) * blockCount) + 1;
-    // // 블록 안에 있는 페이징의 끝번호
-    // let blockEnd = blockStart + blockCount - 1;
-    // // db의 collection에있는 전체 객체의 갯수값
-    // let totalData = await db.collection("board").countDocuments({});
-    // // 전체 데이터값을 통해서 만들어져야하는 페이징 개수 계산
-    // let paging = Math.ceil(totalData / perPage);
-    // // 블록에서 마지막 번호가 페이징의 끝번호 보다 크다면, 페이징의 끝번호를 강제로 부여
-    // if (blockEnd > paging) {
-    //     blockEnd = paging; 
-    // }
-    // // 블록의 총 개수
-    // let totalBlock = Math.ceil(paging / blockCount);
-    // // db에서 꺼내오는 데이터의 시작 순번값
-    // let startDbData = (pageNumber - 1) * perPage;
-    
-    // // db의 실제 값을 꺼내올 때 한 페이지당 몇개씩 가져올건지  skip() limit()함수로 설정
-    // // sort()로 가져온 데이터 내림차순으로 정렬
-
-    // db.collection("board").find({}).sort({num:-1}).skip(startDbData).limit(perPage).toArray((err,result) => {
-        // paging:paging,
-        // pageNumber:pageNumber,
-        // blockStart:blockStart,
-        // blockEnd:blockEnd,
-        // blockNum:blockNum,
-        // totalBlock:totalBlock

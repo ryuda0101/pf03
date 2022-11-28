@@ -33,7 +33,7 @@ const swiper2 = new Swiper('.brd_swiper', {
   },
 
   autoplay: {
-    delay: 3000,
+    delay: 1000,
     pauseOnMouseEnter: true,
     disableOnInteraction: false,
   },
@@ -62,7 +62,7 @@ const swiper3 = new Swiper('.review_swiper', {
   },
 
   autoplay: {
-    delay: 3000,
+    delay: 1500,
     pauseOnMouseEnter: true,
     disableOnInteraction: false,
   },

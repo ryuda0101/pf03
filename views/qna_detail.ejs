@@ -8,12 +8,16 @@
     <link rel="stylesheet" href="/css/style.css">
     <!-- 아이콘 관련 링크 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <!-- 폰트 관련 링크 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
     <%- include("common/header.ejs") %>
     <div id="brd_detail">
         <div class="center">
-            <h2>온라인 상담</h2>
+            <h2>자주하는 질문</h2>
             <% qnaData.forEach((item,index) => { %>
                 <table>
                     <tr>
@@ -29,8 +33,15 @@
                         <td><%- item.date %></td>
                     </tr>
                     <tr class="context">
+                        <th>질문</th>
                         <td class="context_td"><%- item.context %></td>
                     </tr>
+                    <% answerData.forEach((item,index) => { %>
+                    <tr class="context">
+                        <th>답변</th>
+                        <td><%- item.answer %></td>
+                    </tr>
+                    <% }); %>
                 </table>
                 <div class="btns">
                     <a class="list" href="/qna">목록</a>

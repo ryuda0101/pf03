@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
     <!-- 아이콘 관련 링크 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <!-- 폰트 관련 링크 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
     <%- include("common/header.ejs") %>
@@ -64,24 +68,40 @@
                 <div class="right_box swiper">
                     <div class="boxs swiper-wrapper">
                         <div class="box swiper-slide">
-                            <img src="/img/banner_01.jpg">
-                            <h3>23년간 쌓아온 50만의 빅데이터</h3>
-                            <p>50만의 통계를 바탕으로 환자 개개인의 데이터 값을 분석하여 수술 가능 여부를 판단합니다.</p>
+                            <div class="img_box">
+                                <img src="/img/banner_01.jpg">
+                            </div>
+                            <div class="text_box">
+                                <h3>23년간 쌓아온 50만의 빅데이터</h3>
+                                <p>50만의 통계를 바탕으로 환자 개개인의 데이터 값을 분석하여 수술 가능 여부를 판단합니다.</p>
+                            </div>
                         </div>
                         <div class="box swiper-slide">
-                            <img src="/img/banner_02.jpg">
-                            <h3>내 눈에 맞는 수술 예측</h3>
-                            <p>100가지 이상의 검사 결과 값을 분석하여 최적의 맞춤 시력교정술을 제안합니다.</p>
+                            <div class="img_box">
+                                <img src="/img/banner_02.jpg">
+                            </div>
+                            <div class="text_box">
+                                <h3>내 눈에 맞는 수술 예측</h3>
+                                <p>100가지 이상의 검사 결과 값을 분석하여 최적의 맞춤 시력교정술을 제안합니다.</p>
+                            </div>
                         </div>
                         <div class="box swiper-slide">
-                            <img src="/img/banner_03.jpg">
-                            <h3>수술 별 예측시력 제공</h3>
-                            <p>60여가지 검사 데이터를 분석하여 수술별로 예측시력을 제공해드립니다.</p>
+                            <div class="img_box">
+                                <img src="/img/banner_03.jpg">
+                            </div>
+                            <div class="text_box">
+                                <h3>수술 별 예측시력 제공</h3>
+                                <p>60여가지 검사 데이터를 분석하여 수술별로 예측시력을 제공해드립니다.</p>
+                            </div>
                         </div>
                         <div class="box swiper-slide">
-                            <img src="/img/banner_04.jpg">
-                            <h3>렌즈삽입술 예측 시스템</h3>
-                            <p>개인의 근시, 난시, 각막 두께를 계산해 최적의 렌즈크기와 위치를 계산합니다.</p>
+                            <div class="img_box">
+                                <img src="/img/banner_04.jpg">
+                            </div>
+                            <div class="text_box">
+                                <h3>렌즈삽입술 예측 시스템</h3>
+                                <p>개인의 근시, 난시, 각막 두께를 계산해 최적의 렌즈크기와 위치를 계산합니다.</p>
+                            </div>
                         </div>
                     </div>
                     <div class="swiper-scrollbar"></div>
@@ -221,7 +241,7 @@
                             <div class="title"><p><%- qnaData[i].title %></p></div>
                         </div>
                         <div class="answer">
-                            <p>여기에 답변 넣어주기</p>
+                            <p><%- answerData[i].answer %></p>
                         </div>
                     </div>
                     <% } %>
