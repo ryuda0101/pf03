@@ -48,15 +48,28 @@
                 </div>
             <% }); %>
             <!-- 댓글이 보여지는 박스 -->
-            <% answerData.forEach((item,index) => { %>
+            <% for(let i = 0; i < answerData.length; i++){ %>
             <div class="result_box">
-                <p><%- item.answer %></p>
+                <p><%- answerData[i].answer %></p>
                 <div class="answer_btns">
                     <a class="edit" href="#">수정</a>
-                    <a class="delete" href="/answer_delete/<%- item.answer_num %>">삭제</a>
+                    <a class="delete" href="/answer_delete/<%- answerData[i].answer_num %>">삭제</a>
+                </div>
+                <div class="answer_edit_box">
+                    <form action="/answer_edit" method="post">
+                        <input type="hidden" name="hidden_qna_brd_num" value="<%- answerData[i].qna_brd_num %>">
+                        <input type="hidden" name="hidden_answer_num" value="<%- answerData[i].answer_num %>">
+                        <div class="line">
+                            <textarea name="answer_edit_form"><%- answerData[i].answer %></textarea>
+                        </div>
+                        <div class="line btn_line">
+                            <button>수정 완료</button>
+                            <a class="cancel" href="#">작성 취소</a>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <% }); %>
+            <% } %>
             <% qnaData.forEach((item,index) => { %>
                 <div class="btns">
                     <a class="edit" href="/qna_edit/<%- item.num %>">수정</a>
@@ -69,7 +82,7 @@
     <%- include("../common/footer.ejs") %>
     <!-- 삭제확인 스크립트 -->
     <script src="/js/delete_btn.js"></script>
-    <!-- 스크롤시 해더 변하는 이벤트 관련 스크립트 -->
-    <script src="/js/main_scroll.js"></script>
+    <!-- 수정버튼 스크립트 -->
+    <script src="/js/answer_edit_btn.js"></script>
 </body>
 </html>

@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <%- include("common/header.ejs") %>
+    <%- include("common/sub_header.ejs") %>
     <div id="brd_list_review">
         <div class="center">
             <h2>고객 후기</h2>
@@ -29,7 +29,7 @@
                         <div class="text_box">
                             <img src="/img/plus_icon.png">
                             <h3><%- item.name %> 고객님</h3>
-                            <a href="/review_detail/<%- item.num %>"><%- item.title %></a>
+                            <p><%- item.title %></p>
                         </div>
                     </div>
                 </a>
@@ -39,7 +39,5 @@
         </div>
     </div>
     <%- include("common/footer.ejs") %>
-    <!-- 스크롤시 해더 변하는 이벤트 관련 스크립트 -->
-    <script src="/js/main_scroll.js"></script>
 </body>
 </html>

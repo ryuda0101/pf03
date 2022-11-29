@@ -231,18 +231,17 @@
                 <div class="qna_brd_wrap">
                     <!-- db에서 긁어오기 -->
                     <!-- 제목 / 질문 -->
-                    <% for(let i = 0; i < 3; i++) { %>
+                    <% for(let i = 0; i < 5; i++) { %>
                     <div class="line">
-                        <div class="top_line">
-                            <div class="icon">
-                                <img class="off" src="/img/qna_icon.png">
-                                <img class="on" src="/img/qna_icon02.png">
+                        <a href="/qna_detail/<%- qnaData[i].num %>">
+                            <div class="top_line">
+                                <div class="icon">
+                                    <img class="off" src="/img/qna_icon02.png">
+                                    <img class="on" src="/img/qna_icon02.png">
+                                </div>
+                                <div class="title"><p><%- qnaData[i].title %></p></div>
                             </div>
-                            <div class="title"><p><%- qnaData[i].title %></p></div>
-                        </div>
-                        <div class="answer">
-                            <p><%- answerData[i].answer %></p>
-                        </div>
+                        </a>
                     </div>
                     <% } %>
                     <a class="more_btn" href="/qna">더보기</a>
@@ -264,7 +263,7 @@
                                     </div>
                                     <div class="text_box">
                                         <img src="/img/plus_icon.png">
-                                        <h3><%- item.name %></h3>
+                                        <h3><%- item.name %> 고객님</h3>
                                         <p><%- item.title %></p>
                                     </div>
                                 </a>
@@ -370,7 +369,5 @@
     <script src="/js/doc.js"></script>
     <!-- 메인화면 이벤트 안내 스크립트 -->
     <script src="/js/event.js"></script>
-    <!-- 메인화면 온라인 상담 스크립트 -->
-    <script src="/js/qna.js"></script>
 </body>
 </html>

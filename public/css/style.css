@@ -67,6 +67,9 @@ header .center .gnb {
 header .center .gnb li:hover a {
   color: #2b9fd9;
 }
+header .center .gnb li.on a {
+  color: #2b9fd9;
+}
 header .center .admin_btn {
   position: absolute;
   top: 10px;
@@ -91,6 +94,14 @@ header .center.admin_center .login_info p::after {
   background: #000;
   transform: translateY(2px);
   margin: 0 10px;
+}
+
+#sub_header {
+  background-color: #fff;
+}
+
+#admin_header {
+  background-color: #fff;
 }
 
 footer {
@@ -175,6 +186,7 @@ footer .center .address p, footer .center .copyright p {
   line-height: 1.25;
   font-size: 50px;
   margin-bottom: 50px;
+  color: #333;
 }
 #main_wrap > div .center p {
   line-height: 1.5;
@@ -191,6 +203,12 @@ footer .center .address p, footer .center .copyright p {
   border: 1px solid #000;
   border-radius: 30px;
   margin: 50px auto;
+  border: 1px solid #ccc;
+  transition: all 0.3s;
+}
+#main_wrap > div .center .more_btn:hover {
+  background-color: #1eb3e8;
+  color: #fff;
 }
 #main_wrap .main_banner {
   overflow: hidden;
@@ -219,6 +237,7 @@ footer .center .address p, footer .center .copyright p {
 #main_wrap .main_banner .center .left_box h2 {
   font-size: 25px;
   margin-bottom: 0;
+  color: #fff;
 }
 #main_wrap .main_banner .center .left_box .years_Count {
   display: flex;
@@ -287,6 +306,7 @@ footer .center .address p, footer .center .copyright p {
 #main_wrap .main_banner02 .center .right_box .boxs .box .text_box h3 {
   margin-bottom: 30px;
   font-size: 30px;
+  color: #333;
 }
 #main_wrap .main_banner02 .center .right_box .boxs .box .text_box p {
   margin-bottom: 30px;
@@ -312,11 +332,12 @@ footer .center .address p, footer .center .copyright p {
   font-size: 28px;
   transition: all 0.2s;
   cursor: pointer;
+  color: #333;
 }
 #main_wrap .doc_wrap .center .doc_boxs .left_box > div p {
   margin-bottom: 10px;
   font-size: 17px;
-  color: #333;
+  color: #666;
 }
 #main_wrap .doc_wrap .center .doc_boxs .left_box > div a {
   font-size: 15px;
@@ -353,9 +374,11 @@ footer .center .address p, footer .center .copyright p {
 #main_wrap .doc_wrap .center .doc_boxs .right_box .box .text_box h3 {
   font-size: 30px;
   margin-bottom: 30px;
+  color: #333;
 }
 #main_wrap .doc_wrap .center .doc_boxs .right_box .box .text_box p {
   font-size: 17px;
+  color: #666;
 }
 #main_wrap .doc_wrap .center .doc_boxs .right_box .box .img_box {
   width: 70%;
@@ -386,6 +409,8 @@ footer .center .address p, footer .center .copyright p {
 }
 #main_wrap .brd_wrap .center .boxs .box .text_box h3 {
   font-size: 20px;
+  color: #333;
+  margin: 15px 0;
 }
 #main_wrap .brd_wrap .center .boxs .box .text_box p {
   font-size: 16px;
@@ -439,6 +464,7 @@ footer .center .address p, footer .center .copyright p {
 #main_wrap .event_wrap .center .box_show .boxs .box .text_box h3 {
   color: #333;
   font-size: 20px;
+  margin: 15px 0;
 }
 #main_wrap .event_wrap .center .box_show .boxs .box .text_box p {
   color: #666;
@@ -466,21 +492,6 @@ footer .center .address p, footer .center .copyright p {
 }
 #main_wrap .qna_wrap .center .qna_brd_wrap .line .top_line .on {
   display: none;
-}
-#main_wrap .qna_wrap .center .qna_brd_wrap .line .answer {
-  overflow: hidden;
-  height: 0;
-  padding: 0;
-  background-color: #f2f2f2;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  transition: all 0.3s;
-}
-#main_wrap .qna_wrap .center .qna_brd_wrap .line .answer p {
-  padding: 35px;
-}
-#main_wrap .qna_wrap .center .qna_brd_wrap .line .answer.on {
-  height: 100%;
 }
 #main_wrap .review {
   padding: 100px 0;
@@ -530,7 +541,7 @@ footer .center .address p, footer .center .copyright p {
   opacity: 1;
 }
 #main_wrap .review .center .review_swiper .boxs .box:hover .text_box h3 {
-  color: #4495f6;
+  color: #1eb3e8;
 }
 #main_wrap .reservation {
   padding: 50px 0;
@@ -580,6 +591,11 @@ footer .center .address p, footer .center .copyright p {
   position: relative;
   left: 50%;
   transform: translateX(-50%);
+  transition: all 0.3s;
+}
+#main_wrap .reservation .center form .line button:hover {
+  background-color: #1eb3e8;
+  color: #fff;
 }
 #main_wrap .reservation .center form .check_info_btn {
   display: flex;
@@ -679,6 +695,15 @@ footer .center .address p, footer .center .copyright p {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+}
+#brd_list .bg {
+  background-image: url(/img/banner_img04.jpg);
+  background-repeat: no-repeat;
+  margin: 0 auto;
+  width: 1920px;
+  height: 190px;
+  margin-bottom: 100px;
 }
 #brd_list .center {
   width: 80%;
@@ -688,8 +713,9 @@ footer .center .address p, footer .center .copyright p {
   flex-direction: column;
 }
 #brd_list .center h2 {
-  font-size: 40px;
+  font-size: 48px;
   margin-bottom: 100px;
+  color: #333;
 }
 #brd_list .center table {
   border-top: 2px solid #cacaca;
@@ -743,8 +769,9 @@ footer .center .address p, footer .center .copyright p {
   flex-direction: column;
 }
 #brd_detail .center h2 {
-  font-size: 40px;
+  font-size: 48px;
   margin-bottom: 100px;
+  color: #333;
 }
 #brd_detail .center table {
   border-top: 2px solid #cacaca;
@@ -774,6 +801,8 @@ footer .center .address p, footer .center .copyright p {
   position: relative;
   padding: 15px;
   align-items: baseline;
+  display: flex;
+  flex-direction: column;
 }
 #brd_detail .center table .context .img {
   text-align: center;
@@ -798,6 +827,34 @@ footer .center .address p, footer .center .copyright p {
 }
 #brd_detail .center table .customer_pic td {
   padding: 10px 0;
+}
+#brd_detail .center .answer {
+  width: 100%;
+  height: auto;
+  background-color: #f5f5f5;
+  padding: 15px;
+  box-sizing: border-box;
+  border-bottom: 2px solid #cacaca;
+}
+#brd_detail .center .answer .line {
+  padding: 15px 0;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  border-bottom: 1px solid #ccc;
+}
+#brd_detail .center .answer .line h3, #brd_detail .center .answer .line p {
+  font-size: 16px;
+  line-height: 1.5;
+}
+#brd_detail .center .answer .line h3 {
+  margin: 0 15px;
+}
+#brd_detail .center .answer .line p {
+  width: 93%;
+}
+#brd_detail .center .answer .line:last-child {
+  border-bottom: none;
 }
 #brd_detail .center .btns {
   width: 100%;
@@ -830,6 +887,7 @@ footer .center .address p, footer .center .copyright p {
 #brd_detail .center .result_box .answer_btns {
   display: flex;
   justify-content: end;
+  margin-bottom: 10px;
 }
 #brd_detail .center .result_box .answer_btns a {
   border-radius: 35px;
@@ -838,9 +896,45 @@ footer .center .address p, footer .center .copyright p {
   border: 1px solid #ccc;
   padding: 5px 10px;
   font-weight: 300;
+  font-size: 15px;
 }
 #brd_detail .center .result_box .answer_btns .edit {
   margin-right: 10px;
+}
+#brd_detail .center .result_box .answer_edit_box {
+  display: none;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+}
+#brd_detail .center .result_box .answer_edit_box form .line {
+  display: flex;
+  justify-content: end;
+}
+#brd_detail .center .result_box .answer_edit_box form .line textarea {
+  width: 100%;
+  height: 100px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+#brd_detail .center .result_box .answer_edit_box form .line a, #brd_detail .center .result_box .answer_edit_box form .line button {
+  width: 87px;
+  box-sizing: border-box;
+  border-radius: 35px;
+  background-color: #fff;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  font-weight: 300;
+  margin-left: 10px;
+  font-size: 15px;
+}
+#brd_detail .center .result_box .answer_edit_box form .line a {
+  display: block;
+  text-align: center;
+  line-height: 18.5px;
+}
+#brd_detail .center .result_box .answer_edit_box.on {
+  display: block;
 }
 
 #brd_add {
@@ -857,8 +951,9 @@ footer .center .address p, footer .center .copyright p {
   flex-direction: column;
 }
 #brd_add .center h2 {
-  font-size: 40px;
+  font-size: 48px;
   margin-bottom: 100px;
+  color: #333;
 }
 #brd_add .center form {
   width: 100%;
@@ -938,6 +1033,28 @@ footer .center .address p, footer .center .copyright p {
   flex-direction: row;
 }
 
+.qna_detail .center .answer_box {
+  width: 100%;
+  margin-bottom: 10px;
+}
+.qna_detail .center .answer_box form .line textarea {
+  border: 1px solid #ccc;
+  margin: 10px 0;
+  width: 100%;
+  height: 100px;
+}
+.qna_detail .center .answer_box form .line button {
+  border-radius: 35px;
+  background-color: #fff;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+}
+.qna_detail .center .answer_box form .btn_line {
+  display: flex;
+  justify-content: end;
+}
+
 #brd_list_review {
   display: flex;
   justify-content: center;
@@ -947,8 +1064,9 @@ footer .center .address p, footer .center .copyright p {
   width: 80%;
 }
 #brd_list_review .center h2 {
-  font-size: 40px;
+  font-size: 48px;
   margin-bottom: 100px;
+  color: #333;
   text-align: center;
 }
 #brd_list_review .center .boxs {
@@ -970,6 +1088,9 @@ footer .center .address p, footer .center .copyright p {
 #brd_list_review .center .boxs .box .text_box h3 {
   margin: 10px 0;
   font-size: 20px;
+  color: #333;
+  font-weight: 400;
+  transition: all 0.3s;
 }
 #brd_list_review .center .boxs .box .text_box p {
   color: #666;
@@ -989,6 +1110,9 @@ footer .center .address p, footer .center .copyright p {
 }
 #brd_list_review .center .boxs .box:hover .text_box p {
   opacity: 1;
+}
+#brd_list_review .center .boxs .box:hover .text_box h3 {
+  color: #1eb3e8;
 }
 #brd_list_review .center .add_btn {
   display: block;
@@ -1015,8 +1139,9 @@ footer .center .address p, footer .center .copyright p {
   width: 80%;
 }
 #brd_list_event .center h2 {
-  font-size: 40px;
+  font-size: 48px;
   margin-bottom: 100px;
+  color: #333;
   text-align: center;
 }
 #brd_list_event .center .boxs {
@@ -1028,11 +1153,16 @@ footer .center .address p, footer .center .copyright p {
   width: 385px;
   margin-bottom: 50px;
 }
+#brd_list_event .center .boxs .box:hover .img_box img {
+  transform: scale(1.1);
+}
 #brd_list_event .center .boxs .box .img_box {
   margin-bottom: 10px;
+  overflow: hidden;
 }
 #brd_list_event .center .boxs .box .img_box img {
   width: 100%;
+  transition: all 0.3s;
 }
 #brd_list_event .center .boxs .box .text_box h3, #brd_list_event .center .boxs .box .text_box p {
   text-align: center;
@@ -1052,26 +1182,4 @@ footer .center .address p, footer .center .copyright p {
 }
 .event_wrap .center {
   margin-top: 100px;
-}
-
-.qna_detail .center .answer_box {
-  width: 100%;
-  margin-bottom: 10px;
-}
-.qna_detail .center .answer_box form .line textarea {
-  border: 1px solid #ccc;
-  margin: 10px 0;
-  width: 100%;
-  height: 100px;
-}
-.qna_detail .center .answer_box form .line button {
-  border-radius: 35px;
-  background-color: #fff;
-  cursor: pointer;
-  border: 1px solid #ccc;
-  padding: 5px 10px;
-}
-.qna_detail .center .answer_box form .btn_line {
-  display: flex;
-  justify-content: end;
 }

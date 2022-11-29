@@ -104,7 +104,6 @@ app.post("/adminLogin",passport.authenticate('local', {failureRedirect : '/fail'
 // 로그인 실패시 fail 경로
 app.get("/fail",(req,res) => {
     db.collection('user_admin').find({}).toArray((err, result) => {
-        console.log(result);
     });
     res.send("<script>alert('아이디를 다시한번 확인해 주세요.'); location.href = '/admin_login'</script>");
 });
@@ -162,15 +161,14 @@ app.get("/logout",function(req,res){
 // });
 
 
+
 // 메인 페이지
 app.get("/",(req,res) => {
     db.collection("brd_event").find({}).sort({num:-1}).toArray((err,event_result) => {
         db.collection("brd").find({}).toArray((err,brd_result) => {
             db.collection("brd_review").find({}).toArray((err,review_result) => {
                 db.collection("brd_qna").find({}).toArray((err,qna_result) => {
-                    db.collection("brd_qna_answer").find({}).toArray((err,answer_result) => {
-                        res.render("index",{eventData:event_result, brd:brd_result, qnaData:qna_result, reviewData:review_result, answerData:answer_result});
-                    });
+                    res.render("index",{eventData:event_result, brd:brd_result, qnaData:qna_result, reviewData:review_result});
                 });
             });
         });
@@ -211,7 +209,7 @@ app.get("/admin_board",async (req,res) => {
     
     // db의 실제 값을 꺼내올 때 한 페이지당 몇개씩 가져올건지  skip() limit()함수로 설정
     // sort()로 가져온 데이터 내림차순으로 정렬
-    db.collection("brd").find({}).skip(startDbData).limit(perPage).toArray((err,result) => {
+    db.collection("brd").find({}).sort({num:-1}).skip(startDbData).limit(perPage).toArray((err,result) => {
         res.render("admin/admin_board_list",{
             userData:req.user,
             brdData:result,
@@ -441,7 +439,6 @@ app.post("/event_edit",upload.fields([{name:'thumbnail_file'},{name:'event_file1
         context:req.body.event_context
     }},(err,result) => {
         res.redirect("/admin_event");
-        console.log(eventUpload2);
     });
 });
 
@@ -478,7 +475,7 @@ app.get("/admin_qna",async (req,res) => {
         
         // db의 실제 값을 꺼내올 때 한 페이지당 몇개씩 가져올건지  skip() limit()함수로 설정
         // sort()로 가져온 데이터 내림차순으로 정렬
-    db.collection("brd_qna").find({}).skip(startDbData).limit(perPage).toArray((err,result) => {
+    db.collection("brd_qna").find({}).sort({num:-1}).skip(startDbData).limit(perPage).toArray((err,result) => {
         res.render("admin/admin_qna_list",{
             userData:req.user,
             qnaData:result,
@@ -492,18 +489,6 @@ app.get("/admin_qna",async (req,res) => {
     });
 });
 
-// 관리자 온라인 상담 댓글 답변
-let dummyCount = 0;
-app.post("/qna_answer",(req,res) => {
-    db.collection("brd_qna_answer").insertOne({
-        qna_brd_num:Number(req.body.qna_number),
-        answer_num:dummyCount + 1,
-        answer:req.body.answer
-    },(err,result) => {
-        res.redirect("/admin_qna_detail/" + Number(req.body.qna_number));
-    });
-});
-
 // 관리자 온라인 상담 상세 페이지
 app.get("/admin_qna_detail/:no",(req,res) => {
     db.collection("brd_qna").find({num:Number(req.params.no)}).toArray((err,result) => {
@@ -513,21 +498,38 @@ app.get("/admin_qna_detail/:no",(req,res) => {
     });
 });
 
-// // 댓글 수정 요청
-// app.post("/updatecomment",function(req,res){
-//     db.collection("ex12_comment").findOne({comNo:Number(req.body.comNo)},function(err,result1){
-//         db.collection("ex12_comment").updateOne({comNo:Number(req.body.comNo)},{$set:{
-//             comContext:req.body.comContext
-//         }},function(err,result2){
-//             res.redirect("/brddetail/" + result1.comPrd);
-//         });
-//     });
-// });
+// 관리자 온라인 상담 댓글 답변
+app.post("/qna_answer",(req,res) => {
+    db.collection("count").findOne({name:"온라인 상담 답변"},(err,count_result) => {
+        db.collection("brd_qna_answer").insertOne({
+            qna_brd_num:Number(req.body.qna_number),
+            answer_num:count_result.count + 1,
+            answer:req.body.answer
+        },(err,result) => {
+            db.collection("count").updateOne ({name:"온라인 상담 답변"}, {$inc:{count:1}},(err,result) => {
+                res.redirect("/admin_qna_detail/" + Number(req.body.qna_number));
+            })
+        });
+    });
+});
 
+// // 관리자 온라인 상담 답변 수정
+app.post("/answer_edit",(req,res) => {
+    db.collection("brd_qna_answer").findOne({qna_brd_num:Number(req.body.hidden_qna_brd_num)},(err,result1) => {
+        db.collection("brd_qna_answer").updateOne({answer_num:Number(req.body.hidden_answer_num)},{$set:{
+            answer:req.body.answer_edit_form
+        }}, (err,result2) => {
+            res.redirect("/admin_qna_detail/" + result1.qna_brd_num);
+        });
+    });
+});
+
+// 관리자 온라인 상담 답변 삭제
 app.get("/answer_delete/:no", (req,res) => {
     db.collection("brd_qna_answer").findOne({answer_num:Number(req.params.no)},(err,result1) => {
         db.collection("brd_qna_answer").deleteOne({answer_num:Number(req.params.no)},(err,result2) => {
             res.redirect("/admin_qna_detail/" + result1.qna_brd_num);
+
         });
     });
 });
@@ -603,7 +605,7 @@ app.get("/admin_review",async (req,res) => {
         
         // db의 실제 값을 꺼내올 때 한 페이지당 몇개씩 가져올건지  skip() limit()함수로 설정
         // sort()로 가져온 데이터 내림차순으로 정렬
-    db.collection("brd_review").find({}).skip(startDbData).limit(perPage).toArray((er,result) => {
+    db.collection("brd_review").find({}).sort({num:-1}).skip(startDbData).limit(perPage).toArray((er,result) => {
         res.render("admin/admin_review_list",{
             userData:req.user,
             reviewData:result,
@@ -687,7 +689,7 @@ app.get("/board",async (req,res) => {
     
     // db의 실제 값을 꺼내올 때 한 페이지당 몇개씩 가져올건지  skip() limit()함수로 설정
     // sort()로 가져온 데이터 내림차순으로 정렬
-    db.collection("brd").find({}).skip(startDbData).limit(perPage).toArray((err,result) => {
+    db.collection("brd").find({}).sort({num:-1}).skip(startDbData).limit(perPage).toArray((err,result) => {
         res.render("board_list",{
             brdData:result,
             paging:paging,
@@ -751,7 +753,7 @@ app.get("/qna",async (req,res) => {
         
         // db의 실제 값을 꺼내올 때 한 페이지당 몇개씩 가져올건지  skip() limit()함수로 설정
         // sort()로 가져온 데이터 내림차순으로 정렬
-    db.collection("brd_qna").find({}).skip(startDbData).limit(perPage).toArray((err,result) => {
+    db.collection("brd_qna").find({}).sort({num:-1}).skip(startDbData).limit(perPage).toArray((err,result) => {
         res.render("qna_list",{
             qnaData:result,
             paging:paging,
