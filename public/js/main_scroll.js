@@ -1,15 +1,22 @@
 let scTop;
 let header = document.querySelector("header");
+let ham_gnb_span = document.querySelectorAll("header .center .ham_gnb span");
 
 window.addEventListener("scroll",() => {
     let scTop = window.scrollY;
     if(scTop == 0) {
-        header.style.background = "transparent"
+        ham_menu.classList.remove("black");
+        header.style.background = "transparent";
         header.querySelector(".logo img").setAttribute("src", "/img/logo.png");
     }
     else {
         header.style.background = "#fff"
+        if (ham_menu.classList.contains("on")){
+            ham_menu.classList.remove("black");
+        }
+        else {
+            ham_menu.classList.add("black");
+        }
         header.querySelector(".logo img").setAttribute("src", "/img/logo_blue.png");
     }
 });
-

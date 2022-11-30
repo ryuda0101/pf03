@@ -40,12 +40,12 @@
                         <td><img src="/upload/<%- item.file %>"></td>
                     <% } %>
                 </div>
-                <div class="line">
+                <div class="line line_textarea">
                     <textarea name="review_context" id="context"><%- item.context %></textarea>
                 </div>
                 <div class="line btns">
                     <button>작성</button>
-                    <a href="/admin_review_detail/" + <%- item.num %>>작성 취소</a>
+                    <a href="/admin_review_detail/<%- item.num %>" + <%- item.num %>>작성 취소</a>
                 </div>
             </form>
             <% }) %>

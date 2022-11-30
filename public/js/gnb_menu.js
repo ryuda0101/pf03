@@ -7,3 +7,4 @@ gnbMenus.forEach((item,index) => {
         item.classList.add("on");
     }
 });
+

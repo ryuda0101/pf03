@@ -22,14 +22,14 @@ const swiper2 = new Swiper('.brd_swiper', {
   direction: 'horizontal',
   loop: true,
   breakpoints: {
-    1920: {
+    1200: {
       slidesPerView: 3,
       spaceBetween: 30
     },
-    320: {
+    769: {
       slidesPerView: 2,
       spaceBetween: 20
-    },
+    }
   },
 
   autoplay: {
@@ -44,14 +44,18 @@ const swiper3 = new Swiper('.review_swiper', {
   direction: 'horizontal',
   loop: true,
   breakpoints: {
-    1920: {
+    1800: {
       slidesPerView: 5,
-      spaceBetween: 20
     },
-    768: {
+    1500: {
+      slidesPerView: 4,
+    },
+    1200: {
       slidesPerView: 3,
-      spaceBetween: 20
     },
+    769: {
+      slidesPerView: 2,
+    }
   },
 
   // And if we need scrollbar
