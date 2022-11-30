@@ -347,6 +347,7 @@ footer .center .address p, footer .center .copyright p {
 }
 #main_wrap .main_banner {
   overflow: hidden;
+  width: 100vw;
   height: 100vh;
   background: linear-gradient(to right, rgb(163, 184, 197) 0%, rgb(164, 185, 198) 52%, rgb(163, 184, 197) 100%);
 }

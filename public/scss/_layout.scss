@@ -258,7 +258,7 @@ footer {
     }
     .main_banner {
         overflow:hidden;
-        height:100vh;
+        width:100vw; height:100vh;
         background:linear-gradient(to right, rgba(163,184,197,1) 0%, rgba(164,185,198,1) 52%, rgba(163,184,197,1) 100%);
         .bg  {
             width:100vw; height:100vh;
@@ -1339,7 +1339,6 @@ footer {
             }
         }
     }
-
 }
 
 @media (max-width:580px){
