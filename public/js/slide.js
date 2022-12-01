@@ -1,5 +1,6 @@
-const swiper = new Swiper('.swiper', {
+const swiper = new Swiper('.main_banner02 .swiper', {
   // Optional parameters
+  slidesPerView:1,
   direction: 'horizontal',
   loop: false,
 
@@ -17,10 +18,11 @@ const swiper = new Swiper('.swiper', {
   },
 });
 
-const swiper2 = new Swiper('.brd_swiper', {
+const swiper2 = new Swiper('.brd_wrap .brd_swiper', {
   // Optional parameters
   direction: 'horizontal',
   loop: true,
+
   breakpoints: {
     1200: {
       slidesPerView: 3,
@@ -39,7 +41,7 @@ const swiper2 = new Swiper('.brd_swiper', {
   },
 });
 
-const swiper3 = new Swiper('.review_swiper', {
+const swiper3 = new Swiper('.review .review_swiper', {
   // Optional parameters
   direction: 'horizontal',
   loop: true,
@@ -56,13 +58,6 @@ const swiper3 = new Swiper('.review_swiper', {
     769: {
       slidesPerView: 2,
     }
-  },
-
-  // And if we need scrollbar
-  scrollbar: {
-    el: '.swiper-scrollbar',
-    dragSize: 'auto',
-    hide: true
   },
 
   autoplay: {

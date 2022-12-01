@@ -154,11 +154,6 @@ app.get("/logout",function(req,res){
 });
 
 
-// db.collection("brd_qna").find({num:Number(req.params.no)}).toArray((err,result) => {
-//     db.collection("brd_qna_answer").find({qna_brd_num:Number(req.params.no)}).toArray((err,answer_result) => {
-//         res.render("admin/admin_qna_detail",{userData:req.user ,qnaData:result, answerData:answer_result});
-//     });
-// });
 
 
 
@@ -175,10 +170,85 @@ app.get("/",(req,res) => {
     });
 });
 
-// 관리자 메인 페이지
-app.get("/admin",(req,res) => {
-    res.render("admin/admin_main",{userData:req.user});
+// 메인페이지 상담 예약
+app.post("/reservation",(req,res) => {
+    db.collection("count").findOne({name:"상담 예약"},(err,count_result) => {
+        db.collection("brd_reservation").insertOne({
+            num:count_result.count + 1,
+            name:req.body.name,
+            birth:req.body.birth,
+            phone:req.body.phone,
+            symptom:req.body.symptom,
+            date:moment().tz("Asia/Seoul").format("YYYY-MM-DD h:mm a"),
+        },(err,result) => {
+            db.collection("count").updateOne({name:"상담 예약"},{$inc:{count:1}},(err,result) => {
+                res.redirect("/");
+            });
+        });
+    });
 });
+
+// 관리자 메인 페이지
+app.get("/admin", (req,res) => {
+    res.render("admin/admin_main",{userData:req.user})
+});
+
+// 상담 예약 목록 페이지
+app.get("/admin_reservation",async (req,res) => {
+    // 현재 접속한 페이지의 페이징 번호
+    let pageNumber = (req.query.page == null) ? 1 : Number(req.query.page);
+    // 한 페이지당 보여줄 데이터 갯수
+    let perPage = 5;
+    // 한 블록당 보여줄 페이징 갯수
+    let blockCount = 2;
+    // 현재 접속한 페이지의 블록
+    let blockNum = Math.ceil(pageNumber / blockCount);
+    // 블록 안에 있는 페이징의 시작번호
+    let blockStart = ((blockNum - 1) * blockCount) + 1;
+    // 블록 안에 있는 페이징의 끝번호
+    let blockEnd = blockStart + blockCount - 1;
+    // db의 collection에있는 전체 객체의 갯수값
+    let totalData = await db.collection("brd").countDocuments({});
+    // 전체 데이터값을 통해서 만들어져야하는 페이징 개수 계산
+    let paging = Math.ceil(totalData / perPage);
+    // 블록에서 마지막 번호가 페이징의 끝번호 보다 크다면, 페이징의 끝번호를 강제로 부여
+    if (blockEnd > paging) {
+        blockEnd = paging; 
+    }
+    // 블록의 총 개수
+    let totalBlock = Math.ceil(paging / blockCount);
+    // db에서 꺼내오는 데이터의 시작 순번값
+    let startDbData = (pageNumber - 1) * perPage;
+    
+    // db의 실제 값을 꺼내올 때 한 페이지당 몇개씩 가져올건지  skip() limit()함수로 설정
+    // sort()로 가져온 데이터 내림차순으로 정렬
+    db.collection("brd_reservation").find({}).sort({num:-1}).skip(startDbData).limit(perPage).toArray((err,result) => {
+        res.render("admin/admin_reservation_list",{
+            userData:req.user,
+            reservationData:result,
+            paging:paging,
+            pageNumber:pageNumber,
+            blockStart:blockStart,
+            blockEnd:blockEnd,
+            blockNum:blockNum,
+            totalBlock:totalBlock
+        });
+    });
+});
+
+// 관리자 상담 예약 상세 페이지
+app.get("/admin_reservation_detail/:no", (req,res) => {
+    db.collection("brd_reservation").find({num:Number(req.params.no)}).toArray((err,result) => {
+        res.render("admin/admin_reservation_detail", {userData:req.user, reservationData:result})
+    });
+});
+
+// 관리자 상담 삭제 페이지
+app.get("/admin_reservation_delete/:no",(req,res) => {
+    db.collection("brd_reservation").deleteOne({num:Number(req.params.no)},(err,result) => {
+        res.redirect("/admin_reservation");
+    });
+})
 
 // 관리자 보도자료 게시판 페이지
 app.get("/admin_board",async (req,res) => {

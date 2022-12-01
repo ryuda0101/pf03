@@ -5,8 +5,9 @@ const ham_menu = document.querySelector("header .center .ham_gnb");
 
 ham_menu.addEventListener("click",() => {
     ham_menu.classList.toggle("on");
-    mobile_menu.classList.toggle("on");
+    
     if(ham_menu.classList.contains("on")) {
+        mobile_menu.classList.add("on");
         ham_menu.classList.remove("black");
         left_menu.forEach((item,index) => {
             item.addEventListener("mouseenter",() => {
@@ -15,7 +16,7 @@ ham_menu.addEventListener("click",() => {
         
                 });
                 right_img[index].classList.add("show");
-                mobile_menu.className = "right_menu on bg"+(index);
+                mobile_menu.className = "right_menu bg" + (index) + " on";
             });
         });
     }
@@ -29,4 +30,3 @@ ham_menu.addEventListener("click",() => {
         }
     }
 });
-

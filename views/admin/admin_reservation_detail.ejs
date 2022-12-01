@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>보도자료 상세 페이지</title>
+    <title>상담 예약 상세 페이지</title>
     <link rel="stylesheet" href="/css/style.css">
-    <!-- 아이콘 관련 링크 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     <!-- 폰트 관련 링크 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,35 +15,45 @@
     <link rel="icon" href="img/favicon.ico" type="image/x-icon">
 </head>
 <body>
-    <%- include("common/sub_header.ejs") %>
+    <%- include("../common/admin_header.ejs") %>
     <div id="brd_detail">
         <div class="center">
-            <h2>보도자료</h2>
-            <% brdData.forEach((item,index) => { %>
+            <% reservationData.forEach((item,index) => { %>
+            <h2>상담 예약</h2>
             <table>
                 <tr>
                     <th>제목</th>
-                    <td>[<%- item.doc %>] <%- item.title %></td>
+                    <td><%- item.name %> 고객님 상담 예약 입니다.</td>
                 </tr>
                 <tr>
                     <th>글쓴이</th>
-                    <td><%- item.auther %></td>
+                    <td><%- item.name %> 고객님</td>
                 </tr>
                 <tr>
                     <th>날짜</th>
                     <td><%- item.date %></td>
                 </tr>
+                <tr>
+                    <th>생년월일</th>
+                    <td><%- item.birth %></td>
+                </tr>
+                <tr>
+                    <th>연락처</th>
+                    <td><%- item.phone %></td>
+                </tr>
                 <tr class="context">
-                    <td class="img_td"><img src="/upload/<%- item.file %>"></td>
-                    <td class="context_td"><%- item.context %></td>
+                    <td><%- item.symptom %></td>
                 </tr>
             </table>
-            <% }); %>
             <div class="btns">
-                <a class="list" href="/board">목록</a>
+                <a class="list" href="/admin_reservation">목록</a>
+                <a class="delete" href="/admin_reservation_delete/<%- item.num %>">삭제</a>
             </div>
+            <% }) %>
         </div>
     </div>
-    <%- include("common/footer.ejs") %>
+    <%- include("../common/footer.ejs") %>
+    <!-- 삭제확인 스크립트 -->
+    <script src="/js/delete_btn.js"></script>
 </body>
 </html>

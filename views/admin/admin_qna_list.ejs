@@ -10,6 +10,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- 파비콘 관련 링크 -->
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
 </head>
 <body>
     <%- include("../common/admin_header.ejs") %>
@@ -27,7 +30,7 @@
                     <tr>
                         <td class="num"><%- item.num %></td>
                         <td class="title"><a href="/admin_qna_detail/<%- item.num %>"><%- item.title %></a></td>
-                        <td class="auther"><%- item.name %></td>
+                        <td class="auther"><%- item.name %> 고객님</td>
                         <td class="date"><%- item.date %></td>
                     </tr>
                 <% }); %>

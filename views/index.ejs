@@ -16,6 +16,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <!-- AOS 관련 css -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- 파비콘 관련 링크 -->
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
 </head>
 <body>
     <%- include("common/header.ejs") %>
@@ -179,7 +182,7 @@
         <div class="brd_wrap">
             <div class="center">
                 <h2 data-aos="fade-right" data-aos-duration="1000">언론 보도</h2>
-                <div class="brd_swiper" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+                <div class="brd_swiper" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="100">
                     <div class="boxs swiper-wrapper">
                         <!-- db에서 긁어와서 슬라이드로 만들어주기 -->
                         <!-- 제목 / 관련 원장님 / 기사내용 / 사진? -->
@@ -285,21 +288,25 @@
                 <form action="/reservation" method="post">
                     <div class="line" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="50">
                         <label for="name">환자 성함</label>
-                        <input type="text" id="name">
+                        <input type="text" id="name" name="name">
+                        <span class="name_show"></span>
                     </div>
                     <div class="line" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="150">
                         <label for="birth">생년월일</label>
-                        <input type="text" id="birth">
+                        <input type="text" id="birth" name="birth">
+                        <span class="birth_show"></span>
                     </div>
                     <div class="line" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
                         <label for="phone">연락처</label>
-                        <input type="text" id="phone">
+                        <input type="text" id="phone" name="phone">
+                        <span class="phone_show"></span>
                     </div>
                     <div class="line" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="250">
                         <label for="symptom">주요 증상</label>
-                        <textarea name="" id="symptom"></textarea>
+                        <textarea name="symptom" id="symptom"></textarea>
+                        <span class="symptom_show"></span>
                     </div>
-                    <div class="line" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">
+                    <div class="line info" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">
                         <label for="check_info">개인정보 취급방침</label>
                         <p id="check_info">'리지안 안과'는 (이하 '본원'은) 고객님의 개인정보를 중요시하며, "정보통신망 이용촉진 및 정보보호"에 관한 법률을 준수하고 있습니다.
                             본원은 개인정보취급방침을 통하여 고객님께서 제공하시는 개인정보가 어떠한 용도와 방식으로 이용되고 있으며, 개인정보보호를 위해 어떠한 조치가 취해지고 있는지 알려드립니다.
@@ -355,7 +362,7 @@
                         <label for="check_info_btn">개인정보 수집 및 활용동의</label>
                     </div>
                     <div class="line">
-                        <button type="button">예약하기</button>
+                        <button>예약하기</button>
                     </div>
                 </form>
             </div>
@@ -374,6 +381,8 @@
     <script src="/js/doc.js"></script>
     <!-- 메인화면 이벤트 안내 스크립트 -->
     <script src="/js/event.js"></script>
+    <!-- 메인화면 이벤트 안내 스크립트 -->
+    <script src="/js/reservation_check.js"></script>
     <!-- AOS 관련 스크립트 -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>AOS.init();</script>
