@@ -1,21 +1,3 @@
-// 4개 페이지 게시판 작업 완료
-// 추가 / 삭제 / 수정 / 목록 / 상세페이지 구현 완료
-// qna는 관리자페이지에서 보고 댓글기능 넣어줘서 답변할 수 있도록 해주기
-// 고객페이지에서는 댓글 작성 안되고 관리자만 작성할 수 있도록!4
-
-// 댓글 db에서 못가져오는 문제 있음!!!!!!!
-
-// 페이징 기능 전체 집어넣었음
-// 전체적으로 css 수정하고 db에 들어간 글들 수정 + 추가 하기!
-
-// 의사 목록페이지 작업...?
-// 아래에 동그라미로 의사 얼굴 넣고 클릭시 위에 의사 정보 뜨도록...
-// 약력 / 수상후기 같은거
-// css 전체적으로 수정해주기 + 반응형도 작업
-
-
-
-
 // npm init
 // npm install ejs express mongodb 
 // npm install express-session passport passport-local
@@ -42,7 +24,7 @@ const multer  = require('multer')
 const app = express();
 
 // 포트번호 변수로 세팅
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 8080;
 // const port = 8080;
 
 
